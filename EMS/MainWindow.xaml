@@ -3,10 +3,89 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:EMS"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="EMS" Height="800" Width="1200">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="11*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="#FF4D4D4D" Height="25">
+            <Menu.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFB4B4B4" Offset="1"/>
+                    <GradientStop Color="White" Offset="0"/>
+                </LinearGradientBrush>
+            </Menu.Background>
+            <MenuItem Header="文件" FontSize="12" VerticalAlignment="Center">
+                <MenuItem Header="打开"></MenuItem>
+                <MenuItem Header="退出"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="选项"  FontSize="12" VerticalAlignment="Center">
+                <MenuItem Header="系统设置"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="帮助"  FontSize="12" VerticalAlignment="Center">
+                <MenuItem Header="错误代码查询"></MenuItem>
+                <MenuItem Header="关于"></MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <Grid Grid.Row="1" Name="DisplayContent" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border Margin="7 5 0 0" Height="35" Width="150" VerticalAlignment="Center" HorizontalAlignment="Left" CornerRadius="10 10 0 0" BorderThickness="1" BorderBrush="#FF6C4715">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFFD9F2F" Offset="1"/>
+                        <GradientStop Color="#FFFFD9AD" Offset="0"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="(1):" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
+                    <TextBlock Grid.Row="1" Text="Box(0-255)" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="10"></TextBlock>
+                </Grid>
+            </Border>
+            <Grid Grid.Row="1" Name="Body" Background="#FF313131" MouseUp="Body_MouseUp">
+
+            </Grid>
+        </Grid>
+
+        <Border Name="StateContent" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="18" BorderThickness="1" BorderBrush="#FF767676">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFFAFAFA"/>
+                    <GradientStop Color="#FFC9C9C9" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="1.3*"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="1.3*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" BorderThickness="0 0 1 0" BorderBrush="#FFA3ABB1">
+                    <TextBlock Text="{Binding OperationContent}" VerticalAlignment="Center" FontSize="10"></TextBlock>
+                </Border>
+                <Border Grid.Column="1" BorderThickness="0 0 1 0" BorderBrush="#FFA3ABB1">
+                    <TextBlock Text="{Binding OperationType}" VerticalAlignment="Center" FontSize="10"></TextBlock>
+                </Border>
+                <Border Grid.Column="5" BorderThickness="1 0 0 0" BorderBrush="#FFA3ABB1">
+                    <TextBlock Text="{Binding CurrentTime}" VerticalAlignment="Center" FontSize="10"></TextBlock>
+                </Border>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

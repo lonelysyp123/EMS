@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("EMS")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Home")]
+[assembly: AssemblyCompany("TN")]
 [assembly: AssemblyProduct("EMS")]
 [assembly: AssemblyCopyright("Copyright © Home 2023")]
 [assembly: AssemblyTrademark("")]
