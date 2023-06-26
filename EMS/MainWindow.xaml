@@ -34,8 +34,145 @@
             </MenuItem>
         </Menu>
 
-        <Grid Grid.Row="1" Name="Body" Background="#FF313131" MouseUp="Body_MouseUp">
+        <Grid Grid.Row="1" Name="DisplayContent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Width="140">
+                <!--<TreeView ItemsSource="{Binding BatteryTotalList}" SelectedItemChanged="TreeView_SelectedItemChanged">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Series}">
+                            <TextBlock Text="{Binding TotalID}"></TextBlock>
+                            <HierarchicalDataTemplate.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Batteries}">
+                                    <TextBlock Text="{Binding SeriesId}"></TextBlock>
+                                    <HierarchicalDataTemplate.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding BatteryID}"></TextBlock>
+                                        </DataTemplate>
+                                    </HierarchicalDataTemplate.ItemTemplate>
+                                </HierarchicalDataTemplate>
+                            </HierarchicalDataTemplate.ItemTemplate>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>-->
 
+                <TreeView Name="DevTree" SelectedItemChanged="TreeView_SelectedItemChanged">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding OnlineBatteryTotalList}">
+                            <TextBlock Text="{Binding TreeName}"></TextBlock>
+                            <HierarchicalDataTemplate.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Series}">
+                                    <TextBlock Text="{Binding TotalID}"></TextBlock>
+                                    <HierarchicalDataTemplate.ItemTemplate>
+                                        <HierarchicalDataTemplate ItemsSource="{Binding Batteries}">
+                                            <TextBlock Text="{Binding SeriesId}"></TextBlock>
+                                            <HierarchicalDataTemplate.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding BatteryID}"></TextBlock>
+                                                </DataTemplate>
+                                            </HierarchicalDataTemplate.ItemTemplate>
+                                        </HierarchicalDataTemplate>
+                                    </HierarchicalDataTemplate.ItemTemplate>
+                                </HierarchicalDataTemplate>
+                            </HierarchicalDataTemplate.ItemTemplate>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </Grid>
+
+            <Grid Grid.Column="1" Background="#FF313131" Name="DataGridView">
+                <!--<DataGrid x:Name="BatteryTotalDataView" materialDesign:DataGridAssist.CellPadding="4 2 2 2" materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2" CanUserSortColumns="False" GridLinesVisibility="All" BorderBrush="Black" AutoGenerateColumns="False" CanUserAddRows="False" ScrollViewer.VerticalScrollBarVisibility="Hidden" MinRowHeight="30" Background="{x:Null}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="序号" Width="2*" Binding="{Binding Sort}" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
+                        <DataGridTextColumn Header="别名" Binding="{Binding ID}" Width="4*" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
+                        <DataGridTextColumn Header="电压" Binding="{Binding TotalVoltage}" Width="3*" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
+                        <DataGridTextColumn Header="电流" Binding="{Binding TotalCurrent}" Width="3*" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
+                        <DataGridTextColumn Header="备用参数1" Binding="{Binding Sample1}" Width="3*" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
+                        <DataGridTextColumn Header="备用参数2" Binding="{Binding Sample2}" Width="3*" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
+                        <DataGridTextColumn Header="备用参数3" Binding="{Binding Sample3}" Width="3*" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
+                        <DataGridTextColumn Header="备用参数4" Binding="{Binding Sample4}" Width="3*" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
+                        <DataGridTextColumn Header="备用参数5" Binding="{Binding Sample5}" Width="3*" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
+                        <DataGridTemplateColumn></DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>-->
+            </Grid>
+
+            <Grid Grid.Column="2" Width="150" x:Name="DevList">
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="添加设备" Command="{Binding AddDevCommand}"></MenuItem>
+                        <MenuItem Header="批量添加设备" Command="{Binding AddDevArrayCommand}"></MenuItem>
+                        <MenuItem Header="删除所有设备" Command="{Binding DelAllDevCommand}"></MenuItem>
+                    </ContextMenu>
+                </Grid.ContextMenu>
+                <ListBox  Background="#FFB8B8B8" ItemsSource="{Binding BatteryTotalList}" BorderThickness="0" materialDesign:ListBoxItemAssist.ShowSelection="False">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="Template" >
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                        <Border x:Name="b1" BorderThickness="1" Margin="2">
+                                            <ContentPresenter></ContentPresenter>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" TargetName="b1">
+                                                    <Setter.Value>
+                                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                            <GradientStop Color="#FFCAFFCA"/>
+                                                            <GradientStop Color="#7F008000" Offset="1"/>
+                                                        </LinearGradientBrush>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter Property="BorderThickness" Value="1" TargetName="b1"></Setter>
+                                                <Setter Property="BorderBrush" Value="Black" TargetName="b1"></Setter>
+                                            </Trigger>
+
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" TargetName="b1">
+                                                    <Setter.Value>
+                                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                            <GradientStop Color="#7FC4FAFA" Offset="0.896"/>
+                                                            <GradientStop Color="#7F89EAFF" Offset="1"/>
+                                                        </LinearGradientBrush>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter Property="BorderThickness" Value="1" TargetName="b1"></Setter>
+                                                <Setter Property="BorderBrush" Value="Black"  TargetName="b1"></Setter>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Width="110" Height="40" Background="#02FFFFFF">
+                                <Grid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="重新连接"></MenuItem>
+                                        <MenuItem Header="断开连接"></MenuItem>
+                                        <MenuItem Header="删除设备"></MenuItem>
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="BCMU" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding TotalID}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <bh:Interaction.Triggers>
+                        <bh:EventTrigger EventName="SelectionChanged">
+                            <bh:InvokeCommandAction Command="{Binding DevListSelectChangedCommand}"></bh:InvokeCommandAction>
+                        </bh:EventTrigger>
+                    </bh:Interaction.Triggers>
+                </ListBox>
+            </Grid>
         </Grid>
 
         <Border Name="StateContent" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="18" BorderThickness="1" BorderBrush="#FF767676">

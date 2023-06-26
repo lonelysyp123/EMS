@@ -9,5 +9,6 @@ namespace EMS.ViewModel
 {
     public class ViewModelBase : ObservableObject
     {
+
     }
 }

@@ -95,7 +95,7 @@ namespace EMS.Common.Modbus.ModbusTCP
             }
         }
 
-        public byte[] ReadFunc(ushort address, ushort num)
+        private byte[] ReadFunc(ushort address, ushort num)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace EMS.Common.Modbus.ModbusTCP
             }
         }
 
-        public async Task<byte[]> ReadFuncAsync(ushort address, ushort num)
+        private async Task<byte[]> ReadFuncAsync(ushort address, ushort num)
         {
             try
             {
@@ -135,7 +135,7 @@ namespace EMS.Common.Modbus.ModbusTCP
             }
         }
 
-        public void WriteFunc(ushort address, ushort value)
+        private void WriteFunc(ushort address, ushort value)
         {
             try
             {
@@ -147,7 +147,7 @@ namespace EMS.Common.Modbus.ModbusTCP
             }
         }
 
-        public async void WriteFuncAsync(ushort address, ushort value)
+        private async void WriteFuncAsync(ushort address, ushort value)
         {
             try
             {
@@ -159,7 +159,7 @@ namespace EMS.Common.Modbus.ModbusTCP
             }
         }
 
-        public void WriteFunc(ushort address, ushort[] values)
+        private void WriteFunc(ushort address, ushort[] values)
         {
             try
             {
@@ -171,7 +171,7 @@ namespace EMS.Common.Modbus.ModbusTCP
             }
         }
 
-        public async void WriteFuncAsync(ushort address, ushort[] values)
+        private async void WriteFuncAsync(ushort address, ushort[] values)
         {
             try
             {
@@ -189,19 +189,22 @@ namespace EMS.Common.Modbus.ModbusTCP
             return value;
         }
 
-        public short ReadS16()
+        public short ReadS16(ushort address)
         {
-
+            short value = BitConverter.ToInt16(ReadFunc(address, 1), 0);
+            return value;
         }
 
-        public int ReadS32()
+        public int ReadS32(ushort address)
         {
-
+            int value = BitConverter.ToInt32(ReadFunc(address, 2), 0);
+            return value;
         }
 
-        public uint ReadU32()
+        public uint ReadU32(ushort address)
         {
-
+            uint value = BitConverter.ToUInt32(ReadFunc(address, 2), 0);
+            return value;
         }
     }
 }

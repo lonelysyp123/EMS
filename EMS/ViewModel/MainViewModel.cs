@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using EMS.Model;
+using EMS.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,31 +13,33 @@ namespace EMS.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private ObservableCollection<BMS> _devList;
-        public ObservableCollection<BMS> DevList
+        private ObservableCollection<BatteryTotalBase> _batteryTotalList;
+        public ObservableCollection<BatteryTotalBase> BatteryTotalList
         {
-            get => _devList;
+            get => _batteryTotalList;
             set
             {
-                SetProperty(ref _devList, value);
+                SetProperty(ref _batteryTotalList, value);
             }
         }
 
-        private int _devIndex;
-        public int DevIndex
+        private int _batteryTotalIndex;
+        public int BatteryTotalIndex
         {
-            get => _devIndex;
+            get => _batteryTotalIndex;
             set
             {
-                SetProperty(ref _devIndex, value);
+                SetProperty(ref _batteryTotalIndex, value);
             }
         }
 
         public StateContentViewModel StateContent;
+        public DisplayContentViewModel DisplayContent;
 
-        public MainViewModel() 
+        public MainViewModel()
         {
             StateContent = new StateContentViewModel();
+            DisplayContent = new DisplayContentViewModel();
         }
     }
 }

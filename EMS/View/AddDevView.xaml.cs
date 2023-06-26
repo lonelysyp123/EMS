@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EMS.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,36 @@ namespace EMS.View
     /// </summary>
     public partial class AddDevView : Window
     {
+        public bool IsRtu = false;
         public AddDevView()
         {
             InitializeComponent();
+        }
+
+        private void ConfirmBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+            this.Close();
+        }
+
+        private void CancelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
+            this.Close();
+        }
+
+        private void ChooseTCP_Click(object sender, RoutedEventArgs e)
+        {
+            TCPGrid.Visibility = Visibility.Visible;
+            RTUGrid.Visibility = Visibility.Collapsed;
+            IsRtu = false;
+        }
+
+        private void ChooseRTU_Click(object sender, RoutedEventArgs e)
+        {
+            RTUGrid.Visibility = Visibility.Visible;
+            TCPGrid.Visibility = Visibility.Collapsed;
+            IsRtu = true;
         }
     }
 }
