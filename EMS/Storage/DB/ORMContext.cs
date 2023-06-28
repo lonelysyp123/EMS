@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace EMS.Common.DB
+namespace EMS.Storage.DB
 {
     public  class ORMContext : DbContext
     {

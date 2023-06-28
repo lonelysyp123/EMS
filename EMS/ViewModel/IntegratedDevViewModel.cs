@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EMS.Model
 {
@@ -50,7 +51,7 @@ namespace EMS.Model
 
         private void DelAllDev()
         {
-            throw new NotImplementedException();
+            BatteryTotalList.Clear();
         }
 
         private void AddDevArray()
@@ -70,7 +71,15 @@ namespace EMS.Model
                         if (objs.Count == 0)
                         {
                             //! 界面上新增IP
-                            AddIPInView(port);
+                            BatteryTotalBase dev = new BatteryTotalBase();
+                            dev.TotalID = port;
+                            dev.IsRTU = true;
+                            dev.ConnectParam.Add(port);
+                            dev.ConnectParam.Add(view.Rate.Text);
+                            dev.ConnectParam.Add(view.DataBits.Text);
+                            dev.ConnectParam.Add(view.Parity.Text);
+                            dev.ConnectParam.Add(view.StopBits.Text);
+                            BatteryTotalList.Add(dev);
                             //! 配置文件中新增IP
                             //helper.InsertIP(IPConfigFilePath, ip);
                         }
@@ -87,20 +96,18 @@ namespace EMS.Model
                         if (objs.Count == 0)
                         {
                             //! 界面上新增IP
-                            AddIPInView(ip);
+                            BatteryTotalBase dev = new BatteryTotalBase();
+                            dev.TotalID = ip;
+                            dev.IsRTU = false;
+                            dev.ConnectParam.Add(ip);
+                            dev.ConnectParam.Add(view.TCPPort.Text);
+                            BatteryTotalList.Add(dev);
                             //! 配置文件中新增IP
                             //helper.InsertIP(IPConfigFilePath, ip);
                         }
                     }
                 }
             }
-        }
-
-        private void AddIPInView(string ip)
-        {
-            BatteryTotalBase dev = new BatteryTotalBase();
-            dev.TotalID = ip;
-            BatteryTotalList.Add(dev);
         }
 
         private void AddDev()
@@ -112,12 +119,25 @@ namespace EMS.Model
                 if (view.IsRtu)
                 {
                     // add Modbus RTU Dev
-                    BatteryTotalList.Add(new BatteryTotalBase() { TotalID = view.RTUPort.Text });
+                    BatteryTotalBase dev = new BatteryTotalBase();
+                    dev.TotalID = view.RTUPort.Text;
+                    dev.IsRTU = true;
+                    dev.ConnectParam.Add(view.RTUPort.Text);
+                    dev.ConnectParam.Add(view.Rate.Text);
+                    dev.ConnectParam.Add(view.DataBits.Text);
+                    dev.ConnectParam.Add(view.Parity.Text);
+                    dev.ConnectParam.Add(view.StopBits.Text);
+                    BatteryTotalList.Add(dev);
                 }
                 else
                 {
                     // add Modbus TCP Dev
-                    BatteryTotalList.Add(new BatteryTotalBase() { TotalID = view.IPText.AddressText });
+                    BatteryTotalBase dev = new BatteryTotalBase();
+                    dev.TotalID = view.IPText.AddressText;
+                    dev.IsRTU = false;
+                    dev.ConnectParam.Add(view.IPText.AddressText);
+                    dev.ConnectParam.Add(view.TCPPort.Text);
+                    BatteryTotalList.Add(dev);
                 }
             }
         }

@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using EMS.Storage.DB;
+using EMS.Storage.DB.DBManage;
 using EMS.Model;
 using EMS.View;
 using System;
@@ -36,8 +38,13 @@ namespace EMS.ViewModel
         public DisplayContentViewModel()
         {
             IntegratedDev = new IntegratedDevViewModel();
+            OnlineBatteryTotalList = new ObservableCollection<BatteryTotalBase>();
             TreeName = "EMS";
             //AddTest();
+
+            BatteryManage manage = new BatteryManage();
+            manage.InsertBatteryModelInfo(new BatteryModel() { BatteryID = "Test", Current = 1, Voltage = 2});
+            manage.QueryBatteryModelInfo("Test");
         }
 
         private void AddTest()

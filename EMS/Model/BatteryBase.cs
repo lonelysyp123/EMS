@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +10,30 @@ namespace EMS.Model
     /// <summary>
     /// 单个电池
     /// </summary>
-    public class BatteryBase
+    public class BatteryBase : ObservableObject
     {
-        public ushort Voltage { get; set; }
-        public ushort Current { get; set; }
+        private ushort _voltage;
+        public ushort Voltage
+        {
+
+            get => _voltage;
+            set
+            {
+                SetProperty(ref _voltage, value);
+            }
+        }
+
+        private ushort _current;
+        public ushort Current
+        {
+
+            get => _current;
+            set
+            {
+                SetProperty(ref _current, value);
+            }
+        }
+
         public string BatteryID { get; set; }
 
         public BatteryBase() { }

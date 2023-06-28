@@ -4,10 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:EMS"
         mc:Ignorable="d"
-        Title="EMS" Height="800" Width="1200">
+        Title="EMS" Height="800" Width="1200" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -100,7 +99,7 @@
                 </DataGrid>-->
             </Grid>
 
-            <Grid Grid.Column="2" Width="150" x:Name="DevList">
+            <Grid Grid.Column="2" Width="150" x:Name="DevListView">
                 <Grid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="添加设备" Command="{Binding AddDevCommand}"></MenuItem>
@@ -108,7 +107,7 @@
                         <MenuItem Header="删除所有设备" Command="{Binding DelAllDevCommand}"></MenuItem>
                     </ContextMenu>
                 </Grid.ContextMenu>
-                <ListBox  Background="#FFB8B8B8" ItemsSource="{Binding BatteryTotalList}" BorderThickness="0" materialDesign:ListBoxItemAssist.ShowSelection="False">
+                <ListBox Name="DevList" Background="#FFB8B8B8" ItemsSource="{Binding BatteryTotalList}" SelectedIndex="{Binding CurrentBatterySort}" BorderThickness="0" materialDesign:ListBoxItemAssist.ShowSelection="False">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="{x:Type ListBoxItem}">
                             <Setter Property="Template" >
@@ -154,9 +153,9 @@
                             <Grid Width="110" Height="40" Background="#02FFFFFF">
                                 <Grid.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Header="重新连接"></MenuItem>
-                                        <MenuItem Header="断开连接"></MenuItem>
-                                        <MenuItem Header="删除设备"></MenuItem>
+                                        <MenuItem Header="重新连接" Click="ReConnect_Click"></MenuItem>
+                                        <MenuItem Header="断开连接" Click="DisConnect_Click"></MenuItem>
+                                        <MenuItem Header="删除设备" Click="DelDev_Click"></MenuItem>
                                     </ContextMenu>
                                 </Grid.ContextMenu>
                                 <StackPanel Orientation="Vertical">
@@ -166,11 +165,6 @@
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
-                    <bh:Interaction.Triggers>
-                        <bh:EventTrigger EventName="SelectionChanged">
-                            <bh:InvokeCommandAction Command="{Binding DevListSelectChangedCommand}"></bh:InvokeCommandAction>
-                        </bh:EventTrigger>
-                    </bh:Interaction.Triggers>
                 </ListBox>
             </Grid>
         </Grid>

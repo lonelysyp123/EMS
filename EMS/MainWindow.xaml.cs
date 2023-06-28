@@ -33,7 +33,7 @@ namespace EMS
             viewmodel = new MainViewModel();
             this.DataContext = viewmodel;
             StateContent.DataContext = viewmodel.StateContent;
-            DevList.DataContext = viewmodel.DisplayContent.IntegratedDev;
+            DevListView.DataContext = viewmodel.DisplayContent.IntegratedDev;
 
             List<DisplayContentViewModel> models = new List<DisplayContentViewModel>();
 
@@ -144,6 +144,40 @@ namespace EMS
             dataGrid.Columns.Add(new DataGridTextColumn() { Header = "电流", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("Current") });
             dataGrid.ItemsSource = new ObservableCollection<BatteryBase>() { battery };
             DataGridView.Children.Add(dataGrid);
+        }
+
+        private void ReConnect_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // 重新连接设备
+                var item = DevList.SelectedItem as BatteryTotalBase;
+                item.Connect();
+                item.InitBatteryTotal();
+                item.StartListener();
+                // 连接成功后将设备信息添加到左边的导航栏中
+                viewmodel.DisplayContent.OnlineBatteryTotalList.Add(item);
+            }
+            catch
+            {
+                MessageBox.Show("重新连接设备失败，请检查通讯参数和连接介质！");
+            }
+        }
+
+        private void DisConnect_Click(object sender, RoutedEventArgs e)
+        {
+            // 断开连接设备
+            var item = DevList.SelectedItem as BatteryTotalBase;
+            item.Disconnect();
+
+            // 断开连接之后，将该设备从左边的导航栏中删去
+            viewmodel.DisplayContent.OnlineBatteryTotalList.Remove(item);
+        }
+
+        private void DelDev_Click(object sender, RoutedEventArgs e)
+        {
+            var item = DevList.SelectedItem as BatteryTotalBase;
+            viewmodel.DisplayContent.IntegratedDev.BatteryTotalList.Remove(item);
         }
     }
 }

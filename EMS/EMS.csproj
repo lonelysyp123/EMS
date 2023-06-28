@@ -129,17 +129,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Common\DB\BatteryModel.cs" />
-    <Compile Include="Common\DB\ORMContext.cs" />
-    <Compile Include="Common\DB\SqliteConfiguration.cs" />
+    <Compile Include="Storage\DB\BatteryModel.cs" />
+    <Compile Include="Storage\DB\ORMContext.cs" />
+    <Compile Include="Storage\DB\SqliteConfiguration.cs" />
     <Compile Include="Common\EMSCommunication.cs" />
-    <Compile Include="DBManage\BatteryManage.cs" />
+    <Compile Include="Storage\DB\DBManage\BatteryManage.cs" />
     <Compile Include="Model\BatteryBase.cs" />
     <Compile Include="Model\BatterySeriesBase.cs" />
     <Compile Include="Model\BatteryTotalBase.cs" />
-    <Compile Include="Model\BCMU.cs" />
-    <Compile Include="Model\BMU.cs" />
-    <Compile Include="Model\Ceil.cs" />
+    <Compile Include="Storage\File\BatteryModelForFile.cs" />
+    <Compile Include="Storage\File\FileHelper.cs" />
     <Compile Include="ViewModel\IntegratedDevViewModel.cs" />
     <Compile Include="Model\StateContentModel.cs" />
     <Compile Include="MyControl\IPInput.xaml.cs">

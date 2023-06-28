@@ -79,14 +79,14 @@ namespace EMS.Common.Modbus.ModbusTCP
                 if (_RtuOrTcp)
                 {
                     _master.Transport.Dispose();
-                    _client.Close();
-                    _client.Dispose();
+                    _serial.Close();
+                    _serial.Dispose();
                 }
                 else
                 {
                     _master.Transport.Dispose();
-                    _serial.Close();
-                    _serial.Dispose();
+                    _client.Close();
+                    _client.Dispose();
                 }
             }
             catch (Exception ex)
@@ -187,6 +187,17 @@ namespace EMS.Common.Modbus.ModbusTCP
         {
             ushort value = BitConverter.ToUInt16(ReadFunc(address, 1), 0);
             return value;
+        }
+
+        public ushort[] ReadU16Array(ushort address, ushort num)
+        {
+            var bytes = ReadFunc(address, num);
+            List<ushort> values = new List<ushort>();
+            for (int i = 0; i < bytes.Length/2; i++)
+            {
+                values.Add(BitConverter.ToUInt16(bytes, i * 2));
+            }
+            return values.ToArray();
         }
 
         public short ReadS16(ushort address)

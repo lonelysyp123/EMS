@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMS.Common.DB
+namespace EMS.Storage.DB
 {
     public class SqliteConfiguration : DbConfiguration
     {
