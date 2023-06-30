@@ -1,4 +1,6 @@
 ﻿using EMS.Model;
+using EMS.Storage.DB.DBManage;
+using EMS.Storage.DB.Models;
 using EMS.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -153,8 +155,6 @@ namespace EMS
                 // 重新连接设备
                 var item = DevList.SelectedItem as BatteryTotalBase;
                 item.Connect();
-                item.InitBatteryTotal();
-                item.StartListener();
                 // 连接成功后将设备信息添加到左边的导航栏中
                 viewmodel.DisplayContent.OnlineBatteryTotalList.Add(item);
             }
@@ -174,10 +174,16 @@ namespace EMS
             viewmodel.DisplayContent.OnlineBatteryTotalList.Remove(item);
         }
 
+        //private void SetConnect_Click(object sender, RoutedEventArgs e)
+        //{
+        //}
+
         private void DelDev_Click(object sender, RoutedEventArgs e)
         {
             var item = DevList.SelectedItem as BatteryTotalBase;
             viewmodel.DisplayContent.IntegratedDev.BatteryTotalList.Remove(item);
+            DevConnectInfoManage manage = new DevConnectInfoManage();
+            manage.Delete(new DevConnectInfoModel() { IP = item.ConnectParam[0], Port = item.ConnectParam[1] });
         }
     }
 }

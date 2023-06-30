@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using EMS.Storage.DB.DBManage;
+using EMS.Storage.DB.Models;
 using EMS.View;
 using EMS.ViewModel;
 using System;
@@ -46,12 +48,22 @@ namespace EMS.Model
             DelAllDevCommand = new RelayCommand(DelAllDev);
             //AddTest();
 
+            // 初始化设备列表
             BatteryTotalList = new ObservableCollection<BatteryTotalBase>();
+            DevConnectInfoManage manage = new DevConnectInfoManage();
+            var entites = manage.Get();
+            foreach (var entity in entites)
+            {
+                BatteryTotalList.Add(new BatteryTotalBase(entity.IP, entity.Port));
+            }
+            
         }
 
         private void DelAllDev()
         {
             BatteryTotalList.Clear();
+            DevConnectInfoManage manage = new DevConnectInfoManage();
+            manage.DeleteAll();
         }
 
         private void AddDevArray()
@@ -80,8 +92,6 @@ namespace EMS.Model
                             dev.ConnectParam.Add(view.Parity.Text);
                             dev.ConnectParam.Add(view.StopBits.Text);
                             BatteryTotalList.Add(dev);
-                            //! 配置文件中新增IP
-                            //helper.InsertIP(IPConfigFilePath, ip);
                         }
                     }
                 }
@@ -103,7 +113,9 @@ namespace EMS.Model
                             dev.ConnectParam.Add(view.TCPPort.Text);
                             BatteryTotalList.Add(dev);
                             //! 配置文件中新增IP
-                            //helper.InsertIP(IPConfigFilePath, ip);
+                            DevConnectInfoModel entity = new DevConnectInfoModel() { BCMUID = BatteryTotalList.Count, IP = ip, Port = view.TCPPort.Text };
+                            DevConnectInfoManage manage = new DevConnectInfoManage();
+                            manage.Insert(entity);
                         }
                     }
                 }
@@ -131,13 +143,23 @@ namespace EMS.Model
                 }
                 else
                 {
-                    // add Modbus TCP Dev
-                    BatteryTotalBase dev = new BatteryTotalBase();
-                    dev.TotalID = view.IPText.AddressText;
-                    dev.IsRTU = false;
-                    dev.ConnectParam.Add(view.IPText.AddressText);
-                    dev.ConnectParam.Add(view.TCPPort.Text);
-                    BatteryTotalList.Add(dev);
+                    //! 判断该IP是否存在
+                    var objs = BatteryTotalList.Where(dev => dev.TotalID == view.IPText.AddressText).ToList();
+                    if (objs.Count == 0)
+                    {
+                        // add Modbus TCP Dev
+                        BatteryTotalBase dev = new BatteryTotalBase();
+                        dev.TotalID = view.IPText.AddressText;
+                        dev.IsRTU = false;
+                        dev.ConnectParam.Add(view.IPText.AddressText);
+                        dev.ConnectParam.Add(view.TCPPort.Text);
+                        BatteryTotalList.Add(dev);
+
+                        //! 配置文件中新增IP
+                        DevConnectInfoModel entity = new DevConnectInfoModel() { BCMUID = BatteryTotalList.Count, IP = view.IPText.AddressText, Port = view.TCPPort.Text };
+                        DevConnectInfoManage manage = new DevConnectInfoManage();
+                        manage.Insert(entity);
+                    }
                 }
             }
         }

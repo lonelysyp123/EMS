@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EMS.Storage.DB
+namespace EMS.Storage.DB.Models
 {
     public class BatteryModel
     {

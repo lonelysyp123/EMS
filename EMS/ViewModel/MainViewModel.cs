@@ -13,16 +13,6 @@ namespace EMS.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private ObservableCollection<BatteryTotalBase> _batteryTotalList;
-        public ObservableCollection<BatteryTotalBase> BatteryTotalList
-        {
-            get => _batteryTotalList;
-            set
-            {
-                SetProperty(ref _batteryTotalList, value);
-            }
-        }
-
         private int _batteryTotalIndex;
         public int BatteryTotalIndex
         {

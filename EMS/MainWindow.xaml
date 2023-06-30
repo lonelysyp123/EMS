@@ -150,18 +150,26 @@
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="110" Height="40" Background="#02FFFFFF">
+                            <Grid Margin="10" Height="60" Background="#02FFFFFF">
                                 <Grid.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="重新连接" Click="ReConnect_Click"></MenuItem>
                                         <MenuItem Header="断开连接" Click="DisConnect_Click"></MenuItem>
+                                        <!--<MenuItem Header="配置连接" Click="SetConnect_Click"></MenuItem>-->
                                         <MenuItem Header="删除设备" Click="DelDev_Click"></MenuItem>
                                     </ContextMenu>
                                 </Grid.ContextMenu>
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="BCMU" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding TotalID}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Source="{Binding ImageTitle}" Width="40"/>
+                                    <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Text="BCMU" FontSize="14" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Row="1" Text="{Binding TotalID}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Grid>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

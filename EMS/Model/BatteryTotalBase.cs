@@ -5,12 +5,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Eventing.Reader;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace EMS.Model
 {
@@ -41,6 +43,17 @@ namespace EMS.Model
             }
         }
 
+        private BitmapSource _imageTitle;
+        public BitmapSource ImageTitle
+        {
+
+            get => _imageTitle;
+            set
+            {
+                SetProperty(ref _imageTitle, value);
+            }
+        }
+
         public ushort SeriesCount { get; set; }
         public ushort BatteriesCount { get; set; }
         public string TotalID { get; set; }
@@ -54,6 +67,39 @@ namespace EMS.Model
         {
             Series = new ObservableCollection<BatterySeriesBase>();
             ConnectParam = new List<string>();
+            ImageTitleChange();
+        }
+
+        public BatteryTotalBase(string ip, string port)
+        {
+            Series = new ObservableCollection<BatterySeriesBase>();
+            ConnectParam = new List<string>() { ip,port};
+            TotalID = ip;
+            ImageTitleChange();
+        }
+
+        public void ImageTitleChange()
+        {
+            BitmapImage bi;
+            if (IsConnected)
+            {
+                DirectoryInfo directory = new DirectoryInfo("./Resource/Image");
+                FileInfo[] files = directory.GetFiles("Online.png");
+                bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
+                bi.EndInit();
+            }
+            else
+            {
+                DirectoryInfo directory = new DirectoryInfo("./Resource/Image");
+                FileInfo[] files = directory.GetFiles("Offline.png");
+                bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
+                bi.EndInit();
+            }
+            ImageTitle = bi;
         }
 
         public void Connect()
@@ -74,6 +120,9 @@ namespace EMS.Model
                         client.Connect();
                         IsConnected = true;
                     }
+                    ImageTitleChange();
+                    InitBatteryTotal();
+                    StartListener();
                 }
             }
             catch (Exception ex)
@@ -120,6 +169,7 @@ namespace EMS.Model
                 Thread.Sleep(500);
                 client.Disconnect();
                 IsConnected = false;
+                ImageTitleChange();
             }
         }
 

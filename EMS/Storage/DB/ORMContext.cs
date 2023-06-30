@@ -1,4 +1,5 @@
-﻿using SQLite.CodeFirst;
+﻿using EMS.Storage.DB.Models;
+using SQLite.CodeFirst;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -35,5 +36,6 @@ namespace EMS.Storage.DB
         }
 
         public DbSet<BatteryModel> BatteryModelInfos { get; set; }
+        public DbSet<DevConnectInfoModel> DevConnectInfos { get; set; }
     }
 }
