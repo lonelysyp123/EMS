@@ -23,13 +23,23 @@ namespace EMS.ViewModel
             }
         }
 
+        public RelayCommand OpenSystemSetViewCommand { set; get; }
+
         public StateContentViewModel StateContent;
         public DisplayContentViewModel DisplayContent;
 
         public MainViewModel()
         {
+            OpenSystemSetViewCommand = new RelayCommand(OpenSystemSetView);
+
             StateContent = new StateContentViewModel();
             DisplayContent = new DisplayContentViewModel();
+        }
+
+        private void OpenSystemSetView()
+        {
+            SystemSetView view = new SystemSetView();
+            view.ShowDialog();
         }
     }
 }

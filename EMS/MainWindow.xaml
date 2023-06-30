@@ -25,7 +25,7 @@
                 <MenuItem Header="退出"></MenuItem>
             </MenuItem>
             <MenuItem Header="选项"  FontSize="12" VerticalAlignment="Center">
-                <MenuItem Header="系统设置"></MenuItem>
+                <MenuItem Header="系统设置" Command="{Binding OpenSystemSetViewCommand}"></MenuItem>
             </MenuItem>
             <MenuItem Header="帮助"  FontSize="12" VerticalAlignment="Center">
                 <MenuItem Header="错误代码查询"></MenuItem>

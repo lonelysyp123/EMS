@@ -5,8 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EMS.View"
         mc:Ignorable="d"
-        Title="SystemSetView" Height="450" Width="800">
+        Title="SystemSetView" Height="700" Width="600">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" Header="数据采集">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <TextBlock Text="间隔时间" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
+                    <TextBox VerticalAlignment="Center" Width="50" BorderThickness="1" Margin="2"></TextBox>
+                    <TextBlock Text="S" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Text="文件路径" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
+                    <TextBox VerticalAlignment="Center" Width="250" BorderThickness="1" Margin="2"></TextBox>
+                    <Button VerticalAlignment="Center" Content=">>" Margin="2"></Button>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
     </Grid>
 </Window>
