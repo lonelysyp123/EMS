@@ -41,22 +41,25 @@ namespace EMS.Model
         public RelayCommand AddDevArrayCommand { get; set; }
         public RelayCommand DelAllDevCommand { get; set; }
 
+
+
         public IntegratedDevViewModel()
         {
             AddDevCommand = new RelayCommand(AddDev);
             AddDevArrayCommand = new RelayCommand(AddDevArray);
             DelAllDevCommand = new RelayCommand(DelAllDev);
-            //AddTest();
 
             // 初始化设备列表
             BatteryTotalList = new ObservableCollection<BatteryTotalBase>();
             DevConnectInfoManage manage = new DevConnectInfoManage();
             var entites = manage.Get();
-            foreach (var entity in entites)
+            if (entites != null)
             {
-                BatteryTotalList.Add(new BatteryTotalBase(entity.IP, entity.Port));
+                foreach (var entity in entites)
+                {
+                    BatteryTotalList.Add(new BatteryTotalBase(entity.IP, entity.Port) { BCMUID = entity.BCMUID });
+                }
             }
-            
         }
 
         private void DelAllDev()
@@ -79,18 +82,13 @@ namespace EMS.Model
                     {
                         string port = view.segment + i.ToString();
                         //! 判断该IP是否存在
-                        var objs = BatteryTotalList.Where(dev => dev.TotalID == port).ToList();
+                        var objs = BatteryTotalList.Where(dev => dev.BCMUID == port).ToList();
                         if (objs.Count == 0)
                         {
                             //! 界面上新增IP
                             BatteryTotalBase dev = new BatteryTotalBase();
-                            dev.TotalID = port;
+                            dev.BCMUID = port;
                             dev.IsRTU = true;
-                            dev.ConnectParam.Add(port);
-                            dev.ConnectParam.Add(view.Rate.Text);
-                            dev.ConnectParam.Add(view.DataBits.Text);
-                            dev.ConnectParam.Add(view.Parity.Text);
-                            dev.ConnectParam.Add(view.StopBits.Text);
                             BatteryTotalList.Add(dev);
                         }
                     }
@@ -107,13 +105,14 @@ namespace EMS.Model
                         {
                             //! 界面上新增IP
                             BatteryTotalBase dev = new BatteryTotalBase();
+                            dev.BCMUID = "Test";
+                            dev.IP = ip;
+                            dev.Port = view.TCPPort.Text;
                             dev.TotalID = ip;
                             dev.IsRTU = false;
-                            dev.ConnectParam.Add(ip);
-                            dev.ConnectParam.Add(view.TCPPort.Text);
                             BatteryTotalList.Add(dev);
                             //! 配置文件中新增IP
-                            DevConnectInfoModel entity = new DevConnectInfoModel() { BCMUID = BatteryTotalList.Count, IP = ip, Port = view.TCPPort.Text };
+                            DevConnectInfoModel entity = new DevConnectInfoModel() { BCMUID = "Test", IP = ip, Port = view.TCPPort.Text };
                             DevConnectInfoManage manage = new DevConnectInfoManage();
                             manage.Insert(entity);
                         }
@@ -134,11 +133,6 @@ namespace EMS.Model
                     BatteryTotalBase dev = new BatteryTotalBase();
                     dev.TotalID = view.RTUPort.Text;
                     dev.IsRTU = true;
-                    dev.ConnectParam.Add(view.RTUPort.Text);
-                    dev.ConnectParam.Add(view.Rate.Text);
-                    dev.ConnectParam.Add(view.DataBits.Text);
-                    dev.ConnectParam.Add(view.Parity.Text);
-                    dev.ConnectParam.Add(view.StopBits.Text);
                     BatteryTotalList.Add(dev);
                 }
                 else
@@ -149,74 +143,20 @@ namespace EMS.Model
                     {
                         // add Modbus TCP Dev
                         BatteryTotalBase dev = new BatteryTotalBase();
+                        dev.BCMUID = "Test";
                         dev.TotalID = view.IPText.AddressText;
                         dev.IsRTU = false;
-                        dev.ConnectParam.Add(view.IPText.AddressText);
-                        dev.ConnectParam.Add(view.TCPPort.Text);
+                        dev.IP = view.IPText.AddressText;
+                        dev.Port = view.TCPPort.Text;
                         BatteryTotalList.Add(dev);
 
                         //! 配置文件中新增IP
-                        DevConnectInfoModel entity = new DevConnectInfoModel() { BCMUID = BatteryTotalList.Count, IP = view.IPText.AddressText, Port = view.TCPPort.Text };
+                        DevConnectInfoModel entity = new DevConnectInfoModel() { BCMUID = "Test", IP = view.IPText.AddressText, Port = view.TCPPort.Text };
                         DevConnectInfoManage manage = new DevConnectInfoManage();
                         manage.Insert(entity);
                     }
                 }
             }
-        }
-
-        private void AddTest()
-        {
-            BatterySeriesBase series1 = new BatterySeriesBase() { SeriesId = "A", Batteries = new ObservableCollection<BatteryBase>() { new BatteryBase() { BatteryID = "A-1" }, new BatteryBase() { BatteryID = "A-2" } } };
-            BatterySeriesBase series2 = new BatterySeriesBase() { SeriesId = "B", Batteries = new ObservableCollection<BatteryBase>() { new BatteryBase() { BatteryID = "B-1" }, new BatteryBase() { BatteryID = "B-2" } } };
-            BatterySeriesBase series3 = new BatterySeriesBase() { SeriesId = "C", Batteries = new ObservableCollection<BatteryBase>() { new BatteryBase() { BatteryID = "C-1" }, new BatteryBase() { BatteryID = "C-2" } } };
-            BatteryTotalList = new ObservableCollection<BatteryTotalBase>() {
-                new BatteryTotalBase()
-                {
-                    TotalID = "127.0.0.1",
-                    SeriesCount = 3,
-                    TotalCurrent = 0,
-                    TotalVoltage = 0,
-                    Series = new ObservableCollection<BatterySeriesBase>(){ series1, series2, series3 }
-                }
-            };
-        }
-
-        private void AddBatteryTotal(string Address, int Port)
-        {
-            BatteryTotalBase total = new BatteryTotalBase();
-
-
-
-            BatterySeriesBase series1 = new BatterySeriesBase() { SeriesId = "A", Batteries = new ObservableCollection<BatteryBase>() { new BatteryBase() { BatteryID = "A-1" }, new BatteryBase() { BatteryID = "A-2" } } };
-            BatterySeriesBase series2 = new BatterySeriesBase() { SeriesId = "B", Batteries = new ObservableCollection<BatteryBase>() { new BatteryBase() { BatteryID = "B-1" }, new BatteryBase() { BatteryID = "B-2" } } };
-            BatterySeriesBase series3 = new BatterySeriesBase() { SeriesId = "C", Batteries = new ObservableCollection<BatteryBase>() { new BatteryBase() { BatteryID = "C-1" }, new BatteryBase() { BatteryID = "C-2" } } };
-            BatteryTotalList = new ObservableCollection<BatteryTotalBase>() {
-                new BatteryTotalBase()
-                {
-                    TotalID = "127.0.0.1",
-                    SeriesCount = 3,
-                    TotalCurrent = 0,
-                    TotalVoltage = 0,
-                    Series = new ObservableCollection<BatterySeriesBase>(){ series1, series2, series3 }
-                }
-            };
-        }
-
-        private void AddBatteryTotal(string Port, int Rate, int Parity, int Databits, int Stopbits)
-        {
-            BatterySeriesBase series1 = new BatterySeriesBase() { SeriesId = "A", Batteries = new ObservableCollection<BatteryBase>() { new BatteryBase() { BatteryID = "A-1" }, new BatteryBase() { BatteryID = "A-2" } } };
-            BatterySeriesBase series2 = new BatterySeriesBase() { SeriesId = "B", Batteries = new ObservableCollection<BatteryBase>() { new BatteryBase() { BatteryID = "B-1" }, new BatteryBase() { BatteryID = "B-2" } } };
-            BatterySeriesBase series3 = new BatterySeriesBase() { SeriesId = "C", Batteries = new ObservableCollection<BatteryBase>() { new BatteryBase() { BatteryID = "C-1" }, new BatteryBase() { BatteryID = "C-2" } } };
-            BatteryTotalList = new ObservableCollection<BatteryTotalBase>() {
-                new BatteryTotalBase()
-                {
-                    TotalID = "127.0.0.1",
-                    SeriesCount = 3,
-                    TotalCurrent = 0,
-                    TotalVoltage = 0,
-                    Series = new ObservableCollection<BatterySeriesBase>(){ series1, series2, series3 }
-                }
-            };
         }
     }
 }

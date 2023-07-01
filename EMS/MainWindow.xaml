@@ -26,6 +26,8 @@
             </MenuItem>
             <MenuItem Header="选项"  FontSize="12" VerticalAlignment="Center">
                 <MenuItem Header="系统设置" Command="{Binding OpenSystemSetViewCommand}"></MenuItem>
+                <MenuItem Header="开始采集" Command="{Binding StartDaqCommand}"></MenuItem>
+                <MenuItem Header="停止采集" Command="{Binding StopDaqCommand}"></MenuItem>
             </MenuItem>
             <MenuItem Header="帮助"  FontSize="12" VerticalAlignment="Center">
                 <MenuItem Header="错误代码查询"></MenuItem>
@@ -43,7 +45,7 @@
                 <!--<TreeView ItemsSource="{Binding BatteryTotalList}" SelectedItemChanged="TreeView_SelectedItemChanged">
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding Series}">
-                            <TextBlock Text="{Binding TotalID}"></TextBlock>
+                            <TextBlock Text="{Binding BCMUID}"></TextBlock>
                             <HierarchicalDataTemplate.ItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding Batteries}">
                                     <TextBlock Text="{Binding SeriesId}"></TextBlock>
@@ -64,7 +66,7 @@
                             <TextBlock Text="{Binding TreeName}"></TextBlock>
                             <HierarchicalDataTemplate.ItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding Series}">
-                                    <TextBlock Text="{Binding TotalID}"></TextBlock>
+                                    <TextBlock Text="{Binding BCMUID}"></TextBlock>
                                     <HierarchicalDataTemplate.ItemTemplate>
                                         <HierarchicalDataTemplate ItemsSource="{Binding Batteries}">
                                             <TextBlock Text="{Binding SeriesId}"></TextBlock>

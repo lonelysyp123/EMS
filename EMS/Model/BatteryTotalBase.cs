@@ -1,7 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using EMS.Common.Modbus.ModbusTCP;
+using EMS.Storage.DB.DBManage;
+using EMS.Storage.DB.Models;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Eventing.Reader;
@@ -43,6 +46,17 @@ namespace EMS.Model
             }
         }
 
+        private ushort _averageTemperature;
+        public ushort AverageTemperature
+        {
+
+            get => _averageTemperature;
+            set
+            {
+                SetProperty(ref _averageTemperature, value);
+            }
+        }
+
         private BitmapSource _imageTitle;
         public BitmapSource ImageTitle
         {
@@ -54,26 +68,52 @@ namespace EMS.Model
             }
         }
 
+        private string _BCMUID;
+        public string BCMUID
+        {
+
+            get => _BCMUID;
+            set
+            {
+                SetProperty(ref _BCMUID, value);
+            }
+        }
+
+        private string _totalID;
+        public string TotalID
+        {
+
+            get => _totalID;
+            set
+            {
+                SetProperty(ref _totalID, value);
+            }
+        }
+
+        public string IP { set; get; }
+        public string Port { set; get; }
+
         public ushort SeriesCount { get; set; }
         public ushort BatteriesCount { get; set; }
-        public string TotalID { get; set; }
         public ObservableCollection<BatterySeriesBase> Series { get; set; }
 
         private ModbusClient client;
         private bool IsConnected = false;
         public bool IsRTU;
-        public List<string> ConnectParam;
+        public bool IsDaq = false;
+        public ConcurrentQueue<List<SeriesBatteryInfoModel>> SeriesBatteryInfoList;
+        public ConcurrentQueue<TotalBatteryInfoModel> TotalBatteryInfo;
         public BatteryTotalBase()
         {
             Series = new ObservableCollection<BatterySeriesBase>();
-            ConnectParam = new List<string>();
             ImageTitleChange();
         }
 
         public BatteryTotalBase(string ip, string port)
         {
             Series = new ObservableCollection<BatterySeriesBase>();
-            ConnectParam = new List<string>() { ip,port};
+            IP = ip;
+            Port = port;
             TotalID = ip;
             ImageTitleChange();
         }
@@ -110,13 +150,13 @@ namespace EMS.Model
                 {
                     if (IsRTU)
                     {
-                        client = new ModbusClient(ConnectParam[0], int.Parse(ConnectParam[1]), int.Parse(ConnectParam[2]), int.Parse(ConnectParam[3]), int.Parse(ConnectParam[4]));
-                        client.Connect();
-                        IsConnected = true;
+                        //client = new ModbusClient(ConnectParam[0], int.Parse(ConnectParam[1]), int.Parse(ConnectParam[2]), int.Parse(ConnectParam[3]), int.Parse(ConnectParam[4]));
+                        //client.Connect();
+                        //IsConnected = true;
                     }
                     else
                     {
-                        client = new ModbusClient(ConnectParam[0], int.Parse(ConnectParam[1]));
+                        client = new ModbusClient(IP, int.Parse(Port));
                         client.Connect();
                         IsConnected = true;
                     }
@@ -136,7 +176,7 @@ namespace EMS.Model
             if (IsConnected)
             {
                 // 信息补全
-                TotalID = client.ReadU16(10000).ToString();
+                BCMUID = client.ReadU16(10000).ToString();
                 TotalVoltage = client.ReadU16(10001);
                 TotalCurrent = client.ReadU16(10002);
                 SeriesCount = client.ReadU16(10100);
@@ -209,12 +249,45 @@ namespace EMS.Model
                             Series[i].Batteries[j].Current = BatteryValues[1];
                         }
                     }
+
+                    if (IsDaq)
+                    {
+                        SeriesBatteryInfoManage manage = new SeriesBatteryInfoManage();
+                        for (int i = 0; i < Series.Count; i++)
+                        {
+                            SeriesBatteryInfoModel model = new SeriesBatteryInfoModel();
+                            model.BCMUID = BCMUID;
+                            model.BMUID = Series[i].SeriesId;
+                            model.SerialNuw = i + 1;
+                            model.HappenTime = DateTime.Now;
+                            for (int j = 0; j < Series[i].Batteries.Count; j++)
+                            {
+                                typeof(SeriesBatteryInfoModel).GetProperty("Voltage" + j).SetValue(model, Series[i].Batteries[j].Voltage);
+                            }
+                            manage.Insert(model);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
+        }
+
+        public void StartRecordData()
+        {
+            SeriesBatteryInfoList = new ConcurrentQueue<List<SeriesBatteryInfoModel>>();
+            TotalBatteryInfo = new ConcurrentQueue<TotalBatteryInfoModel>();
+            IsDaq = true;
+        }
+
+        public void StopRecordData()
+        {
+            IsDaq = true;
+            Thread.Sleep(100);
+            SeriesBatteryInfoList = null;
+            TotalBatteryInfo = null;
         }
     }
 }

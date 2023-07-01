@@ -24,6 +24,8 @@ namespace EMS.ViewModel
         }
 
         public RelayCommand OpenSystemSetViewCommand { set; get; }
+        public RelayCommand StartDaqCommand { set; get; }
+        public RelayCommand StopDaqCommand { set; get; }
 
         public StateContentViewModel StateContent;
         public DisplayContentViewModel DisplayContent;
@@ -31,9 +33,21 @@ namespace EMS.ViewModel
         public MainViewModel()
         {
             OpenSystemSetViewCommand = new RelayCommand(OpenSystemSetView);
+            StartDaqCommand = new RelayCommand(StartDaq);
+            StopDaqCommand = new RelayCommand(StopDaq);
 
             StateContent = new StateContentViewModel();
             DisplayContent = new DisplayContentViewModel();
+        }
+
+        private void StopDaq()
+        {
+            DisplayContent.StopSaveBatteryInfo();
+        }
+
+        private void StartDaq()
+        {
+            DisplayContent.StartSaveBatteryInfo();
         }
 
         private void OpenSystemSetView()

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Modbus.Device;
 using System.IO.Ports;
+using System.Diagnostics.Contracts;
 
 namespace EMS.Common.Modbus.ModbusTCP
 {
@@ -215,6 +216,12 @@ namespace EMS.Common.Modbus.ModbusTCP
         public uint ReadU32(ushort address)
         {
             uint value = BitConverter.ToUInt32(ReadFunc(address, 2), 0);
+            return value;
+        }
+
+        public string ReadString(ushort address, ushort num)
+        {
+            string value = BitConverter.ToString(ReadFunc(address, num), 0);
             return value;
         }
     }

@@ -80,7 +80,7 @@ namespace EMS
             ScrollViewer.SetVerticalScrollBarVisibility(dataGrid, ScrollBarVisibility.Hidden);
             dataGrid.MinRowHeight = 30;
             dataGrid.Background = new SolidColorBrush(Colors.Transparent);
-            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "序号", Width = new DataGridLength(2, DataGridLengthUnitType.Star), Binding = new Binding("TotalID") });
+            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "序号", Width = new DataGridLength(2, DataGridLengthUnitType.Star), Binding = new Binding("BCMUID") });
             dataGrid.Columns.Add(new DataGridTextColumn() { Header = "别名", Width = new DataGridLength(4, DataGridLengthUnitType.Star), Binding = new Binding("TotalID") });
             dataGrid.Columns.Add(new DataGridTextColumn() { Header = "电压", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("TotalVoltage") });
             dataGrid.Columns.Add(new DataGridTextColumn() { Header = "电流", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("TotalCurrent") });
@@ -157,6 +157,9 @@ namespace EMS
                 item.Connect();
                 // 连接成功后将设备信息添加到左边的导航栏中
                 viewmodel.DisplayContent.OnlineBatteryTotalList.Add(item);
+                // 更新数据库中设备信息BCMUID
+                DevConnectInfoManage manage = new DevConnectInfoManage();
+                manage.Update(new DevConnectInfoModel() { BCMUID = item.BCMUID, IP = item.IP, Port = item.Port });
             }
             catch
             {
@@ -183,7 +186,7 @@ namespace EMS
             var item = DevList.SelectedItem as BatteryTotalBase;
             viewmodel.DisplayContent.IntegratedDev.BatteryTotalList.Remove(item);
             DevConnectInfoManage manage = new DevConnectInfoManage();
-            manage.Delete(new DevConnectInfoModel() { IP = item.ConnectParam[0], Port = item.ConnectParam[1] });
+            manage.Delete(new DevConnectInfoModel() { IP = item.IP, Port = item.Port, BCMUID = item.BCMUID });
         }
     }
 }

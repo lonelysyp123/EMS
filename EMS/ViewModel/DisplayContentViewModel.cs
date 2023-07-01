@@ -40,28 +40,24 @@ namespace EMS.ViewModel
             IntegratedDev = new IntegratedDevViewModel();
             OnlineBatteryTotalList = new ObservableCollection<BatteryTotalBase>();
             TreeName = "EMS";
-            //AddTest();
 
-            BatteryManage manage = new BatteryManage();
-            manage.InsertBatteryModelInfo(new BatteryModel() { BatteryID = "Test", Current = 1, Voltage = 2});
-            manage.QueryBatteryModelInfo("Test");
+
         }
 
-        private void AddTest()
+        public void StartSaveBatteryInfo()
         {
-            BatterySeriesBase series1 = new BatterySeriesBase() { SeriesId = "A", Batteries = new ObservableCollection<BatteryBase>() { new BatteryBase() { BatteryID = "A-1" }, new BatteryBase() { BatteryID = "A-2" } } };
-            BatterySeriesBase series2 = new BatterySeriesBase() { SeriesId = "B", Batteries = new ObservableCollection<BatteryBase>() { new BatteryBase() { BatteryID = "B-1" }, new BatteryBase() { BatteryID = "B-2" } } };
-            BatterySeriesBase series3 = new BatterySeriesBase() { SeriesId = "C", Batteries = new ObservableCollection<BatteryBase>() { new BatteryBase() { BatteryID = "C-1" }, new BatteryBase() { BatteryID = "C-2" } } };
-            OnlineBatteryTotalList = new ObservableCollection<BatteryTotalBase>() {
-                new BatteryTotalBase()
-                {
-                    TotalID = "127.0.0.1",
-                    SeriesCount = 3,
-                    TotalCurrent = 0,
-                    TotalVoltage = 0,
-                    Series = new ObservableCollection<BatterySeriesBase>(){ series1, series2, series3 }
-                }
-            };
+            for (int i = 0; i < OnlineBatteryTotalList.Count; i++)
+            {
+                OnlineBatteryTotalList[i].StartRecordData();
+            }
+        }
+
+        public void StopSaveBatteryInfo()
+        {
+            for (int i = 0; i < OnlineBatteryTotalList.Count; i++)
+            {
+                OnlineBatteryTotalList[i].StopRecordData();
+            }
         }
     }
 }

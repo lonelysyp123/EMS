@@ -5,40 +5,19 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace EMS.Storage.DB.DBManage
 {
-    public class DevConnectInfoManage : IManage<DevConnectInfoModel>
+    internal class DBManage<TEntity> : IManage<TEntity> where TEntity : class
     {
-        public bool Insert(DevConnectInfoModel entity)
+        public bool Delete(TEntity entity)
         {
             try
             {
                 using (var db = new ORMContext())
                 {
-                    var result = db.DevConnectInfos.Add(entity);
-                    db.SaveChanges();
-                }
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public bool Delete(DevConnectInfoModel entity)
-        {
-            try
-            {
-                using (var db = new ORMContext())
-                {
-                    var result = db.DevConnectInfos.Where(p=>p.IP == entity.IP).ToList();
-                    for (int i = 0; i < result.Count; i++)
-                    {
-                        db.DevConnectInfos.Remove(result[i]);
-                    }
+                    var result = db.Set<TEntity>().Find(entity);
+                    db.Set<TEntity>().Remove(result);
                     db.SaveChanges();
                 }
             }
@@ -55,7 +34,7 @@ namespace EMS.Storage.DB.DBManage
             {
                 using (var db = new ORMContext())
                 {
-                    var result = db.DevConnectInfos.RemoveRange(db.DevConnectInfos);
+                    var result = db.Set<TEntity>().RemoveRange(db.Set<TEntity>());
                     db.SaveChanges();
                 }
             }
@@ -66,13 +45,46 @@ namespace EMS.Storage.DB.DBManage
             return true;
         }
 
-        public bool Update(DevConnectInfoModel entity)
+        public List<TEntity> Get()
         {
             try
             {
                 using (var db = new ORMContext())
                 {
-                    var result = db.DevConnectInfos.Attach(entity);
+                    var result = db.Set<TEntity>().ToList();
+                    return result;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public bool Insert(TEntity entity)
+        {
+            try
+            {
+                using (var db = new ORMContext())
+                {
+                    var result = db.Set<TEntity>().Add(entity);
+                    db.SaveChanges();
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool Update(TEntity entity)
+        {
+            try
+            {
+                using (var db = new ORMContext())
+                {
+                    var result = db.Set<TEntity>().Attach(entity);
                     db.Entry(entity).State = EntityState.Modified;
                     db.SaveChanges();
                 }
@@ -82,22 +94,6 @@ namespace EMS.Storage.DB.DBManage
                 return false;
             }
             return true;
-        }
-
-        public List<DevConnectInfoModel> Get()
-        {
-            try
-            {
-                using (var db = new ORMContext())
-                {
-                    var result = db.DevConnectInfos.ToList();
-                    return result;
-                }
-            }
-            catch
-            {
-                return null;
-            }
         }
     }
 }

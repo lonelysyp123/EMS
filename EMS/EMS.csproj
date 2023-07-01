@@ -129,13 +129,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Storage\DB\DBManage\DBManage.cs" />
     <Compile Include="Storage\DB\DBManage\DevConnectInfoManage.cs" />
-    <Compile Include="Storage\DB\Models\BatteryModel.cs" />
+    <Compile Include="Storage\DB\DBManage\IManage.cs" />
+    <Compile Include="Storage\DB\Models\SeriesBatteryInfoModel.cs" />
     <Compile Include="Storage\DB\Models\DevConnectInfoModel.cs" />
+    <Compile Include="Storage\DB\Models\TotalBatteryInfoModel.cs" />
     <Compile Include="Storage\DB\ORMContext.cs" />
     <Compile Include="Storage\DB\SqliteConfiguration.cs" />
     <Compile Include="Common\EMSCommunication.cs" />
-    <Compile Include="Storage\DB\DBManage\BatteryManage.cs" />
+    <Compile Include="Storage\DB\DBManage\SeriesBatteryInfoManage.cs" />
     <Compile Include="Model\BatteryBase.cs" />
     <Compile Include="Model\BatterySeriesBase.cs" />
     <Compile Include="Model\BatteryTotalBase.cs" />
