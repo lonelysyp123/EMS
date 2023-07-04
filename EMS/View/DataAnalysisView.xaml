@@ -1,0 +1,44 @@
+﻿<Window x:Class="EMS.View.DataAnalysisView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EMS.View"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        xmlns:trl="clr-namespace:EMS.MyControl"
+        mc:Ignorable="d"
+        Title="DataAnalysisView" Height="450" Width="800" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <Label Content="Level"></Label>
+                <trl:IDInput Width="90" Margin="2" IdText="{Binding IdSeries,Mode=TwoWay}"></trl:IDInput>
+                <Label Content="开始时间"></Label>
+                <DatePicker Name="Test1" VerticalContentAlignment="Center" Margin="10 2 2 2" Text="{Binding StartTime1, Mode=TwoWay}"></DatePicker>
+                <trl:DateInput Width="90" Margin="2" DateText="{Binding StartTime2, Mode=TwoWay}"></trl:DateInput>
+                <Label Content="终止时间"></Label>
+                <DatePicker Name="Test3" VerticalContentAlignment="Center" Margin="10 2 2 2" Text="{Binding EndTime1, Mode=TwoWay}"></DatePicker>
+                <trl:DateInput Width="90" Margin="2" DateText="{Binding EndTime2, Mode=TwoWay}"></trl:DateInput>
+                <Button Content="查询" Command="{Binding QueryCommand}" Width="80" Margin="3"></Button>
+            </StackPanel>
+            <Grid Grid.Row="1" Grid.Column="0" Width="140">
+                <ListBox ItemsSource="{Binding DataTypeList}" SelectedItem="{Binding SelectedDataType}">
+                </ListBox>
+            </Grid>
+            <oxy:PlotView Grid.Row="1" Grid.Column="1" Model="{Binding DisplayData}"></oxy:PlotView>
+        </Grid>
+    </Grid>
+</Window>

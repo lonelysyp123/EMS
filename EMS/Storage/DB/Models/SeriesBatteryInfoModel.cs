@@ -13,8 +13,9 @@ namespace EMS.Storage.DB.Models
         [Key]
         public int ID { get; set; }
         public string BCMUID { get; set; }
-        public int SerialNuw { get; set; }
         public string BMUID { get; set; }
+        public int SeriesVoltage { get; set; }
+        public int SeriesCurrent { get; set; }
         public int Voltage0 { get; set; }
         public int Voltage1 { get; set; }
         public int Voltage2 { get; set; }
@@ -31,6 +32,22 @@ namespace EMS.Storage.DB.Models
         public int Voltage13 { get; set; }
         public int Voltage14 { get; set; }
         public int Voltage15 { get; set; }
+        public int Current0 { get; set; }
+        public int Current1 { get; set; }
+        public int Current2 { get; set; }
+        public int Current3 { get; set; }
+        public int Current4 { get; set; }
+        public int Current5 { get; set; }
+        public int Current6 { get; set; }
+        public int Current7 { get; set; }
+        public int Current8 { get; set; }
+        public int Current9 { get; set; }
+        public int Current10 { get; set; }
+        public int Current11 { get; set; }
+        public int Current12 { get; set; }
+        public int Current13 { get; set; }
+        public int Current14 { get; set; }
+        public int Current15 { get; set; }
         public int Temperature0 { get; set; }
         public int Temperature1 { get; set; }
         public int Temperature2 { get; set; }

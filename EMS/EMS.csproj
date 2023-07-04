@@ -62,6 +62,16 @@
     <Reference Include="NModbus4, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NModbus4.2.1.0\lib\net40\NModbus4.dll</HintPath>
     </Reference>
+    <Reference Include="OxyPlot, Version=2.1.2.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Core.2.1.2\lib\net45\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf, Version=2.1.2.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Wpf.2.1.2\lib\net45\OxyPlot.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf.Shared, Version=2.1.2.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Wpf.Shared.2.1.2\lib\net45\OxyPlot.Wpf.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="ReachFramework" />
     <Reference Include="SQLite.CodeFirst, Version=1.7.0.34, Culture=neutral, PublicKeyToken=eb96ba0a78d831a7, processorArchitecture=MSIL">
       <HintPath>..\packages\SQLite.CodeFirst.1.7.0.34\lib\net45\SQLite.CodeFirst.dll</HintPath>
     </Reference>
@@ -90,6 +100,7 @@
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
+    <Reference Include="System.Printing" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
@@ -129,21 +140,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MyControl\DateInput.xaml.cs">
+      <DependentUpon>DateInput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MyControl\IDInput.xaml.cs">
+      <DependentUpon>IDInput.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Storage\DB\DBManage\DBManage.cs" />
     <Compile Include="Storage\DB\DBManage\DevConnectInfoManage.cs" />
     <Compile Include="Storage\DB\DBManage\IManage.cs" />
+    <Compile Include="Storage\DB\DBManage\TotalBatteryInfoManage.cs" />
     <Compile Include="Storage\DB\Models\SeriesBatteryInfoModel.cs" />
     <Compile Include="Storage\DB\Models\DevConnectInfoModel.cs" />
     <Compile Include="Storage\DB\Models\TotalBatteryInfoModel.cs" />
     <Compile Include="Storage\DB\ORMContext.cs" />
     <Compile Include="Storage\DB\SqliteConfiguration.cs" />
-    <Compile Include="Common\EMSCommunication.cs" />
     <Compile Include="Storage\DB\DBManage\SeriesBatteryInfoManage.cs" />
     <Compile Include="Model\BatteryBase.cs" />
     <Compile Include="Model\BatterySeriesBase.cs" />
     <Compile Include="Model\BatteryTotalBase.cs" />
     <Compile Include="Storage\File\BatteryModelForFile.cs" />
     <Compile Include="Storage\File\FileHelper.cs" />
+    <Compile Include="ViewModel\DataAnalysisViewModel.cs" />
     <Compile Include="ViewModel\IntegratedDevViewModel.cs" />
     <Compile Include="Model\StateContentModel.cs" />
     <Compile Include="MyControl\IPInput.xaml.cs">
@@ -158,6 +176,9 @@
     </Compile>
     <Compile Include="View\AddDevView.xaml.cs">
       <DependentUpon>AddDevView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DataAnalysisView.xaml.cs">
+      <DependentUpon>DataAnalysisView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SystemSetView.xaml.cs">
       <DependentUpon>SystemSetView.xaml</DependentUpon>
@@ -176,6 +197,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MyControl\DateInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MyControl\IDInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MyControl\IPInput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -185,6 +214,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AddDevView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DataAnalysisView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

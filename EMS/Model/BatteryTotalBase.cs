@@ -101,8 +101,6 @@ namespace EMS.Model
         private bool IsConnected = false;
         public bool IsRTU;
         public bool IsDaq = false;
-        public ConcurrentQueue<List<SeriesBatteryInfoModel>> SeriesBatteryInfoList;
-        public ConcurrentQueue<TotalBatteryInfoModel> TotalBatteryInfo;
         public BatteryTotalBase()
         {
             Series = new ObservableCollection<BatterySeriesBase>();
@@ -244,7 +242,7 @@ namespace EMS.Model
                         for (int j = 0; j < Series[i].Batteries.Count; j++)
                         {
                             // 获取单个电池信息
-                            ushort[] BatteryValues = client.ReadU16Array((ushort)(12001 + j * 10),2);
+                            ushort[] BatteryValues = client.ReadU16Array((ushort)(12001 + j * 10),3);
                             Series[i].Batteries[j].Voltage = BatteryValues[0];
                             Series[i].Batteries[j].Current = BatteryValues[1];
                         }
@@ -252,19 +250,31 @@ namespace EMS.Model
 
                     if (IsDaq)
                     {
-                        SeriesBatteryInfoManage manage = new SeriesBatteryInfoManage();
+                        DateTime date = DateTime.Now;
+                        // Total Save
+                        TotalBatteryInfoManage TotalManage = new TotalBatteryInfoManage();
+                        TotalBatteryInfoModel TotalModel = new TotalBatteryInfoModel();
+                        TotalModel.BCMUID = BCMUID;
+                        TotalModel.TotalVoltage = TotalVoltage;
+                        TotalModel.TotalCurrent = TotalCurrent;
+                        TotalModel.HappenTime = date;
+
+                        // Series Save
+                        SeriesBatteryInfoManage SeriesManage = new SeriesBatteryInfoManage();
                         for (int i = 0; i < Series.Count; i++)
                         {
                             SeriesBatteryInfoModel model = new SeriesBatteryInfoModel();
                             model.BCMUID = BCMUID;
                             model.BMUID = Series[i].SeriesId;
-                            model.SerialNuw = i + 1;
-                            model.HappenTime = DateTime.Now;
+                            model.HappenTime = date;
+                            typeof(SeriesBatteryInfoModel).GetProperty("SeriesVoltage").SetValue(model, Series[i].SeriesVoltage);
+                            typeof(SeriesBatteryInfoModel).GetProperty("SeriesCurrent").SetValue(model, Series[i].SeriesCurrent);
                             for (int j = 0; j < Series[i].Batteries.Count; j++)
                             {
                                 typeof(SeriesBatteryInfoModel).GetProperty("Voltage" + j).SetValue(model, Series[i].Batteries[j].Voltage);
+                                typeof(SeriesBatteryInfoModel).GetProperty("Current" + j).SetValue(model, Series[i].Batteries[j].Current);
                             }
-                            manage.Insert(model);
+                            SeriesManage.Insert(model);
                         }
                     }
                 }
@@ -277,8 +287,6 @@ namespace EMS.Model
 
         public void StartRecordData()
         {
-            SeriesBatteryInfoList = new ConcurrentQueue<List<SeriesBatteryInfoModel>>();
-            TotalBatteryInfo = new ConcurrentQueue<TotalBatteryInfoModel>();
             IsDaq = true;
         }
 
@@ -286,8 +294,6 @@ namespace EMS.Model
         {
             IsDaq = true;
             Thread.Sleep(100);
-            SeriesBatteryInfoList = null;
-            TotalBatteryInfo = null;
         }
     }
 }

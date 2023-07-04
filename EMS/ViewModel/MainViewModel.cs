@@ -8,22 +8,14 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EMS.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private int _batteryTotalIndex;
-        public int BatteryTotalIndex
-        {
-            get => _batteryTotalIndex;
-            set
-            {
-                SetProperty(ref _batteryTotalIndex, value);
-            }
-        }
-
         public RelayCommand OpenSystemSetViewCommand { set; get; }
+        public RelayCommand OpenDataAnalysisViewCommand { set; get; }
         public RelayCommand StartDaqCommand { set; get; }
         public RelayCommand StopDaqCommand { set; get; }
 
@@ -33,11 +25,19 @@ namespace EMS.ViewModel
         public MainViewModel()
         {
             OpenSystemSetViewCommand = new RelayCommand(OpenSystemSetView);
+            OpenDataAnalysisViewCommand = new RelayCommand(OpenDataAnalysisView);
             StartDaqCommand = new RelayCommand(StartDaq);
             StopDaqCommand = new RelayCommand(StopDaq);
 
             StateContent = new StateContentViewModel();
             DisplayContent = new DisplayContentViewModel();
+        }
+
+        private void OpenDataAnalysisView()
+        {
+            //DataAnalysisView view = new DataAnalysisView(DisplayContent.IntegratedDev.BatteryTotalList.ToList());
+            DataAnalysisView view = new DataAnalysisView();
+            view.ShowDialog();
         }
 
         private void StopDaq()

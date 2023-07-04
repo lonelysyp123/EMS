@@ -5,29 +5,28 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace EMS.Storage.DB.DBManage
 {
-    public class SeriesBatteryInfoManage : IManage<SeriesBatteryInfoModel>
+    public class TotalBatteryInfoManage : IManage<TotalBatteryInfoModel>
     {
-        public bool Delete(SeriesBatteryInfoModel entity)
+        public bool Delete(TotalBatteryInfoModel entity)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
         public bool DeleteAll()
         {
-            return false;
+            throw new NotImplementedException();
         }
 
-        public List<SeriesBatteryInfoModel> Get()
+        public List<TotalBatteryInfoModel> Get()
         {
             try
             {
                 using (var db = new ORMContext())
                 {
-                    var result = db.SeriesBatteryModelInfos.ToList();
+                    var result = db.TotalBatteryInfos.ToList();
                     return result;
                 }
             }
@@ -37,13 +36,13 @@ namespace EMS.Storage.DB.DBManage
             }
         }
 
-        public List<SeriesBatteryInfoModel> Find(DateTime StartTime, DateTime EndTime)
+        public List<TotalBatteryInfoModel> Find(DateTime StartTime, DateTime EndTime)
         {
             try
             {
                 using (var db = new ORMContext())
                 {
-                    var result = db.SeriesBatteryModelInfos.Where(p=>p.HappenTime>=StartTime&&p.HappenTime<=EndTime).ToList();
+                    var result = db.TotalBatteryInfos.Where(p => p.HappenTime >= StartTime && p.HappenTime <= EndTime).ToList();
                     return result;
                 }
             }
@@ -53,13 +52,13 @@ namespace EMS.Storage.DB.DBManage
             }
         }
 
-        public List<SeriesBatteryInfoModel> Find(string BCMUID, string BMUID, DateTime StartTime, DateTime EndTime)
+        public List<TotalBatteryInfoModel> Find(string BCMUID, DateTime StartTime, DateTime EndTime)
         {
             try
             {
                 using (var db = new ORMContext())
                 {
-                    var result = db.SeriesBatteryModelInfos.Where(p => p.BCMUID==BCMUID&&p.BMUID==BMUID&&p.HappenTime >= StartTime && p.HappenTime <= EndTime).ToList();
+                    var result = db.TotalBatteryInfos.Where(p => p.BCMUID == BCMUID&&p.HappenTime >= StartTime && p.HappenTime <= EndTime).ToList();
                     return result;
                 }
             }
@@ -69,13 +68,13 @@ namespace EMS.Storage.DB.DBManage
             }
         }
 
-        public bool Insert(SeriesBatteryInfoModel entity)
+        public bool Insert(TotalBatteryInfoModel entity)
         {
             try
             {
                 using (var db = new ORMContext())
                 {
-                    var result = db.SeriesBatteryModelInfos.Add(entity);
+                    var result = db.TotalBatteryInfos.Add(entity);
                     db.SaveChanges();
                 }
             }
@@ -86,13 +85,13 @@ namespace EMS.Storage.DB.DBManage
             return true;
         }
 
-        public bool Update(SeriesBatteryInfoModel entity)
+        public bool Update(TotalBatteryInfoModel entity)
         {
             try
             {
                 using (var db = new ORMContext())
                 {
-                    var result = db.SeriesBatteryModelInfos.Attach(entity);
+                    var result = db.TotalBatteryInfos.Attach(entity);
                     db.Entry(entity).State = EntityState.Modified;
                     db.SaveChanges();
                 }

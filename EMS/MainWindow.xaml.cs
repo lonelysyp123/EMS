@@ -1,6 +1,7 @@
 ﻿using EMS.Model;
 using EMS.Storage.DB.DBManage;
 using EMS.Storage.DB.Models;
+using EMS.View;
 using EMS.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -36,9 +37,6 @@ namespace EMS
             this.DataContext = viewmodel;
             StateContent.DataContext = viewmodel.StateContent;
             DevListView.DataContext = viewmodel.DisplayContent.IntegratedDev;
-
-            List<DisplayContentViewModel> models = new List<DisplayContentViewModel>();
-
             DevTree.Items.Add( viewmodel.DisplayContent );
         }
 
