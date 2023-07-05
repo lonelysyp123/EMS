@@ -59,6 +59,9 @@
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
+    <Reference Include="MQTTnet, Version=4.2.1.781, Culture=neutral, PublicKeyToken=fdb7629f2e364a63, processorArchitecture=MSIL">
+      <HintPath>..\packages\MQTTnet.4.2.1.781\lib\net48\MQTTnet.dll</HintPath>
+    </Reference>
     <Reference Include="NModbus4, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NModbus4.2.1.0\lib\net40\NModbus4.dll</HintPath>
     </Reference>
@@ -140,6 +143,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\Mqtt\MqttClientStart.cs" />
     <Compile Include="MyControl\DateInput.xaml.cs">
       <DependentUpon>DateInput.xaml</DependentUpon>
     </Compile>
