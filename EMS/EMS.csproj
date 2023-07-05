@@ -143,7 +143,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Common\Mqtt\MqttClientStart.cs" />
+    <Compile Include="Common\Mqtt\MqttClientService.cs" />
+    <Compile Include="Common\Mqtt\MqttConnectOption.cs" />
     <Compile Include="MyControl\DateInput.xaml.cs">
       <DependentUpon>DateInput.xaml</DependentUpon>
     </Compile>
