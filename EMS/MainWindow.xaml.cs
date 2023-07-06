@@ -154,7 +154,7 @@ namespace EMS
                 var item = DevList.SelectedItem as BatteryTotalBase;
                 item.Connect();
                 // 连接成功后将设备信息添加到左边的导航栏中
-                viewmodel.DisplayContent.OnlineBatteryTotalList.Add(item);
+                viewmodel.DisplayContent.AddConnectedDev(item);
                 // 更新数据库中设备信息BCMUID
                 DevConnectInfoManage manage = new DevConnectInfoManage();
                 manage.Update(new DevConnectInfoModel() { BCMUID = item.BCMUID, IP = item.IP, Port = item.Port });

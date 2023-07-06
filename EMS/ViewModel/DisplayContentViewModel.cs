@@ -66,5 +66,13 @@ namespace EMS.ViewModel
                 OnlineBatteryTotalList[i].StopRecordData();
             }
         }
+
+        public void AddConnectedDev(BatteryTotalBase battery)
+        {
+            if(!OnlineBatteryTotalList.Contains(battery))
+            {
+                OnlineBatteryTotalList.Add(battery);
+            }
+        }
     }
 }
