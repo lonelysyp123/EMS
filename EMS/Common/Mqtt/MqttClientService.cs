@@ -12,21 +12,19 @@ namespace EMS.Common.Mqtt
     public class MqttClientService
     {
         public static IMqttClient _mqttClient;
+
+        /// <summary>
+        /// 创建MqttClient实例并连接服务器
+        /// </summary>
+        /// <param name="Option">配置类</param>
+        /// <param name="MqttClient_ConnectedAsync">客户端连接成功事件</param>
+        /// <param name="MqttClient_DisconnectedAsync">客户端连接关闭事件</param>
+        /// <param name="MqttClient_MessageReceivedAsync">收到消息事件</param>
         public void MqttClientStart(MqttConnectOption Option, 
             Func<MqttClientConnectedEventArgs, Task> MqttClient_ConnectedAsync=null, 
             Func<MqttClientDisconnectedEventArgs, Task> MqttClient_DisconnectedAsync = null,
             Func<MqttApplicationMessageReceivedEventArgs, Task> MqttClient_MessageReceivedAsync = null)
         {
-            //var optionsBuilder = new MqttClientOptionsBuilder()
-            //    .WithTcpServer("127.0.0.1", 1883) // 要访问的mqtt服务端的 ip 和 端口号
-            //    .WithCredentials("admin", "123456") // 要访问的mqtt服务端的用户名和密码
-            //    .WithClientId("testclient02") // 设置客户端id
-            //    .WithCleanSession()
-            //    .WithTls(new MqttClientOptionsBuilderTlsParameters
-            //    {
-            //        UseTls = false  // 是否使用 tls加密
-            //    });
-
             var optionsBuilder = new MqttClientOptionsBuilder()
                 .WithTcpServer(Option.Address, Option.Port) // 要访问的mqtt服务端的 ip 和 端口号
                 .WithCredentials(Option.UseName, Option.Password) // 要访问的mqtt服务端的用户名和密码
@@ -39,18 +37,10 @@ namespace EMS.Common.Mqtt
 
             var clientOptions = optionsBuilder.Build();
             _mqttClient = new MqttFactory().CreateMqttClient();
-
-            //_mqttClient.ConnectedAsync += _mqttClient_ConnectedAsync; // 客户端连接成功事件
-            //_mqttClient.DisconnectedAsync += _mqttClient_DisconnectedAsync; // 客户端连接关闭事件
-            //_mqttClient.ApplicationMessageReceivedAsync += _mqttClient_ApplicationMessageReceivedAsync; // 收到消息事件
-
             _mqttClient.ConnectedAsync += MqttClient_ConnectedAsync; // 客户端连接成功事件
             _mqttClient.DisconnectedAsync += MqttClient_DisconnectedAsync; // 客户端连接关闭事件
             _mqttClient.ApplicationMessageReceivedAsync += MqttClient_MessageReceivedAsync; // 收到消息事件
-
             _mqttClient.ConnectAsync(clientOptions);
-
-
         }
 
         /// <summary>
@@ -93,6 +83,11 @@ namespace EMS.Common.Mqtt
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// 发布信息
+        /// </summary>
+        /// <param name="Topic">主题</param>
+        /// <param name="Msg">信息</param>
         public void Publish(string Topic, string Msg)
         {
             var message = new MqttApplicationMessage
