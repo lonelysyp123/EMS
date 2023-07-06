@@ -13,6 +13,9 @@ namespace EMS.Model
     public class BatteryBase : ObservableObject
     {
         private ushort _voltage;
+        /// <summary>
+        /// 电压
+        /// </summary>
         public ushort Voltage
         {
 
@@ -24,6 +27,9 @@ namespace EMS.Model
         }
 
         private ushort _current;
+        /// <summary>
+        /// 电流
+        /// </summary>
         public ushort Current
         {
 
@@ -34,6 +40,9 @@ namespace EMS.Model
             }
         }
 
+        /// <summary>
+        /// 电池id
+        /// </summary>
         public string BatteryID { get; set; }
 
         public BatteryBase() { }

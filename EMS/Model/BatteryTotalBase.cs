@@ -25,6 +25,9 @@ namespace EMS.Model
     public class BatteryTotalBase : ObservableObject
     {
         private ushort _totalVoltage;
+        /// <summary>
+        /// 总簇电压
+        /// </summary>
         public ushort TotalVoltage
         {
 
@@ -36,6 +39,9 @@ namespace EMS.Model
         }
 
         private ushort _totalCurrent;
+        /// <summary>
+        /// 总簇电流
+        /// </summary>
         public ushort TotalCurrent
         {
 
@@ -47,6 +53,9 @@ namespace EMS.Model
         }
 
         private ushort _averageTemperature;
+        /// <summary>
+        /// 平均温度
+        /// </summary>
         public ushort AverageTemperature
         {
 
@@ -58,6 +67,9 @@ namespace EMS.Model
         }
 
         private BitmapSource _imageTitle;
+        /// <summary>
+        /// 标签图标
+        /// </summary>
         public BitmapSource ImageTitle
         {
 
@@ -108,6 +120,11 @@ namespace EMS.Model
             ImageTitleChange();
         }
 
+        /// <summary>
+        /// 生成电池总簇实例
+        /// </summary>
+        /// <param name="ip">ip地址</param>
+        /// <param name="port">端口号</param>
         public BatteryTotalBase(string ip, string port)
         {
             Series = new ObservableCollection<BatterySeriesBase>();
@@ -117,6 +134,9 @@ namespace EMS.Model
             ImageTitleChange();
         }
 
+        /// <summary>
+        /// 标签图标改变
+        /// </summary>
         public void ImageTitleChange()
         {
             BitmapImage bi;
@@ -141,6 +161,9 @@ namespace EMS.Model
             ImageTitle = bi;
         }
 
+        /// <summary>
+        /// 连接
+        /// </summary>
         public void Connect()
         {
             try
@@ -170,6 +193,9 @@ namespace EMS.Model
             }
         }
 
+        /// <summary>
+        /// 初始化电池总簇信息
+        /// </summary>
         public void InitBatteryTotal()
         {
             if (IsConnected)
@@ -200,6 +226,9 @@ namespace EMS.Model
             }
         }
 
+        /// <summary>
+        /// 断开连接
+        /// </summary>
         public void Disconnect()
         {
             if (IsConnected)
@@ -213,6 +242,9 @@ namespace EMS.Model
         }
 
         CancellationTokenSource cts;
+        /// <summary>
+        /// 开始监听电池
+        /// </summary>
         public void StartListener()
         {
             cts = new CancellationTokenSource();
@@ -288,12 +320,19 @@ namespace EMS.Model
             }
         }
 
+        /// <summary>
+        /// 开始记录数据
+        /// </summary>
+        /// <param name="span">记录间隔</param>
         public void StartRecordData(int span)
         {
             DaqTimeSpan = span;
             IsDaq = true;
         }
 
+        /// <summary>
+        /// 停止记录数据
+        /// </summary>
         public void StopRecordData()
         {
             IsDaq = true;

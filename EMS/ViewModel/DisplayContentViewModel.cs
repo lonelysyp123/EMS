@@ -44,6 +44,10 @@ namespace EMS.ViewModel
             TreeName = "EMS";
         }
 
+        /// <summary>
+        /// 开始保存电池数据
+        /// </summary>
+        /// <param name="TimeSpan">保存间隔</param>
         public void StartSaveBatteryInfo(int TimeSpan)
         {
             for (int i = 0; i < OnlineBatteryTotalList.Count; i++)
@@ -52,6 +56,9 @@ namespace EMS.ViewModel
             }
         }
 
+        /// <summary>
+        /// 停止保存电池数据
+        /// </summary>
         public void StopSaveBatteryInfo()
         {
             for (int i = 0; i < OnlineBatteryTotalList.Count; i++)

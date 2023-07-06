@@ -132,6 +132,9 @@ namespace EMS.ViewModel
             EndTime2 = "00:00:00";
         }
 
+        /// <summary>
+        /// 查询
+        /// </summary>
         private void Query()
         {
             if (IdSeries != null)
@@ -216,6 +219,10 @@ namespace EMS.ViewModel
             }
         }
 
+        /// <summary>
+        /// 选择数据类型
+        /// </summary>
+        /// <param name="type">数据类型</param>
         private void SwitchDataType(string type)
         {
             var items = IdSeries.Split('-');
@@ -260,6 +267,13 @@ namespace EMS.ViewModel
             }
         }
 
+        /// <summary>
+        /// 合成时间
+        /// </summary>
+        /// <param name="obj1">时间1</param>
+        /// <param name="obj2">时间2</param>
+        /// <param name="CombinTime">合成后的时间</param>
+        /// <returns>是否合成成功</returns>
         private bool TryCombinTime(string obj1, string obj2, out DateTime CombinTime)
         {
             if (obj1 != null)
@@ -283,7 +297,6 @@ namespace EMS.ViewModel
             return true;
         }
 
-        // 事件绑定
         private void DisplayElcData()
         {
             InitChart("电流", "时间");

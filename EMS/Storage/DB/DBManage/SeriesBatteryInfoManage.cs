@@ -37,6 +37,12 @@ namespace EMS.Storage.DB.DBManage
             }
         }
 
+        /// <summary>
+        /// 查询数据
+        /// </summary>
+        /// <param name="StartTime">开始时间</param>
+        /// <param name="EndTime">结束时间</param>
+        /// <returns>数据列表</returns>
         public List<SeriesBatteryInfoModel> Find(DateTime StartTime, DateTime EndTime)
         {
             try
@@ -53,6 +59,14 @@ namespace EMS.Storage.DB.DBManage
             }
         }
 
+        /// <summary>
+        /// 查询数据
+        /// </summary>
+        /// <param name="BCMUID">BCMUID</param>
+        /// <param name="BMUID">BMUID</param>
+        /// <param name="StartTime">开始时间</param>
+        /// <param name="EndTime">结束时间</param>
+        /// <returns>数据列表</returns>
         public List<SeriesBatteryInfoModel> Find(string BCMUID, string BMUID, DateTime StartTime, DateTime EndTime)
         {
             try
