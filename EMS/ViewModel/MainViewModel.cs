@@ -22,6 +22,8 @@ namespace EMS.ViewModel
         public RelayCommand StartDaqCommand { set; get; }
         public RelayCommand StopDaqCommand { set; get; }
 
+        public RelayCommand OpenAboutCommand { set; get; }
+
         public StateContentViewModel StateContent;
         public DisplayContentViewModel DisplayContent;
         public SystemConfigurationBase SystemConfiguration;
@@ -31,10 +33,16 @@ namespace EMS.ViewModel
             OpenDataAnalysisViewCommand = new RelayCommand(OpenDataAnalysisView);
             StartDaqCommand = new RelayCommand(StartDaq);
             StopDaqCommand = new RelayCommand(StopDaq);
-
+            OpenAboutCommand = new RelayCommand(OpenAboutView);
             StateContent = new StateContentViewModel();
             DisplayContent = new DisplayContentViewModel();
             SystemConfiguration = new SystemConfigurationBase();
+        }
+
+        private void OpenAboutView()
+        {
+            AboutView aboutView = new AboutView();
+            aboutView.ShowDialog();
         }
 
         private void OpenDataAnalysisView()
@@ -77,5 +85,7 @@ namespace EMS.ViewModel
                 }
             }
         }
+       
+
     }
 }
