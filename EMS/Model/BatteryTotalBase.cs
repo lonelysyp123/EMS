@@ -101,6 +101,7 @@ namespace EMS.Model
         private bool IsConnected = false;
         public bool IsRTU;
         public bool IsDaq = false;
+        private int DaqTimeSpan = 0;
         public BatteryTotalBase()
         {
             Series = new ObservableCollection<BatterySeriesBase>();
@@ -228,6 +229,8 @@ namespace EMS.Model
                     {
                         break;
                     }
+
+                    Thread.Sleep(DaqTimeSpan*1000);
                     //** 注：应该尽可能的少次多量读取数据，多次读取数据会因为读取次数过于频繁导致丢包
                     // 获取总簇电池信息
                     TotalVoltage = client.ReadU16(10001);
@@ -285,8 +288,9 @@ namespace EMS.Model
             }
         }
 
-        public void StartRecordData()
+        public void StartRecordData(int span)
         {
+            DaqTimeSpan = span;
             IsDaq = true;
         }
 

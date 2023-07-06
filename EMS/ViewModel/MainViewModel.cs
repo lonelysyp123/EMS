@@ -51,7 +51,7 @@ namespace EMS.ViewModel
 
         private void StartDaq()
         {
-            DisplayContent.StartSaveBatteryInfo();
+            DisplayContent.StartSaveBatteryInfo(SystemConfiguration.daqConfiguration.DaqTimeSpan);
         }
 
         private void OpenSystemSetView()

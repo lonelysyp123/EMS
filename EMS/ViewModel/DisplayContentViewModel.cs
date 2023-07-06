@@ -44,11 +44,11 @@ namespace EMS.ViewModel
             TreeName = "EMS";
         }
 
-        public void StartSaveBatteryInfo()
+        public void StartSaveBatteryInfo(int TimeSpan)
         {
             for (int i = 0; i < OnlineBatteryTotalList.Count; i++)
             {
-                OnlineBatteryTotalList[i].StartRecordData();
+                OnlineBatteryTotalList[i].StartRecordData(TimeSpan);
             }
         }
 
