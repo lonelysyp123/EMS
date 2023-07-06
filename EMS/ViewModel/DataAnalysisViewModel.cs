@@ -39,13 +39,13 @@ namespace EMS.ViewModel
             }
         }
 
-        private string _selectedDataType;
-        public string SelectedDataType
+        private List<string> _selectedDataTypeList;
+        public List<string> SelectedDataTypeList
         {
-            get => _selectedDataType;
+            get => _selectedDataTypeList;
             set
             {
-                if(SetProperty(ref _selectedDataType, value))
+                if(SetProperty(ref _selectedDataTypeList, value))
                 {
                     // 改变选择展示的数据类型
                     SwitchDataType(value);
@@ -223,7 +223,7 @@ namespace EMS.ViewModel
         /// 选择数据类型
         /// </summary>
         /// <param name="type">数据类型</param>
-        private void SwitchDataType(string type)
+        private void SwitchDataType(List<string> types)
         {
             var items = IdSeries.Split('-');
             if (items[0] != "N")
@@ -232,37 +232,52 @@ namespace EMS.ViewModel
                 {
                     if (items[2] != "N")
                     {
-                        if (type == "Voltage")
+                        List<double[]> data = new List<double[]>();
+                        for (int i = 0; i < types.Count; i++)
                         {
-                            ChartShowNow(BatteryData.Select(p => p.Voltage).Select<ushort, double>(x => x).ToArray());
+                            if (types[i] == "Voltage")
+                            {
+                                data.Add(BatteryData.Select(p => p.Voltage).Select<ushort, double>(x => x).ToArray());
+                            }
+                            else if (types[i] == "Current")
+                            {
+                                data.Add(BatteryData.Select(p => p.Current).Select<ushort, double>(x => x).ToArray());
+                            }
                         }
-                        else if(type == "Current")
-                        {
-                            ChartShowNow(BatteryData.Select(p => p.Current).Select<ushort, double>(x => x).ToArray());
-                        }
+                        ChartShowNow(data);
                     }
                     else
                     {
-                        if (type == "Voltage")
+                        List<double[]> data = new List<double[]>();
+                        for (int i = 0; i < types.Count; i++)
                         {
-                            ChartShowNow(SeriesData.Select(p => p.SeriesVoltage).Select<ushort, double>(x => x).ToArray());
+                            if (types[i] == "Voltage")
+                            {
+                                data.Add(SeriesData.Select(p => p.SeriesVoltage).Select<ushort, double>(x => x).ToArray());
+                            }
+                            else if (types[i] == "Current")
+                            {
+                                data.Add(SeriesData.Select(p => p.SeriesCurrent).Select<ushort, double>(x => x).ToArray());
+                            }
                         }
-                        else if(type == "Current")
-                        {
-                            ChartShowNow(SeriesData.Select(p => p.SeriesCurrent).Select<ushort, double>(x => x).ToArray());
-                        }
+                        ChartShowNow(data);
                     }
                 }
                 else
                 {
-                    if (type == "Voltage")
+                    List<double[]> data = new List<double[]>();
+                    for (int i = 0; i < types.Count; i++)
                     {
-                        ChartShowNow(TotalData.Select(p => p.TotalVoltage).Select<ushort, double>(x => x).ToArray());
+                        if (types[i] == "Voltage")
+                        {
+                            data.Add(TotalData.Select(p => p.TotalVoltage).Select<ushort, double>(x => x).ToArray());
+                        }
+                        else if (types[i] == "Current")
+                        {
+                            data.Add(TotalData.Select(p => p.TotalCurrent).Select<ushort, double>(x => x).ToArray());
+                        }
                     }
-                    else if (type == "Current")
-                    {
-                        ChartShowNow(TotalData.Select(p => p.TotalCurrent).Select<ushort, double>(x => x).ToArray());
-                    }
+                    ChartShowNow(data);
                 }
             }
         }
@@ -337,6 +352,29 @@ namespace EMS.ViewModel
 
                 DisplayData.Series.Clear();
                 DisplayData.Series.Add(lineSeries);
+                DisplayData.InvalidatePlot(true);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public void ChartShowNow(List<double[]> Data)
+        {
+            try
+            {
+                DisplayData.Series.Clear();
+                //! Series
+                for (int j = 0; j < Data.Count; j++)
+                {
+                    LineSeries lineSeries = new LineSeries();
+                    for (int i = 0; i < Data[j].Length; i++)
+                    {
+                        lineSeries.Points.Add(new DataPoint(i, Data[j][i]));
+                    }
+                    DisplayData.Series.Add(lineSeries);
+                }
                 DisplayData.InvalidatePlot(true);
             }
             catch (Exception ex)
