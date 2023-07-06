@@ -12,8 +12,9 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <GroupBox Grid.Row="0" Header="数据采集">
+        <GroupBox Grid.Row="0" Header="数据采集" x:Name="DaqContent">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -22,13 +23,18 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                     <TextBlock Text="间隔时间" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
-                    <TextBox VerticalAlignment="Center" Width="50" BorderThickness="1" Margin="2"></TextBox>
+                    <TextBox VerticalAlignment="Center" Width="50" BorderThickness="1" Margin="2" Text="{Binding DaqTimeSpan}"></TextBox>
                     <TextBlock Text="S" VerticalAlignment="Center"></TextBlock>
-                    <TextBlock Text="文件路径" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
-                    <TextBox VerticalAlignment="Center" Width="250" BorderThickness="1" Margin="2"></TextBox>
-                    <Button VerticalAlignment="Center" Content=">>" Margin="2"></Button>
                 </StackPanel>
             </Grid>
         </GroupBox>
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button VerticalAlignment="Center" HorizontalAlignment="Center" Height="40" Width="100" Content="确认" Click="ConfirmBtn_Click"></Button>
+            <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Height="40" Width="100" Content="取消" Click="CancelBtn_Click"></Button>
+        </Grid>
     </Grid>
 </Window>

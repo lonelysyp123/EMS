@@ -1,4 +1,5 @@
 ﻿using EMS.Model;
+using EMS.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,24 @@ namespace EMS.View
         public SystemSetView()
         {
             InitializeComponent();
+        }
+
+        public SystemSetView(SystemConfigurationBase SystemConfiguration)
+        {
+            InitializeComponent();
+            DaqContent.DataContext = SystemConfiguration.daqConfiguration;
+        }
+
+        private void ConfirmBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+            this.Close();
+        }
+
+        private void CancelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
+            this.Close();
         }
     }
 }

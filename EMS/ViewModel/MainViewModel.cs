@@ -1,11 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EMS.Model;
+using EMS.Storage.DB.DBManage;
+using EMS.Storage.DB.Models;
 using EMS.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,7 +24,7 @@ namespace EMS.ViewModel
 
         public StateContentViewModel StateContent;
         public DisplayContentViewModel DisplayContent;
-
+        public SystemConfigurationBase SystemConfiguration;
         public MainViewModel()
         {
             OpenSystemSetViewCommand = new RelayCommand(OpenSystemSetView);
@@ -31,6 +34,7 @@ namespace EMS.ViewModel
 
             StateContent = new StateContentViewModel();
             DisplayContent = new DisplayContentViewModel();
+            SystemConfiguration = new SystemConfigurationBase();
         }
 
         private void OpenDataAnalysisView()
@@ -52,8 +56,26 @@ namespace EMS.ViewModel
 
         private void OpenSystemSetView()
         {
-            SystemSetView view = new SystemSetView();
-            view.ShowDialog();
+            
+            DBManage<DaqConfigurationModel> manage = new DBManage<DaqConfigurationModel>();
+            var daqconfigurations = manage.Get();
+            if (daqconfigurations != null && daqconfigurations.Count>0)
+            {
+                SystemConfiguration.daqConfiguration = daqconfigurations[0];
+                SystemSetView view = new SystemSetView(SystemConfiguration);
+                if (view.ShowDialog() == true)
+                {
+                    manage.Update(SystemConfiguration.daqConfiguration);
+                }
+            }
+            else
+            {
+                SystemSetView view = new SystemSetView(SystemConfiguration);
+                if (view.ShowDialog() == true)
+                {
+                    manage.Insert(SystemConfiguration.daqConfiguration);
+                }
+            }
         }
     }
 }

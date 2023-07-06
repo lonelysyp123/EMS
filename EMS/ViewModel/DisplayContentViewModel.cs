@@ -42,8 +42,6 @@ namespace EMS.ViewModel
             IntegratedDev = new IntegratedDevViewModel();
             OnlineBatteryTotalList = new ObservableCollection<BatteryTotalBase>();
             TreeName = "EMS";
-
-
         }
 
         public void StartSaveBatteryInfo()

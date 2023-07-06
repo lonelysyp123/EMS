@@ -145,6 +145,7 @@
     </ApplicationDefinition>
     <Compile Include="Common\Mqtt\MqttClientService.cs" />
     <Compile Include="Common\Mqtt\MqttConnectOption.cs" />
+    <Compile Include="Model\SystemConfigurationBase.cs" />
     <Compile Include="MyControl\DateInput.xaml.cs">
       <DependentUpon>DateInput.xaml</DependentUpon>
     </Compile>
@@ -157,6 +158,7 @@
     <Compile Include="Storage\DB\DBManage\TotalBatteryInfoManage.cs" />
     <Compile Include="Storage\DB\Models\SeriesBatteryInfoModel.cs" />
     <Compile Include="Storage\DB\Models\DevConnectInfoModel.cs" />
+    <Compile Include="Storage\DB\Models\DaqConfigurationModel.cs" />
     <Compile Include="Storage\DB\Models\TotalBatteryInfoModel.cs" />
     <Compile Include="Storage\DB\ORMContext.cs" />
     <Compile Include="Storage\DB\SqliteConfiguration.cs" />
@@ -175,6 +177,7 @@
     <Compile Include="ViewModel\DisplayContentViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\StateContentViewModel.cs" />
+    <Compile Include="ViewModel\SystemSetViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\AddDevArrayView.xaml.cs">
       <DependentUpon>AddDevArrayView.xaml</DependentUpon>

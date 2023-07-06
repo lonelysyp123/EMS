@@ -35,6 +35,7 @@ namespace EMS.Storage.DB
             Database.SetInitializer(new SqliteDropCreateDatabaseWhenModelChanges<ORMContext>(modelBuilder));
         }
 
+        public DbSet<DaqConfigurationModel> SystemConfigurations { get; set; }
         public DbSet<DevConnectInfoModel> DevConnectInfos { get; set; }
         public DbSet<TotalBatteryInfoModel> TotalBatteryInfos { get; set; }
         public DbSet<SeriesBatteryInfoModel> SeriesBatteryModelInfos { get; set; }
