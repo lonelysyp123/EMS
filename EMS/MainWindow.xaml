@@ -102,7 +102,7 @@
                 </DataGrid>-->
             </Grid>
 
-            <Grid Grid.Column="2" Width="150" x:Name="DevListView">
+            <Grid Grid.Column="2" Width="160" x:Name="DevListView">
                 <Grid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="添加设备" Command="{Binding AddDevCommand}"></MenuItem>
@@ -110,7 +110,7 @@
                         <MenuItem Header="删除所有设备" Command="{Binding DelAllDevCommand}"></MenuItem>
                     </ContextMenu>
                 </Grid.ContextMenu>
-                <ListBox Name="DevList" Background="#FFB8B8B8" ItemsSource="{Binding BatteryTotalList}" SelectedIndex="{Binding CurrentBatterySort}" BorderThickness="0" materialDesign:ListBoxItemAssist.ShowSelection="False">
+                <ListBox Name="DevList" Background="#FFB8B8B8" ItemsSource="{Binding BatteryTotalList}" SelectedIndex="{Binding CurrentBatterySort}" BorderThickness="0" materialDesign:ListBoxItemAssist.ShowSelection="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="{x:Type ListBoxItem}">
                             <Setter Property="Template" >
@@ -168,9 +168,9 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <Image Grid.Column="0" Source="{Binding ImageTitle}" Width="40"/>
-                                    <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Center">
                                         <TextBlock Text="BCMU" FontSize="14" VerticalAlignment="Center"/>
-                                        <TextBlock Grid.Row="1" Text="{Binding TotalID}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Row="1" Text="{Binding TotalID}" FontSize="12"/>
                                     </StackPanel>
                                 </Grid>
                             </Grid>

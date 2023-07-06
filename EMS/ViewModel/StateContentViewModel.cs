@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace EMS.ViewModel
 {
@@ -37,6 +39,26 @@ namespace EMS.ViewModel
             {
                 SetProperty(ref _currentTime, value);
             }
+        }
+        
+        public StateContentViewModel()
+        {
+            ShowTime();
+        }
+
+        private bool IsRun = true;
+        private void ShowTime()
+        {
+            Thread thread = new Thread(() =>
+            {
+                while (IsRun)
+                {
+                    Thread.Sleep(1000);
+                    CurrentTime = DateTime.Now.ToString("HH:mm:ss");
+                }
+            });
+            thread.IsBackground = true;
+            thread.Start();
         }
     }
 }

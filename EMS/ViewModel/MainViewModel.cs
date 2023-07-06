@@ -54,12 +54,20 @@ namespace EMS.ViewModel
 
         private void StopDaq()
         {
+            ShowOperation("数据采集已停止", "操作");
             DisplayContent.StopSaveBatteryInfo();
         }
 
         private void StartDaq()
         {
+            ShowOperation("数据采集已开始", "操作");
             DisplayContent.StartSaveBatteryInfo(SystemConfiguration.daqConfiguration.DaqTimeSpan);
+        }
+
+        private void ShowOperation(string content, string type)
+        {
+            StateContent.OperationContent = content;
+            StateContent.OperationType = type;
         }
 
         private void OpenSystemSetView()
@@ -85,7 +93,5 @@ namespace EMS.ViewModel
                 }
             }
         }
-       
-
     }
 }

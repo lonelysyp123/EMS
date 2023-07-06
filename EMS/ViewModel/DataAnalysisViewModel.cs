@@ -116,8 +116,8 @@ namespace EMS.ViewModel
             DisplayData = new PlotModel();
             DataTypeList = new ObservableCollection<string>();
             IdSeries = "0-0-0";
-            StartTime2 = "00:00:00";
-            EndTime2 = "00:00:00";
+            StartTime2 = "::";
+            EndTime2 = "::";
 
             //ChartShowNow(storeModel.VolCollect.ToArray());
         }
@@ -128,8 +128,8 @@ namespace EMS.ViewModel
             DisplayData = new PlotModel();
             DataTypeList = new ObservableCollection<string>();
             IdSeries = "0-0-0";
-            StartTime2 = "00:00:00";
-            EndTime2 = "00:00:00";
+            StartTime2 = "::";
+            EndTime2 = "::";
         }
 
         /// <summary>
