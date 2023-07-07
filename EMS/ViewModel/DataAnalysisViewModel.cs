@@ -301,10 +301,9 @@ namespace EMS.ViewModel
             DisplayDataModel.Axes.Add(new DateTimeAxis() { 
                 Position = AxisPosition.Bottom, 
                 Title = "时间",
-                Minimum = DateTimeAxis.ToDouble(DateTimeAxis.ToDouble(DateTime.Parse(DateTime.Today.ToString("yyyy/MM/dd") + " 00:00:00"))),
-                Maximum = DateTimeAxis.ToDouble(DateTimeAxis.ToDouble(DateTime.Parse(DateTime.Today.ToString("yyyy/MM/dd") + " 23:59:59"))),
                 IntervalType = DateTimeIntervalType.Seconds,
-                StringFormat = "HH:mm:ss"
+                StringFormat = "HH:mm:ss",
+                
             });
         }
 
