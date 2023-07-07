@@ -162,8 +162,8 @@ namespace EMS.ViewModel
                             if (items[1] != "N")
                             {
                                 SeriesBatteryInfoManage SeriesManage = new SeriesBatteryInfoManage();
-                                var SeriesList = SeriesManage.Find(items[0], items[1], StartTime, EndTime);
-                                
+                                var SeriesList = SeriesManage.Find(items[0], items[1], StartTime, EndTime);                              
+
                                 if (items[2] != "N")
                                 {
                                     DataTypeList.Clear();
@@ -187,6 +187,9 @@ namespace EMS.ViewModel
                                             {
                                                 curs.Add(cur);
                                             }
+
+                                            var span = SeriesList[i].HappenTime - StartTime;
+                                            TimeList.Add(span.Seconds);
                                         }
                                         DisplayDataList.Add(vols.ToArray());
                                         DisplayDataList.Add(curs.ToArray());
@@ -204,6 +207,8 @@ namespace EMS.ViewModel
                                     {
                                         vols.Add(SeriesList[i].SeriesVoltage);
                                         curs.Add(SeriesList[i].SeriesCurrent);
+                                        var span = SeriesList[i].HappenTime - StartTime;
+                                        TimeList.Add(span.Seconds);
                                     }
                                     DisplayDataList.Add(vols.ToArray());
                                     DisplayDataList.Add(curs.ToArray());
@@ -223,6 +228,8 @@ namespace EMS.ViewModel
                                 {
                                     vols.Add(TotalList[i].TotalVoltage);
                                     curs.Add(TotalList[i].TotalCurrent);
+                                    var span = TotalList[i].HappenTime - StartTime;
+                                    TimeList.Add(span.Seconds);
                                 }
                                 DisplayDataList.Add(vols.ToArray());
                                 DisplayDataList.Add(curs.ToArray());
