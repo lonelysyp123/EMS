@@ -24,11 +24,11 @@ namespace EMS.Model
     /// </summary>
     public class BatteryTotalBase : ObservableObject
     {
-        private ushort _totalVoltage;
+        private double _totalVoltage;
         /// <summary>
         /// 总簇电压
         /// </summary>
-        public ushort TotalVoltage
+        public double TotalVoltage
         {
 
             get => _totalVoltage;
@@ -38,11 +38,11 @@ namespace EMS.Model
             }
         }
 
-        private ushort _totalCurrent;
+        private double _totalCurrent;
         /// <summary>
         /// 总簇电流
         /// </summary>
-        public ushort TotalCurrent
+        public double TotalCurrent
         {
 
             get => _totalCurrent;
@@ -52,11 +52,11 @@ namespace EMS.Model
             }
         }
 
-        private ushort _averageTemperature;
+        private double _averageTemperature;
         /// <summary>
         /// 平均温度
         /// </summary>
-        public ushort AverageTemperature
+        public double AverageTemperature
         {
 
             get => _averageTemperature;
@@ -202,23 +202,27 @@ namespace EMS.Model
             {
                 // 信息补全
                 BCMUID = client.ReadU16(10000).ToString();
-                TotalVoltage = client.ReadU16(10001);
-                TotalCurrent = client.ReadU16(10002);
+                TotalVoltage = client.ReadU16(10001)*0.001;
+                TotalCurrent = client.ReadU16(10002)*0.1;
                 SeriesCount = client.ReadU16(10100);
                 Series.Clear();
                 for (int i = 0; i < SeriesCount; i++)
                 {
                     BatterySeriesBase series = new BatterySeriesBase();
                     series.SeriesId = client.ReadU16((ushort)(11000 + i * 10)).ToString();
-                    series.SeriesVoltage = client.ReadU16((ushort)(11001 + i * 10));
-                    series.SeriesCurrent = client.ReadU16((ushort)(11002 + i * 10));
+                    series.SeriesVoltage = client.ReadU16((ushort)(11001 + i * 10))*0.001;
+                    series.SeriesCurrent = client.ReadU16((ushort)(11002 + i * 10))*0.1;
                     series.BatteryCount = client.ReadU16((ushort)(10200 + i * 10));
                     for (int j = 0; j < series.BatteryCount; j++)
                     {
                         BatteryBase battery = new BatteryBase();
                         battery.BatteryID = client.ReadU16((ushort)(12000+ j * 10)).ToString();
-                        battery.Voltage = client.ReadU16((ushort)(12001 + j * 10));
-                        battery.Current = client.ReadU16((ushort)(12002 + j * 10));
+                        battery.Voltage = client.ReadU16((ushort)(12001 + j * 10))*0.001;
+                        battery.Current = client.ReadU16((ushort)(12002 + j * 10))*0.1;
+                        //battery.Temperature = client.ReadU16((ushort)(12002 + j * 10)) * 0.1;
+                        //battery.SOC = client.ReadU16((ushort)(12002 + j * 10)) * 0.1;
+                        //battery.Capacity = client.ReadU16((ushort)(12002 + j * 10)) * 0.1;
+                        //battery.Resistance = client.ReadU16((ushort)(12002 + j * 10));
                         series.Batteries.Add(battery);
                     }
                     Series.Add(series);

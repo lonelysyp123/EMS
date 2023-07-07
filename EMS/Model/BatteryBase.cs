@@ -12,11 +12,11 @@ namespace EMS.Model
     /// </summary>
     public class BatteryBase : ObservableObject
     {
-        private ushort _voltage;
+        private double _voltage;
         /// <summary>
         /// 电压
         /// </summary>
-        public ushort Voltage
+        public double Voltage
         {
 
             get => _voltage;
@@ -26,17 +26,73 @@ namespace EMS.Model
             }
         }
 
-        private ushort _current;
+        private double _current;
         /// <summary>
         /// 电流
         /// </summary>
-        public ushort Current
+        public double Current
         {
 
             get => _current;
             set
             {
                 SetProperty(ref _current, value);
+            }
+        }
+
+        private double _temperature;
+        /// <summary>
+        /// 电流
+        /// </summary>
+        public double Temperature
+        {
+
+            get => _temperature;
+            set
+            {
+                SetProperty(ref _temperature, value);
+            }
+        }
+
+        private double _soc;
+        /// <summary>
+        /// 电流
+        /// </summary>
+        public double SOC
+        {
+
+            get => _soc;
+            set
+            {
+                SetProperty(ref _soc, value);
+            }
+        }
+
+        private int _resistance;
+        /// <summary>
+        /// 单体内阻 mΩ
+        /// </summary>
+        public int Resistance
+        {
+
+            get => _resistance;
+            set
+            {
+                SetProperty(ref _resistance, value);
+            }
+        }
+
+        private double _capacity;
+        /// <summary>
+        /// 单体放满容量
+        /// </summary>
+        public double Capacity
+        {
+
+            get => _capacity;
+            set
+            {
+                SetProperty(ref _capacity, value);
             }
         }
 

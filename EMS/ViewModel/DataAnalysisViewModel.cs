@@ -14,13 +14,15 @@ using System.Collections.ObjectModel;
 using EMS.Storage.DB.Models;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.Windows.Markup;
+using OxyPlot.Legends;
+using System.Windows.Media.Animation;
 
 namespace EMS.ViewModel
 {
     public class DataAnalysisViewModel : ViewModelBase
     {
         private PlotModel _displayData;
-        public PlotModel DisplayData
+        public PlotModel DisplayDataModel
         {
             get => _displayData;
             set
@@ -91,15 +93,25 @@ namespace EMS.ViewModel
 
         public RelayCommand QueryCommand { set; get; }
 
-        private List<BatteryBase> BatteryData;
-        private List<BatterySeriesBase> SeriesData;
-        private List<BatteryTotalBase> TotalData;
         public List<string> SelectedDataTypeList;
+        public List<double[]> DisplayDataList;
+        public List<int> TimeList;
 
         public DataAnalysisViewModel()
         {
             QueryCommand = new RelayCommand(Query);
-            DisplayData = new PlotModel();
+            DisplayDataList = new List<double[]>();
+            TimeList = new List<int>();
+            DisplayDataModel = new PlotModel();
+            var l = new Legend
+            {
+                LegendBorder = OxyColors.Black,
+                LegendBackground = OxyColor.FromAColor(200, OxyColors.White),
+                LegendPosition = LegendPosition.TopRight,
+                LegendPlacement = LegendPlacement.Inside,
+                LegendOrientation = LegendOrientation.Vertical,
+            };
+            DisplayDataModel.Legends.Add(l);
             DataTypeList = new ObservableCollection<string>();
             IdSeries = "0-0-0";
             StartTime2 = "::";
@@ -112,7 +124,18 @@ namespace EMS.ViewModel
         public DataAnalysisViewModel(List<BatteryTotalBase> items)
         {
             QueryCommand = new RelayCommand(Query);
-            DisplayData = new PlotModel();
+            DisplayDataList = new List<double[]>();
+            TimeList = new List<int>();
+            DisplayDataModel = new PlotModel();
+            var l = new Legend
+            {
+                LegendBorder = OxyColors.Black,
+                LegendBackground = OxyColor.FromAColor(200, OxyColors.White),
+                LegendPosition = LegendPosition.TopRight,
+                LegendPlacement = LegendPlacement.Inside,
+                LegendOrientation = LegendOrientation.Vertical,
+            };
+            DisplayDataModel.Legends.Add(l);
             DataTypeList = new ObservableCollection<string>();
             IdSeries = "0-0-0";      
             StartTime2 = "::";
@@ -125,6 +148,8 @@ namespace EMS.ViewModel
         /// </summary>
         private void Query()
         {
+            DisplayDataList.Clear();
+            TimeList.Clear();
             if (IdSeries != null)
             {
                 var items = IdSeries.Split('-');
@@ -147,59 +172,60 @@ namespace EMS.ViewModel
                                     if (int.TryParse(items[2], out int Sort))
                                     {
                                         // 查询Battery数据
-                                        BatteryData = new List<BatteryBase>();
+                                        List<double> vols = new List<double>();
+                                        List<double> curs = new List<double>();
                                         for (int i = 1; i < SeriesList.Count; i++)
                                         {
-                                            BatteryBase battery = new BatteryBase();
                                             var item0 = typeof(SeriesBatteryInfoModel).GetProperty("Voltage" + Sort).GetValue(SeriesList[i]);
-                                            if (ushort.TryParse(item0.ToString(), out ushort vol))
+                                            if (double.TryParse(item0.ToString(), out double vol))
                                             {
-                                                var item1 = typeof(SeriesBatteryInfoModel).GetProperty("Current" + Sort).GetValue(SeriesList[i]);
-                                                if (ushort.TryParse(item1.ToString(), out ushort cur))
-                                                {
-                                                    battery.Voltage = vol;
-                                                    battery.Current = cur;
-                                                    BatteryData.Add(battery);
-                                                }
+                                                vols.Add(vol);
+                                            }
+
+                                            var item1 = typeof(SeriesBatteryInfoModel).GetProperty("Current" + Sort).GetValue(SeriesList[i]);
+                                            if (double.TryParse(item1.ToString(), out double cur))
+                                            {
+                                                curs.Add(cur);
                                             }
                                         }
-                                        ChartShowNow(BatteryData.Select(p=>p.Voltage).Select<ushort, double>(x=>x).ToArray());
+                                        DisplayDataList.Add(vols.ToArray());
+                                        DisplayDataList.Add(curs.ToArray());
                                     }
                                 }
                                 else
                                 {
                                     DataTypeList.Clear();
-                                    DataTypeList.Add("Voltage");
-                                    DataTypeList.Add("Current");
+                                    DataTypeList.Add("SeriesVoltage");
+                                    DataTypeList.Add("SeriesCurrent");
                                     // 查询Series数据
-                                    SeriesData = new List<BatterySeriesBase>();
+                                    List<double> vols = new List<double>();
+                                    List<double> curs = new List<double>();
                                     for (int i = 1; i < SeriesList.Count; i++)
                                     {
-                                        BatterySeriesBase series = new BatterySeriesBase();
-                                        series.SeriesVoltage = (ushort)SeriesList[i].SeriesVoltage;
-                                        series.SeriesCurrent = (ushort)SeriesList[i].SeriesCurrent;
-                                        SeriesData.Add(series);
+                                        vols.Add(SeriesList[i].SeriesVoltage);
+                                        curs.Add(SeriesList[i].SeriesCurrent);
                                     }
-                                    ChartShowNow(SeriesData.Select(p => p.SeriesVoltage).Select<ushort, double>(x => x).ToArray());
+                                    DisplayDataList.Add(vols.ToArray());
+                                    DisplayDataList.Add(curs.ToArray());
                                 }
                             }
                             else
                             {
                                 DataTypeList.Clear();
-                                DataTypeList.Add("Voltage");
-                                DataTypeList.Add("Current");
+                                DataTypeList.Add("TotalVoltage");
+                                DataTypeList.Add("TotalCurrent");
                                 // 查询Total数据
+                                List<double> vols = new List<double>();
+                                List<double> curs = new List<double>();
                                 TotalBatteryInfoManage TotalManage = new TotalBatteryInfoManage();
                                 var TotalList = TotalManage.Find(items[0], StartTime, EndTime);
-                                TotalData = new List<BatteryTotalBase>();
                                 for (int i = 1; i < TotalList.Count; i++)
                                 {
-                                    BatteryTotalBase total = new BatteryTotalBase();
-                                    total.TotalVoltage = (ushort)TotalList[i].TotalVoltage;
-                                    total.TotalCurrent = (ushort)TotalList[i].TotalCurrent;
-                                    TotalData.Add(total);
+                                    vols.Add(TotalList[i].TotalVoltage);
+                                    curs.Add(TotalList[i].TotalCurrent);
                                 }
-                                ChartShowNow(TotalData.Select(p => p.TotalVoltage).Select<ushort, double>(x => x).ToArray());
+                                DisplayDataList.Add(vols.ToArray());
+                                DisplayDataList.Add(curs.ToArray());
                             }
                         }
                     }
@@ -213,60 +239,18 @@ namespace EMS.ViewModel
         /// <param name="type">数据类型</param>
         public void SwitchDataType()
         {
-            var items = IdSeries.Split('-');
-            if (items[0] != "N")
+            for (int i = 0; i < SelectedDataTypeList.Count; i++)
             {
-                if (items[1] != "N")
+                LineSeries lineSeries = new LineSeries();
+                lineSeries.Title = SelectedDataTypeList[i];
+                int index = DataTypeList.IndexOf(SelectedDataTypeList[i]);
+                for (int j = 0; j < DisplayDataList[index].Length; j++)
                 {
-                    if (items[2] != "N")
-                    {
-                        List<double[]> data = new List<double[]>();
-                        for (int i = 0; i < SelectedDataTypeList.Count; i++)
-                        {
-                            if (SelectedDataTypeList[i] == "Voltage")
-                            {
-                                data.Add(BatteryData.Select(p => p.Voltage).Select<ushort, double>(x => x).ToArray());
-                            }
-                            else if (SelectedDataTypeList[i] == "Current")
-                            {
-                                data.Add(BatteryData.Select(p => p.Current).Select<ushort, double>(x => x).ToArray());
-                            }
-                        }
-                        ChartShowNow(data);
-                    }
-                    else
-                    {
-                        List<double[]> data = new List<double[]>();
-                        for (int i = 0; i < SelectedDataTypeList.Count; i++)
-                        {
-                            if (SelectedDataTypeList[i] == "Voltage")
-                            {
-                                data.Add(SeriesData.Select(p => p.SeriesVoltage).Select<ushort, double>(x => x).ToArray());
-                            }
-                            else if (SelectedDataTypeList[i] == "Current")
-                            {
-                                data.Add(SeriesData.Select(p => p.SeriesCurrent).Select<ushort, double>(x => x).ToArray());
-                            }
-                        }
-                        ChartShowNow(data);
-                    }
+                    lineSeries.Points.Add(new DataPoint(i, DisplayDataList[index][i]));
                 }
-                else
-                {
-                    List<double[]> data = new List<double[]>();
-                    for (int i = 0; i < SelectedDataTypeList.Count; i++)
-                    {
-                        if (SelectedDataTypeList[i] == "Voltage")
-                        {
-                            data.Add(TotalData.Select(p => p.TotalVoltage).Select<ushort, double>(x => x).ToArray());
-                        }
-                        else if (SelectedDataTypeList[i] == "Current")
-                        {
-                            data.Add(TotalData.Select(p => p.TotalCurrent).Select<ushort, double>(x => x).ToArray());
-                        }
-                    }
-                    ChartShowNow(data);
-                }
+                DisplayDataModel.Series.Clear();
+                DisplayDataModel.Series.Add(lineSeries);
+                DisplayDataModel.InvalidatePlot(true);
             }
         }
 
@@ -300,27 +284,15 @@ namespace EMS.ViewModel
             return true;
         }
 
-        private void DisplayElcData()
-        {
-            InitChart("电流", "时间");
-            //ChartShowNow(storeModel.ElcCollect.ToArray());
-        }
-
-        private void DisplayVolData()
-        {
-            InitChart("电压", "时间");
-            //ChartShowNow(storeModel.VolCollect.ToArray());
-        }
-
         /// <summary>
         /// 初始化图表控件（定义X，Y轴）
         /// </summary>
         private void InitChart(string LeftName, string BottomName)
         {
             //! Axes
-            DisplayData.Axes.Clear();
-            DisplayData.Axes.Add(new LinearAxis() { Position = AxisPosition.Left, Title = LeftName });
-            DisplayData.Axes.Add(new LinearAxis() { Position = AxisPosition.Bottom, Title = BottomName });
+            DisplayDataModel.Axes.Clear();
+            DisplayDataModel.Axes.Add(new LinearAxis() { Position = AxisPosition.Left, Title = LeftName });
+            DisplayDataModel.Axes.Add(new LinearAxis() { Position = AxisPosition.Bottom, Title = BottomName });
         }
 
         /// <summary>
@@ -338,9 +310,9 @@ namespace EMS.ViewModel
                     lineSeries.Points.Add(new DataPoint(i, Data[i]));
                 }
 
-                DisplayData.Series.Clear();
-                DisplayData.Series.Add(lineSeries);
-                DisplayData.InvalidatePlot(true);
+                DisplayDataModel.Series.Clear();
+                DisplayDataModel.Series.Add(lineSeries);
+                DisplayDataModel.InvalidatePlot(true);
             }
             catch (Exception ex)
             {
@@ -352,7 +324,7 @@ namespace EMS.ViewModel
         {
             try
             {
-                DisplayData.Series.Clear();
+                DisplayDataModel.Series.Clear();
                 //! Series
                 for (int j = 0; j < Data.Count; j++)
                 {
@@ -361,14 +333,25 @@ namespace EMS.ViewModel
                     {
                         lineSeries.Points.Add(new DataPoint(i, Data[j][i]));
                     }
-                    DisplayData.Series.Add(lineSeries);
+                    lineSeries.Title = "test" + j.ToString();
+                    DisplayDataModel.Series.Add(lineSeries);
                 }
-                DisplayData.InvalidatePlot(true);
+                DisplayDataModel.InvalidatePlot(true);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        public void AddSeries(LineSeries line)
+        {
+            DisplayDataModel.Series.Add(line);
+        }
+
+        public void RemoveSeries(LineSeries line)
+        {
+            DisplayDataModel.Series.Remove(line);
         }
     }
 }

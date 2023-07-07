@@ -38,7 +38,9 @@
                 <ListBox ItemsSource="{Binding DataTypeList}" SelectionMode="Extended" SelectionChanged="ListBox_SelectionChanged">
                 </ListBox>
             </Grid>
-            <oxy:PlotView Grid.Row="1" Grid.Column="1" Model="{Binding DisplayData}"></oxy:PlotView>
+            <oxy:PlotView Grid.Row="1" Grid.Column="1" Model="{Binding DisplayData}">
+
+            </oxy:PlotView>
         </Grid>
     </Grid>
 </Window>

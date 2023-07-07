@@ -56,6 +56,7 @@ namespace EMS.View
                 foreach (var item in e.RemovedItems)
                 {
                     viewmodel.SelectedDataTypeList.Remove(item.ToString());
+
                 }
             }
 
