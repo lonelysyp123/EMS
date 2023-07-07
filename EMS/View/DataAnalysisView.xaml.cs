@@ -41,84 +41,25 @@ namespace EMS.View
             //DevTree.Items.Add(viewmodel);
         }
 
-        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var view = sender as TreeView;
-            var item = view.SelectedItem;
-            if (item != null)
+            if (e.AddedItems.Count > 0)
             {
-                // 数据展示
-                if (item is BatteryTotalBase)
+                foreach (var item in e.AddedItems)
                 {
-                    
-                    //viewmodel.ChartShowNow()
-                }
-                else if (item is BatterySeriesBase)
-                {
-                    //CreateDataGridByBatterySeries((BatterySeriesBase)item);
-                }
-                else if (item is BatteryBase)
-                {
-                    //CreateDataGridByBattery((BatteryBase)item);
-                }
-                else
-                {
-                    //CreateDataGridByIntegratedDev((DisplayContentViewModel)item);
+                    viewmodel.SelectedDataTypeList.Add(item.ToString());
                 }
             }
-        }
-    }
 
-    public class CustomeSelectionItems
-    {
-        public static IList GetSelectedItems(DependencyObject obj)
-        {
-            return (IList)obj.GetValue(SelectedItemsProperty);
-        }
-
-        public static void SetSelectedItems(DependencyObject obj, IList value)
-        {
-            obj.SetValue(SelectedItemsProperty, value);
-        }
-
-        //Using a DependencyProperty as the backing store for SelectedItems.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SelectedItemsProperty =
-            DependencyProperty.RegisterAttached("SelectedItems", typeof(IList), typeof(CustomeSelectionItems), new PropertyMetadata(OnSelectedItemsChanged));
-        static public void OnSelectedItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var listBox = d as ListBox;
-            if ((listBox != null) && (listBox.SelectionMode == SelectionMode.Multiple))
+            if (e.RemovedItems.Count > 0)
             {
-                if (e.OldValue != null)
+                foreach (var item in e.RemovedItems)
                 {
-                    listBox.SelectionChanged -= OnlistBoxSelectionChanged;
-                }
-                IList collection = e.NewValue as IList;
-                listBox.SelectedItems.Clear();
-                if (collection != null)
-                {
-                    foreach (var item in collection)
-                    {
-                        listBox.SelectedItems.Add(item);
-                    }
-                    listBox.SelectionChanged += OnlistBoxSelectionChanged;
+                    viewmodel.SelectedDataTypeList.Remove(item.ToString());
                 }
             }
-        }
 
-        static void OnlistBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            IList dataSource = GetSelectedItems(sender as DependencyObject);
-            //添加用户选中的当前项.
-            foreach (var item in e.AddedItems)
-            {
-                dataSource.Add(item);
-            }
-            //删除用户取消选中的当前项
-            foreach (var item in e.RemovedItems)
-            {
-                dataSource.Remove(item);
-            }
+            viewmodel.SwitchDataType();
         }
     }
 }

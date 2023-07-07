@@ -39,20 +39,6 @@ namespace EMS.ViewModel
             }
         }
 
-        private List<string> _selectedDataTypeList;
-        public List<string> SelectedDataTypeList
-        {
-            get => _selectedDataTypeList;
-            set
-            {
-                if(SetProperty(ref _selectedDataTypeList, value))
-                {
-                    // 改变选择展示的数据类型
-                    SwitchDataType(value);
-                }
-            }
-        }
-
         private string _startTime1;
         public string StartTime1
         {
@@ -108,16 +94,17 @@ namespace EMS.ViewModel
         private List<BatteryBase> BatteryData;
         private List<BatterySeriesBase> SeriesData;
         private List<BatteryTotalBase> TotalData;
+        public List<string> SelectedDataTypeList;
 
         public DataAnalysisViewModel()
         {
             QueryCommand = new RelayCommand(Query);
             DisplayData = new PlotModel();
-            DisplayData = new PlotModel();
             DataTypeList = new ObservableCollection<string>();
             IdSeries = "0-0-0";
             StartTime2 = "::";
             EndTime2 = "::";
+            SelectedDataTypeList = new List<string>();
 
             //ChartShowNow(storeModel.VolCollect.ToArray());
         }
@@ -127,9 +114,10 @@ namespace EMS.ViewModel
             QueryCommand = new RelayCommand(Query);
             DisplayData = new PlotModel();
             DataTypeList = new ObservableCollection<string>();
-            IdSeries = "0-0-0";
+            IdSeries = "0-0-0";      
             StartTime2 = "::";
             EndTime2 = "::";
+            SelectedDataTypeList = new List<string>();
         }
 
         /// <summary>
@@ -223,7 +211,7 @@ namespace EMS.ViewModel
         /// 选择数据类型
         /// </summary>
         /// <param name="type">数据类型</param>
-        private void SwitchDataType(List<string> types)
+        public void SwitchDataType()
         {
             var items = IdSeries.Split('-');
             if (items[0] != "N")
@@ -233,13 +221,13 @@ namespace EMS.ViewModel
                     if (items[2] != "N")
                     {
                         List<double[]> data = new List<double[]>();
-                        for (int i = 0; i < types.Count; i++)
+                        for (int i = 0; i < SelectedDataTypeList.Count; i++)
                         {
-                            if (types[i] == "Voltage")
+                            if (SelectedDataTypeList[i] == "Voltage")
                             {
                                 data.Add(BatteryData.Select(p => p.Voltage).Select<ushort, double>(x => x).ToArray());
                             }
-                            else if (types[i] == "Current")
+                            else if (SelectedDataTypeList[i] == "Current")
                             {
                                 data.Add(BatteryData.Select(p => p.Current).Select<ushort, double>(x => x).ToArray());
                             }
@@ -249,13 +237,13 @@ namespace EMS.ViewModel
                     else
                     {
                         List<double[]> data = new List<double[]>();
-                        for (int i = 0; i < types.Count; i++)
+                        for (int i = 0; i < SelectedDataTypeList.Count; i++)
                         {
-                            if (types[i] == "Voltage")
+                            if (SelectedDataTypeList[i] == "Voltage")
                             {
                                 data.Add(SeriesData.Select(p => p.SeriesVoltage).Select<ushort, double>(x => x).ToArray());
                             }
-                            else if (types[i] == "Current")
+                            else if (SelectedDataTypeList[i] == "Current")
                             {
                                 data.Add(SeriesData.Select(p => p.SeriesCurrent).Select<ushort, double>(x => x).ToArray());
                             }
@@ -266,13 +254,13 @@ namespace EMS.ViewModel
                 else
                 {
                     List<double[]> data = new List<double[]>();
-                    for (int i = 0; i < types.Count; i++)
+                    for (int i = 0; i < SelectedDataTypeList.Count; i++)
                     {
-                        if (types[i] == "Voltage")
+                        if (SelectedDataTypeList[i] == "Voltage")
                         {
                             data.Add(TotalData.Select(p => p.TotalVoltage).Select<ushort, double>(x => x).ToArray());
                         }
-                        else if (types[i] == "Current")
+                        else if (SelectedDataTypeList[i] == "Current")
                         {
                             data.Add(TotalData.Select(p => p.TotalCurrent).Select<ushort, double>(x => x).ToArray());
                         }
