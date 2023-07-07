@@ -297,6 +297,7 @@ namespace EMS.Model
                         TotalModel.TotalVoltage = TotalVoltage;
                         TotalModel.TotalCurrent = TotalCurrent;
                         TotalModel.HappenTime = date;
+                        TotalManage.Insert(TotalModel);
 
                         // Series Save
                         SeriesBatteryInfoManage SeriesManage = new SeriesBatteryInfoManage();

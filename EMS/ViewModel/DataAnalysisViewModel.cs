@@ -95,13 +95,13 @@ namespace EMS.ViewModel
 
         public List<string> SelectedDataTypeList;
         public List<double[]> DisplayDataList;
-        public List<long> TimeList;
+        public List<DateTime> TimeList;
 
         public DataAnalysisViewModel()
         {
             QueryCommand = new RelayCommand(Query);
             DisplayDataList = new List<double[]>();
-            TimeList = new List<long>();
+            TimeList = new List<DateTime>();
             DisplayDataModel = new PlotModel();
             var l = new Legend
             {
@@ -117,7 +117,6 @@ namespace EMS.ViewModel
             StartTime2 = "::";
             EndTime2 = "::";
             SelectedDataTypeList = new List<string>();
-
             //ChartShowNow(storeModel.VolCollect.ToArray());
         }
 
@@ -125,7 +124,7 @@ namespace EMS.ViewModel
         {
             QueryCommand = new RelayCommand(Query);
             DisplayDataList = new List<double[]>();
-            TimeList = new List<long>();
+            TimeList = new List<DateTime>();
             DisplayDataModel = new PlotModel();
             var l = new Legend
             {
@@ -188,9 +187,7 @@ namespace EMS.ViewModel
                                             {
                                                 curs.Add(cur);
                                             }
-
-                                            var span = SeriesList[i].HappenTime - StartTime;
-                                            TimeList.Add(span.Ticks);
+                                            TimeList.Add(SeriesList[i].HappenTime);
                                         }
                                         DisplayDataList.Add(vols.ToArray());
                                         DisplayDataList.Add(curs.ToArray());
@@ -209,7 +206,7 @@ namespace EMS.ViewModel
                                         vols.Add(SeriesList[i].SeriesVoltage);
                                         curs.Add(SeriesList[i].SeriesCurrent);
                                         var span = SeriesList[i].HappenTime - StartTime;
-                                        TimeList.Add(span.Seconds);
+                                        TimeList.Add(SeriesList[i].HappenTime);
                                     }
                                     DisplayDataList.Add(vols.ToArray());
                                     DisplayDataList.Add(curs.ToArray());
@@ -230,7 +227,7 @@ namespace EMS.ViewModel
                                     vols.Add(TotalList[i].TotalVoltage);
                                     curs.Add(TotalList[i].TotalCurrent);
                                     var span = TotalList[i].HappenTime - StartTime;
-                                    TimeList.Add(span.Seconds);
+                                    TimeList.Add(TotalList[i].HappenTime);
                                 }
                                 DisplayDataList.Add(vols.ToArray());
                                 DisplayDataList.Add(curs.ToArray());
@@ -247,6 +244,7 @@ namespace EMS.ViewModel
         /// <param name="type">数据类型</param>
         public void SwitchDataType()
         {
+            InitChart();
             DisplayDataModel.Series.Clear();
             for (int i = 0; i < SelectedDataTypeList.Count; i++)
             {
@@ -255,9 +253,8 @@ namespace EMS.ViewModel
                 int index = DataTypeList.IndexOf(SelectedDataTypeList[i]);
                 for (int j = 0; j < DisplayDataList[index].Length; j++)
                 {
-                    lineSeries.Points.Add(new DataPoint(TimeList[j], DisplayDataList[index][j]));
+                    lineSeries.Points.Add(DateTimeAxis.CreateDataPoint(TimeList[j], DisplayDataList[index][j]));
                 }
-                
                 DisplayDataModel.Series.Add(lineSeries);
             }
             DisplayDataModel.InvalidatePlot(true);
@@ -296,12 +293,19 @@ namespace EMS.ViewModel
         /// <summary>
         /// 初始化图表控件（定义X，Y轴）
         /// </summary>
-        private void InitChart(string LeftName, string BottomName)
+        private void InitChart()
         {
             //! Axes
             DisplayDataModel.Axes.Clear();
-            DisplayDataModel.Axes.Add(new LinearAxis() { Position = AxisPosition.Left, Title = LeftName });
-            DisplayDataModel.Axes.Add(new LinearAxis() { Position = AxisPosition.Bottom, Title = BottomName });
+            DisplayDataModel.Axes.Add(new LinearAxis() { Position = AxisPosition.Left, Title = "幅值" });
+            DisplayDataModel.Axes.Add(new DateTimeAxis() { 
+                Position = AxisPosition.Bottom, 
+                Title = "时间",
+                Minimum = DateTimeAxis.ToDouble(DateTimeAxis.ToDouble(DateTime.Parse(DateTime.Today.ToString("yyyy/MM/dd") + " 00:00:00"))),
+                Maximum = DateTimeAxis.ToDouble(DateTimeAxis.ToDouble(DateTime.Parse(DateTime.Today.ToString("yyyy/MM/dd") + " 23:59:59"))),
+                IntervalType = DateTimeIntervalType.Seconds,
+                StringFormat = "HH:mm:ss"
+            });
         }
 
         /// <summary>
