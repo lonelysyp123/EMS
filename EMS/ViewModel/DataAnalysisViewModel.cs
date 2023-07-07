@@ -95,13 +95,13 @@ namespace EMS.ViewModel
 
         public List<string> SelectedDataTypeList;
         public List<double[]> DisplayDataList;
-        public List<int> TimeList;
+        public List<long> TimeList;
 
         public DataAnalysisViewModel()
         {
             QueryCommand = new RelayCommand(Query);
             DisplayDataList = new List<double[]>();
-            TimeList = new List<int>();
+            TimeList = new List<long>();
             DisplayDataModel = new PlotModel();
             var l = new Legend
             {
@@ -125,7 +125,7 @@ namespace EMS.ViewModel
         {
             QueryCommand = new RelayCommand(Query);
             DisplayDataList = new List<double[]>();
-            TimeList = new List<int>();
+            TimeList = new List<long>();
             DisplayDataModel = new PlotModel();
             var l = new Legend
             {
@@ -164,6 +164,7 @@ namespace EMS.ViewModel
                                 SeriesBatteryInfoManage SeriesManage = new SeriesBatteryInfoManage();
                                 var SeriesList = SeriesManage.Find(items[0], items[1], StartTime, EndTime);                              
 
+                                
                                 if (items[2] != "N")
                                 {
                                     DataTypeList.Clear();
@@ -189,7 +190,7 @@ namespace EMS.ViewModel
                                             }
 
                                             var span = SeriesList[i].HappenTime - StartTime;
-                                            TimeList.Add(span.Seconds);
+                                            TimeList.Add(span.Ticks);
                                         }
                                         DisplayDataList.Add(vols.ToArray());
                                         DisplayDataList.Add(curs.ToArray());
@@ -246,6 +247,7 @@ namespace EMS.ViewModel
         /// <param name="type">数据类型</param>
         public void SwitchDataType()
         {
+            DisplayDataModel.Series.Clear();
             for (int i = 0; i < SelectedDataTypeList.Count; i++)
             {
                 LineSeries lineSeries = new LineSeries();
@@ -253,12 +255,12 @@ namespace EMS.ViewModel
                 int index = DataTypeList.IndexOf(SelectedDataTypeList[i]);
                 for (int j = 0; j < DisplayDataList[index].Length; j++)
                 {
-                    lineSeries.Points.Add(new DataPoint(i, DisplayDataList[index][i]));
+                    lineSeries.Points.Add(new DataPoint(TimeList[j], DisplayDataList[index][j]));
                 }
-                DisplayDataModel.Series.Clear();
+                
                 DisplayDataModel.Series.Add(lineSeries);
-                DisplayDataModel.InvalidatePlot(true);
             }
+            DisplayDataModel.InvalidatePlot(true);
         }
 
         /// <summary>
