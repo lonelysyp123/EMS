@@ -176,13 +176,13 @@ namespace EMS.ViewModel
                                         List<double> curs = new List<double>();
                                         for (int i = 1; i < SeriesList.Count; i++)
                                         {
-                                            var item0 = typeof(SeriesBatteryInfoModel).GetProperty("Voltage" + Sort).GetValue(SeriesList[i]);
+                                            var item0 = typeof(SeriesBatteryInfoModel).GetProperty("Voltage" + (Sort-1)).GetValue(SeriesList[i]);
                                             if (double.TryParse(item0.ToString(), out double vol))
                                             {
                                                 vols.Add(vol);
                                             }
 
-                                            var item1 = typeof(SeriesBatteryInfoModel).GetProperty("Current" + Sort).GetValue(SeriesList[i]);
+                                            var item1 = typeof(SeriesBatteryInfoModel).GetProperty("Current" + (Sort-1)).GetValue(SeriesList[i]);
                                             if (double.TryParse(item1.ToString(), out double cur))
                                             {
                                                 curs.Add(cur);

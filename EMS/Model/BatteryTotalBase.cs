@@ -340,7 +340,7 @@ namespace EMS.Model
         /// </summary>
         public void StopRecordData()
         {
-            IsDaq = true;
+            IsDaq = false;
             Thread.Sleep(100);
         }
     }
