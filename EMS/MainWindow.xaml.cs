@@ -19,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace EMS
 {
@@ -148,11 +149,9 @@ namespace EMS
 
         private void ReConnect_Click(object sender, RoutedEventArgs e)
         {
+            var item = DevList.SelectedItem as BatteryTotalBase;
             try
             {
-                // 重新连接设备
-                var item = DevList.SelectedItem as BatteryTotalBase;
-                item.Connect();
                 // 连接成功后将设备信息添加到左边的导航栏中
                 viewmodel.DisplayContent.AddConnectedDev(item);
                 // 更新数据库中设备信息BCMUID
@@ -161,6 +160,7 @@ namespace EMS
             }
             catch
             {
+                viewmodel.DisplayContent.RemoveDisConnectedDev(item);
                 MessageBox.Show("重新连接设备失败，请检查通讯参数和连接介质！");
             }
         }
@@ -169,10 +169,7 @@ namespace EMS
         {
             // 断开连接设备
             var item = DevList.SelectedItem as BatteryTotalBase;
-            item.Disconnect();
-
-            // 断开连接之后，将该设备从左边的导航栏中删去
-            viewmodel.DisplayContent.OnlineBatteryTotalList.Remove(item);
+            viewmodel.DisplayContent.RemoveDisConnectedDev(item);
         }
 
         //private void SetConnect_Click(object sender, RoutedEventArgs e)

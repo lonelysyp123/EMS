@@ -10,6 +10,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="11*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
@@ -26,8 +27,8 @@
             </MenuItem>
             <MenuItem Header="选项"  FontSize="12" VerticalAlignment="Center">
                 <MenuItem Header="系统设置" Command="{Binding OpenSystemSetViewCommand}"></MenuItem>
-                <MenuItem Header="开始采集" Command="{Binding StartDaqCommand}"></MenuItem>
-                <MenuItem Header="停止采集" Command="{Binding StopDaqCommand}"></MenuItem>
+                <!--<MenuItem Header="开始采集" Command="{Binding StartDaqCommand}"></MenuItem>
+                <MenuItem Header="停止采集" Command="{Binding StopDaqCommand}"></MenuItem>-->
                 <MenuItem Header="数据分析" Command="{Binding OpenDataAnalysisViewCommand}"></MenuItem>
             </MenuItem>
             <MenuItem Header="帮助"  FontSize="12" VerticalAlignment="Center">
@@ -36,31 +37,24 @@
             </MenuItem>
         </Menu>
 
-        <Grid Grid.Row="1" Name="DisplayContent">
+        <DockPanel LastChildFill="True" Grid.Row="1" Background="DarkGray">
+            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Margin="5,0,5,0">
+                <Button Background="Transparent" BorderThickness="0" Command="{Binding StartOrStopDaqCommand}">
+                    <Image x:Name="StartDaq" Source="{Binding StartDaqImageSource}" Width="30" Height="30" Margin="10,0"/>
+                </Button>
+                <Button Background="Transparent" BorderThickness="0" Command="{Binding StartOrStopSaveDataCommand}">
+                    <Ellipse x:Name="StartSave" Height="30" Width="30" Fill="{Binding SaveDataFillColor}" Margin="10"/>
+                </Button>
+            </StackPanel>
+        </DockPanel>
+
+        <Grid Grid.Row="2" Name="DisplayContent">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="6*"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0" Width="140">
-                <!--<TreeView ItemsSource="{Binding BatteryTotalList}" SelectedItemChanged="TreeView_SelectedItemChanged">
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate ItemsSource="{Binding Series}">
-                            <TextBlock Text="{Binding BCMUID}"></TextBlock>
-                            <HierarchicalDataTemplate.ItemTemplate>
-                                <HierarchicalDataTemplate ItemsSource="{Binding Batteries}">
-                                    <TextBlock Text="{Binding SeriesId}"></TextBlock>
-                                    <HierarchicalDataTemplate.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding BatteryID}"></TextBlock>
-                                        </DataTemplate>
-                                    </HierarchicalDataTemplate.ItemTemplate>
-                                </HierarchicalDataTemplate>
-                            </HierarchicalDataTemplate.ItemTemplate>
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
-                </TreeView>-->
-
                 <TreeView Name="DevTree" SelectedItemChanged="TreeView_SelectedItemChanged">
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding OnlineBatteryTotalList}">
@@ -86,20 +80,6 @@
             </Grid>
 
             <Grid Grid.Column="1" Background="#FF313131" Name="DataGridView">
-                <!--<DataGrid x:Name="BatteryTotalDataView" materialDesign:DataGridAssist.CellPadding="4 2 2 2" materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2" CanUserSortColumns="False" GridLinesVisibility="All" BorderBrush="Black" AutoGenerateColumns="False" CanUserAddRows="False" ScrollViewer.VerticalScrollBarVisibility="Hidden" MinRowHeight="30" Background="{x:Null}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="序号" Width="2*" Binding="{Binding Sort}" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
-                        <DataGridTextColumn Header="别名" Binding="{Binding ID}" Width="4*" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
-                        <DataGridTextColumn Header="电压" Binding="{Binding TotalVoltage}" Width="3*" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
-                        <DataGridTextColumn Header="电流" Binding="{Binding TotalCurrent}" Width="3*" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
-                        <DataGridTextColumn Header="备用参数1" Binding="{Binding Sample1}" Width="3*" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
-                        <DataGridTextColumn Header="备用参数2" Binding="{Binding Sample2}" Width="3*" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
-                        <DataGridTextColumn Header="备用参数3" Binding="{Binding Sample3}" Width="3*" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
-                        <DataGridTextColumn Header="备用参数4" Binding="{Binding Sample4}" Width="3*" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
-                        <DataGridTextColumn Header="备用参数5" Binding="{Binding Sample5}" Width="3*" IsReadOnly="True" Foreground="White"></DataGridTextColumn>
-                        <DataGridTemplateColumn></DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>-->
             </Grid>
 
             <Grid Grid.Column="2" Width="160" x:Name="DevListView">
@@ -180,7 +160,7 @@
             </Grid>
         </Grid>
 
-        <Border Name="StateContent" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="18" BorderThickness="1" BorderBrush="#FF767676">
+        <Border Name="StateContent" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Height="18" BorderThickness="1" BorderBrush="#FF767676">
             <Border.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FFFAFAFA"/>
