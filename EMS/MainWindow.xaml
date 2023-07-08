@@ -23,7 +23,7 @@
             </Menu.Background>
             <MenuItem Header="文件" FontSize="12" VerticalAlignment="Center">
                 <MenuItem Header="打开"></MenuItem>
-                <MenuItem Header="退出"></MenuItem>
+                <MenuItem Header="退出" Click="Exit_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="选项"  FontSize="12" VerticalAlignment="Center">
                 <MenuItem Header="系统设置" Command="{Binding OpenSystemSetViewCommand}"></MenuItem>
@@ -37,7 +37,7 @@
             </MenuItem>
         </Menu>
 
-        <DockPanel LastChildFill="True" Grid.Row="1" Background="DarkGray">
+        <DockPanel LastChildFill="True" Grid.Row="1" Background="Gray">
             <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Margin="5,0,5,0">
                 <Button Background="Transparent" BorderThickness="0" Command="{Binding StartOrStopDaqCommand}">
                     <Image x:Name="StartDaq" Source="{Binding StartDaqImageSource}" Width="30" Height="30" Margin="10,0"/>
@@ -133,7 +133,7 @@
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid Margin="10" Height="50" Background="#02FFFFFF">
+                            <Grid Height="50" Background="#02FFFFFF">
                                 <Grid.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="重新连接" Click="ReConnect_Click"></MenuItem>
