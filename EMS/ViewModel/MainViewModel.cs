@@ -151,7 +151,7 @@ namespace EMS.ViewModel
             }
             else
             {
-                SaveDataFillColor = new SolidColorBrush(Colors.Gray);
+                SaveDataFillColor = new SolidColorBrush(Colors.LightGreen);
             }
         }
 

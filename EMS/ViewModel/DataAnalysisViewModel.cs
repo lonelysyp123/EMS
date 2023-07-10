@@ -113,9 +113,9 @@ namespace EMS.ViewModel
             };
             DisplayDataModel.Legends.Add(l);
             DataTypeList = new ObservableCollection<string>();
-            IdSeries = "0-0-0";
-            StartTime2 = "::";
-            EndTime2 = "::";
+            IdSeries = "1-1-1";
+            StartTime2 = "00:00:00";
+            EndTime2 = "00:00:00";
             SelectedDataTypeList = new List<string>();
             //ChartShowNow(storeModel.VolCollect.ToArray());
         }
@@ -136,9 +136,9 @@ namespace EMS.ViewModel
             };
             DisplayDataModel.Legends.Add(l);
             DataTypeList = new ObservableCollection<string>();
-            IdSeries = "0-0-0";      
-            StartTime2 = "::";
-            EndTime2 = "::";
+            IdSeries = "1-1-1";      
+            StartTime2 = "00:00:00";
+            EndTime2 = "00:00:00";
             SelectedDataTypeList = new List<string>();
         }
 
@@ -250,6 +250,8 @@ namespace EMS.ViewModel
             {
                 LineSeries lineSeries = new LineSeries();
                 lineSeries.Title = SelectedDataTypeList[i];
+                lineSeries.MarkerSize = 3;
+                lineSeries.MarkerType = MarkerType.Circle;
                 int index = DataTypeList.IndexOf(SelectedDataTypeList[i]);
                 for (int j = 0; j < DisplayDataList[index].Length; j++)
                 {

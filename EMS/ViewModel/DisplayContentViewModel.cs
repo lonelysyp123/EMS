@@ -217,18 +217,18 @@ namespace EMS.ViewModel
                         TotalManage.Insert(TotalModel);
 
                         SeriesBatteryInfoManage SeriesManage = new SeriesBatteryInfoManage();
-                        for (int i = 0; i < OnlineBatteryTotalList[i].Series.Count; i++)
+                        for (int i = 0; i < OnlineBatteryTotalList[(int)index].Series.Count; i++)
                         {
                             SeriesBatteryInfoModel model = new SeriesBatteryInfoModel();
                             model.BCMUID = OnlineBatteryTotalList[(int)index].BCMUID;
-                            model.BMUID = OnlineBatteryTotalList[i].Series[i].SeriesId;
+                            model.BMUID = OnlineBatteryTotalList[(int)index].Series[i].SeriesId;
                             model.HappenTime = date;
-                            typeof(SeriesBatteryInfoModel).GetProperty("SeriesVoltage").SetValue(model, OnlineBatteryTotalList[i].Series[i].SeriesVoltage);
-                            typeof(SeriesBatteryInfoModel).GetProperty("SeriesCurrent").SetValue(model, OnlineBatteryTotalList[i].Series[i].SeriesCurrent);
-                            for (int j = 0; j < OnlineBatteryTotalList[i].Series[i].Batteries.Count; j++)
+                            typeof(SeriesBatteryInfoModel).GetProperty("SeriesVoltage").SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].SeriesVoltage);
+                            typeof(SeriesBatteryInfoModel).GetProperty("SeriesCurrent").SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].SeriesCurrent);
+                            for (int j = 0; j < OnlineBatteryTotalList[(int)index].Series[i].Batteries.Count; j++)
                             {
-                                typeof(SeriesBatteryInfoModel).GetProperty("Voltage" + j).SetValue(model, OnlineBatteryTotalList[i].Series[i].Batteries[j].Voltage);
-                                typeof(SeriesBatteryInfoModel).GetProperty("Current" + j).SetValue(model, OnlineBatteryTotalList[i].Series[i].Batteries[j].Current);
+                                typeof(SeriesBatteryInfoModel).GetProperty("Voltage" + j).SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Voltage);
+                                typeof(SeriesBatteryInfoModel).GetProperty("Current" + j).SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Current);
                             }
                             SeriesManage.Insert(model);
                         }
