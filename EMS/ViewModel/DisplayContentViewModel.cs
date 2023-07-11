@@ -17,6 +17,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Reflection;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using System.Net;
 
 namespace EMS.ViewModel
 {
@@ -153,6 +154,15 @@ namespace EMS.ViewModel
                     }
                     OnlineBatteryTotalList[index].Series.Add(series);
                 }
+
+                //var infos = ClientList[index].ReadFunc((ushort)10000, 100);
+                //// 根据各种信息所在的地址来解析infos
+                //// string类型写入
+                //OnlineBatteryTotalList[index].BCMUID = BitConverter.ToString(infos, 0, 1);
+                //// int类型写入
+                //OnlineBatteryTotalList[index].BatteriesCount = BitConverter.ToUInt16(infos, 0);
+                //// double类型写入
+                //OnlineBatteryTotalList[index].TotalVoltage = BitConverter.ToUInt16(infos, 0) * 0.001;     // 电压0.001V
             }
         }
 

@@ -41,45 +41,45 @@ namespace EMS.Model
             }
         }
 
-        private int _alarmCode;
+        private int _alarmState;
         /// <summary>
         /// 告警状态
         /// </summary>
-        public int AlarmCode
+        public int AlarmState
         {
 
-            get => _alarmCode;
+            get => _alarmState;
             set
             {
-                SetProperty(ref _alarmCode, value);
+                SetProperty(ref _alarmState, value);
             }
         }
 
-        private int _faultCode;
+        private int _faultState;
         /// <summary>
         /// 故障状态
         /// </summary>
-        public int FaultCode
+        public int FaultState
         {
 
-            get => _faultCode;
+            get => _faultState;
             set
             {
-                SetProperty(ref _faultCode, value);
+                SetProperty(ref _faultState, value);
             }
         }
 
-        private int _chargeChannelCode;
+        private int _chargeChannelState;
         /// <summary>
         /// 充电通道状态
         /// </summary>
-        public int ChargeChannelCode
+        public int ChargeChannelState
         {
 
-            get => _chargeChannelCode;
+            get => _chargeChannelState;
             set
             {
-                SetProperty(ref _chargeChannelCode, value);
+                SetProperty(ref _chargeChannelState, value);
             }
         }
 

@@ -26,7 +26,7 @@ namespace EMS.Model
     {
         private double _totalVoltage;
         /// <summary>
-        /// 总簇电压
+        /// 总簇电压    0.1V 
         /// </summary>
         public double TotalVoltage
         {
@@ -40,7 +40,7 @@ namespace EMS.Model
 
         private double _totalCurrent;
         /// <summary>
-        /// 总簇电流
+        /// 总簇电流    0.1A
         /// </summary>
         public double TotalCurrent
         {
@@ -52,9 +52,37 @@ namespace EMS.Model
             }
         }
 
+        private double _totalSOC;
+        /// <summary>
+        /// 总簇SOC   0.1%
+        /// </summary>
+        public double TotalSOC
+        {
+
+            get => _totalSOC;
+            set
+            {
+                SetProperty(ref _totalSOC, value);
+            }
+        }
+
+        private double _totalSOH;
+        /// <summary>
+        /// 总簇SOH   0.1%
+        /// </summary>
+        public double TotalSOH
+        {
+
+            get => _totalSOH;
+            set
+            {
+                SetProperty(ref _totalSOH, value);
+            }
+        }
+
         private double _averageTemperature;
         /// <summary>
-        /// 平均温度
+        /// 平均温度    0.1℃
         /// </summary>
         public double AverageTemperature
         {
@@ -107,6 +135,7 @@ namespace EMS.Model
 
         public ushort SeriesCount { get; set; }
         public ushort BatteriesCount { get; set; }
+        public ushort BatteriesCountInSeries { get; set; }
         public ObservableCollection<BatterySeriesBase> Series { get; set; }
 
         //private ModbusClient client;
