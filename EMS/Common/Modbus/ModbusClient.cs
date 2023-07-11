@@ -121,7 +121,7 @@ namespace EMS.Common.Modbus.ModbusTCP
         /// <param name="address">寄存器地址</param>
         /// <param name="num">读取位数</param>
         /// <returns>读取值</returns>
-        private byte[] ReadFunc(ushort address, ushort num)
+        public byte[] ReadFunc(ushort address, ushort num)
         {
             try
             {
@@ -306,6 +306,20 @@ namespace EMS.Common.Modbus.ModbusTCP
         {
             string value = BitConverter.ToString(ReadFunc(address, num), 0);
             return value;
+        }
+
+        public bool U16_Str(byte[] values, int startindex, int num, out string value)
+        {
+            value = "";
+            if (startindex >= 0 && num > 0)
+            {
+                if (startindex + num <= values.Length)
+                {
+                    value = BitConverter.ToString(values, startindex, num);
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
