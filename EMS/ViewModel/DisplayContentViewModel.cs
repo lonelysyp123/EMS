@@ -33,15 +33,15 @@ namespace EMS.ViewModel
             }
         }
 
-        private string _treeName;
-        public string TreeName
-        {
-            get => _treeName;
-            set
-            {
-                SetProperty(ref _treeName, value);
-            }
-        }
+        //private string _treeName;
+        //public string TreeName
+        //{
+        //    get => _treeName;
+        //    set
+        //    {
+        //        SetProperty(ref _treeName, value);
+        //    }
+        //}
 
         //public ConcurrentQueue<TotalBatteryInfoModel> TotalBatteryInfoQueue;
         private List<ModbusClient> ClientList;
@@ -51,7 +51,7 @@ namespace EMS.ViewModel
         {
             IntegratedDev = new IntegratedDevViewModel();
             OnlineBatteryTotalList = new ObservableCollection<BatteryTotalBase>();
-            TreeName = "EMS";
+            //TreeName = "EMS";
             ClientList = new List<ModbusClient>();
         }
 
@@ -97,7 +97,6 @@ namespace EMS.ViewModel
                 {
                     ClientList[index].Connect();
                     OnlineBatteryTotalList[index].IsConnected = true;
-                    OnlineBatteryTotalList[index].ImageTitleChange();
                     InitBatteryTotal(index);
                 }
             }
@@ -116,7 +115,6 @@ namespace EMS.ViewModel
             {
                 ClientList[index].Disconnect();
                 OnlineBatteryTotalList[index].IsConnected = false;
-                OnlineBatteryTotalList[index].ImageTitleChange();
             }
         }
 
@@ -197,21 +195,21 @@ namespace EMS.ViewModel
                     Thread.Sleep(DaqTimeSpan * 1000);
                     //** 注：应该尽可能的少次多量读取数据，多次读取数据会因为读取次数过于频繁导致丢包
                     // 获取总簇电池信息
-                    OnlineBatteryTotalList[(int)index].TotalVoltage = ClientList[(int)index].ReadU16(10001);
-                    OnlineBatteryTotalList[(int)index].TotalCurrent = ClientList[(int)index].ReadU16(10002);
+                    OnlineBatteryTotalList[(int)index].TotalVoltage = ClientList[(int)index].ReadU16(10001) * 0.001;
+                    OnlineBatteryTotalList[(int)index].TotalCurrent = ClientList[(int)index].ReadU16(10002) * 0.1;
                     for (int i = 0; i < OnlineBatteryTotalList[(int)index].Series.Count; i++)
                     {
                         // 获取单串电池信息
                         ushort[] seriesValues = ClientList[(int)index].ReadU16Array((ushort)(11001 + i * 10), 2);
-                        OnlineBatteryTotalList[(int)index].Series[i].SeriesVoltage = seriesValues[0];
-                        OnlineBatteryTotalList[(int)index].Series[i].SeriesCurrent = seriesValues[1];
+                        OnlineBatteryTotalList[(int)index].Series[i].SeriesVoltage = seriesValues[0] * 0.001;
+                        OnlineBatteryTotalList[(int)index].Series[i].SeriesCurrent = seriesValues[1] * 0.1;
 
                         for (int j = 0; j < OnlineBatteryTotalList[(int)index].Series[i].Batteries.Count; j++)
                         {
                             // 获取单个电池信息
                             ushort[] BatteryValues = ClientList[(int)index].ReadU16Array((ushort)(12001 + j * 10), 3);
-                            OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Voltage = BatteryValues[0];
-                            OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Current = BatteryValues[1];
+                            OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Voltage = BatteryValues[0] * 0.001;
+                            OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Current = BatteryValues[1] * 0.1;
                         }
                     }
 

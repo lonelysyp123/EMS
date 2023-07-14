@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="EMS.MyControl.DevControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EMS.MyControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="80" d:DesignWidth="150">
+    <Border CornerRadius="5" BorderThickness="2">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="{Binding DevImage}" Width="60"/>
+                <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding TotalID}" FontSize="14" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="1" Text="{Binding IP}" FontSize="12"/>
+                </StackPanel>
+            </Grid>
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                <Image Grid.Column="0" Source="{Binding ConnectImage}" Height="20" Margin="5 0"/>
+                <Image Grid.Column="0" Source="{Binding DaqDataImage}" Height="20" Margin="5 0"/>
+                <Image Grid.Column="0" Source="{Binding RecordDataImage}" Height="20" Margin="5 0"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

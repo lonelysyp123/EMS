@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="EMS.MyControl.DataControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EMS.MyControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="182" d:DesignWidth="202">
+    <Border CornerRadius="5" BorderThickness="2" Name="DataView">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="0.6*"/>
+            </Grid.RowDefinitions>
+            <Border CornerRadius="5 5 0 0" Grid.Row="0">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF267200" Offset="1"/>
+                        <GradientStop Color="#FF56FF00" Offset="0"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <TextBlock Text="{Binding TotalID}" Margin="5 0 5 0" VerticalAlignment="Center"></TextBlock>
+            </Border>
+
+            <Grid Grid.Row="1" Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="1.2*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding TotalVoltage, StringFormat={}{0:F3}V}" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"></TextBlock>
+                <Separator Grid.Row="1" Grid.Column="0" Margin="10 0 0 0">
+                    <Separator.Background>
+                        <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
+                            <GradientStop Color="#FFB5B5B5" Offset="1"/>
+                            <GradientStop Color="White" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Separator.Background>
+                </Separator>
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding TotalCurrent, StringFormat={}{0:F3}A}" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"></TextBlock>
+                <Separator Grid.Row="3" Grid.Column="0" Margin="10 0 0 0">
+                    <Separator.Background>
+                        <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
+                            <GradientStop Color="#FFB5B5B5" Offset="1"/>
+                            <GradientStop Color="White" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Separator.Background>
+                </Separator>
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="0.000Ah" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"></TextBlock>
+                <Separator Grid.Row="5" Grid.Column="0" BorderThickness="0" Margin="10 0 0 0">
+                    <Separator.Background>
+                        <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
+                            <GradientStop Color="#FFB5B5B5" Offset="1"/>
+                            <GradientStop Color="White" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Separator.Background>
+                </Separator>
+                <TextBlock Grid.Row="6" Grid.ColumnSpan="2"  Text="备用参数" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="15"></TextBlock>
+                <Grid Grid.Row="7" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <RadioButton Grid.Column="0" Content="ST" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
+                    <RadioButton Grid.Column="1" Content="ST" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
+                    <RadioButton Grid.Column="2" Content="ST" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
+                    <RadioButton Grid.Column="3" Content="ST" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
+                    <RadioButton Grid.Column="4" Content="ST" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
+                </Grid>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="0.0W" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="0.0Wh" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
+            </Grid>
+            <Border Grid.Row="2" Background="White" CornerRadius="0 0 5 5">
+                <Grid Margin="5 0 5 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="T:0.0℃" FontSize="10" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="Param1" FontSize="10" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="Param2" FontSize="10" VerticalAlignment="Center"></TextBlock>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

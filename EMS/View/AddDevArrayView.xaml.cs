@@ -31,47 +31,23 @@ namespace EMS.View
 
         private void ConfirmBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (IsRtu)
+            segment = IP1.P1.Text + "." + IP1.P2.Text + "." + IP1.P3.Text + ".";
+            if (IP1.P1.Text == IP2.P1.Text && IP1.P2.Text == IP2.P2.Text && IP1.P3.Text == IP2.P3.Text)
             {
-                if (RTUPort1.Text.Contains("COM") && RTUPort2.Text.Contains("COM"))
+                beforeN = 0;
+                int.TryParse(IP1.P4.Text, out beforeN);
+                afterN = 0;
+                int.TryParse(IP2.P4.Text, out afterN);
+                if (afterN < beforeN)
                 {
-                    segment = "COM";
-                    beforeN = 0;
-                    int.TryParse(RTUPort1.Text.Replace("COM", ""), out beforeN);
-                    afterN = 0;
-                    int.TryParse(RTUPort2.Text.Replace("COM", ""), out afterN);
-                    if (afterN < beforeN)
-                    {
-                        MessageBox.Show("IP地址输入有误!");
-                        return;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("端口号不合规!");
+                    MessageBox.Show("IP地址输入有误!");
                     return;
                 }
             }
             else
             {
-                segment = IP1.P1.Text + "." + IP1.P2.Text + "." + IP1.P3.Text + ".";
-                if (IP1.P1.Text == IP2.P1.Text && IP1.P2.Text == IP2.P2.Text && IP1.P3.Text == IP2.P3.Text)
-                {
-                    beforeN = 0;
-                    int.TryParse(IP1.P4.Text, out beforeN);
-                    afterN = 0;
-                    int.TryParse(IP2.P4.Text, out afterN);
-                    if (afterN < beforeN)
-                    {
-                        MessageBox.Show("IP地址输入有误!");
-                        return;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("IP地址网段不同!");
-                    return;
-                }
+                MessageBox.Show("IP地址网段不同!");
+                return;
             }
             this.DialogResult = true;
             this.Close();

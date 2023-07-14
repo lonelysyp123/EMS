@@ -146,8 +146,14 @@
     <Compile Include="Common\Mqtt\MqttClientService.cs" />
     <Compile Include="Common\Mqtt\MqttConnectOption.cs" />
     <Compile Include="Model\SystemConfigurationBase.cs" />
+    <Compile Include="MyControl\DataControl.xaml.cs">
+      <DependentUpon>DataControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MyControl\DateInput.xaml.cs">
       <DependentUpon>DateInput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MyControl\DevControl.xaml.cs">
+      <DependentUpon>DevControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="MyControl\IDInput.xaml.cs">
       <DependentUpon>IDInput.xaml</DependentUpon>
@@ -191,8 +197,23 @@
     <Compile Include="View\DataAnalysisView.xaml.cs">
       <DependentUpon>DataAnalysisView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DataAnalysis_OptimizeView.xaml.cs">
+      <DependentUpon>DataAnalysis_OptimizeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DevAlarm_ErrorView.xaml.cs">
+      <DependentUpon>DevAlarm_ErrorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DevControlView.xaml.cs">
+      <DependentUpon>DevControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DevTest_CollectView.xaml.cs">
+      <DependentUpon>DevTest_CollectView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SystemSetView.xaml.cs">
       <DependentUpon>SystemSetView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestView.xaml.cs">
+      <DependentUpon>TestView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -208,7 +229,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MyControl\DataControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MyControl\DateInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MyControl\DevControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -236,7 +265,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DataAnalysis_OptimizeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DevAlarm_ErrorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DevControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DevTest_CollectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\SystemSetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -255,10 +304,31 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="Resource\Image\BMS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resource\Image\menu.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\Image\menu1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\Image\OnConnect.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\Image\OffDaq.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\Image\OffRecord.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\Image\OffConnect.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\Image\OnDaq.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\Image\OnRecord.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\Image\pause.png">

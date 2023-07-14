@@ -11,8 +11,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="11*"/>
-            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="#FF4D4D4D" Height="25">
             <Menu.Background>
@@ -27,8 +25,6 @@
             </MenuItem>
             <MenuItem Header="选项"  FontSize="12" VerticalAlignment="Center">
                 <MenuItem Header="系统设置" Command="{Binding OpenSystemSetViewCommand}"></MenuItem>
-                <!--<MenuItem Header="开始采集" Command="{Binding StartDaqCommand}"></MenuItem>
-                <MenuItem Header="停止采集" Command="{Binding StopDaqCommand}"></MenuItem>-->
                 <MenuItem Header="数据分析" Command="{Binding OpenDataAnalysisViewCommand}"></MenuItem>
             </MenuItem>
             <MenuItem Header="帮助"  FontSize="12" VerticalAlignment="Center">
@@ -37,52 +33,98 @@
             </MenuItem>
         </Menu>
 
-        <DockPanel LastChildFill="True" Grid.Row="1" Background="Gray">
-            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Margin="5,0,5,0">
-                <Button Background="Transparent" BorderThickness="0" Command="{Binding StartOrStopDaqCommand}">
-                    <Image x:Name="StartDaq" Source="{Binding StartDaqImageSource}" Width="30" Height="30" Margin="10,0"/>
-                </Button>
-                <Button Background="Transparent" BorderThickness="0" Command="{Binding StartOrStopSaveDataCommand}">
-                    <Ellipse x:Name="StartSave" Height="30" Width="30" Fill="{Binding SaveDataFillColor}" Margin="10"/>
-                </Button>
-            </StackPanel>
-        </DockPanel>
-
-        <Grid Grid.Row="2" Name="DisplayContent">
+        <Grid Grid.Row="1" Name="DisplayContent">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0" Width="140">
-                <TreeView Name="DevTree" SelectedItemChanged="TreeView_SelectedItemChanged">
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate ItemsSource="{Binding OnlineBatteryTotalList}">
-                            <TextBlock Text="{Binding TreeName}"></TextBlock>
-                            <HierarchicalDataTemplate.ItemTemplate>
-                                <HierarchicalDataTemplate ItemsSource="{Binding Series}">
-                                    <TextBlock Text="{Binding BCMUID}"></TextBlock>
-                                    <HierarchicalDataTemplate.ItemTemplate>
-                                        <HierarchicalDataTemplate ItemsSource="{Binding Batteries}">
-                                            <TextBlock Text="{Binding SeriesId}"></TextBlock>
-                                            <HierarchicalDataTemplate.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding BatteryID}"></TextBlock>
-                                                </DataTemplate>
-                                            </HierarchicalDataTemplate.ItemTemplate>
-                                        </HierarchicalDataTemplate>
-                                    </HierarchicalDataTemplate.ItemTemplate>
-                                </HierarchicalDataTemplate>
-                            </HierarchicalDataTemplate.ItemTemplate>
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
-                </TreeView>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <DockPanel LastChildFill="True" Grid.Row="0" Grid.Column="0" Height="60" Background="Gray">
+                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Margin="5,0,5,0">
+                    <Button Background="Transparent" BorderThickness="0" Command="{Binding StartOrStopDaqCommand}" Style="{x:Null}">
+                        <Image x:Name="StartDaq" Source="{Binding StartDaqImageSource}" Width="30" Height="30" Margin="10,0"/>
+                    </Button>
+                    <Button Background="Transparent" BorderThickness="0" Command="{Binding StartOrStopSaveDataCommand}" Style="{x:Null}">
+                        <Ellipse x:Name="StartSave" Height="30" Width="30" Fill="{Binding SaveDataFillColor}" Margin="10"/>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+
+            <Grid Grid.Column="0" Grid.Row="1" Background="#FF313131" Name="DataGridView">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Background="#FF5F5F5F">
+                    <Border x:Name="DaqDataBorder" Margin="5 0 0 0" Height="35" Width="150" CornerRadius="10 10 0 0" BorderThickness="1" BorderBrush="#FF6C4715" MouseLeftButtonUp="SwitchBorder_MouseLeftButtonUp">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFFD9F2F" Offset="1"/>
+                                <GradientStop Color="#FFFFD9AD" Offset="0"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="设备检测与采集" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
+                        </Grid>
+                    </Border>
+                    <Border x:Name="AnalysisDataBorder" Height="35" Width="150" CornerRadius="10 10 0 0" BorderThickness="1" BorderBrush="#FF6C4715" MouseLeftButtonUp="SwitchBorder_MouseLeftButtonUp">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFA5A5A5" Offset="1"/>
+                                <GradientStop Color="#FFE4E4E4" Offset="0"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="数据分析与优化" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
+                        </Grid>
+                    </Border>
+                    <Border x:Name="ControlBorder" Height="35" Width="150" CornerRadius="10 10 0 0" BorderThickness="1" BorderBrush="#FF6C4715" MouseLeftButtonUp="SwitchBorder_MouseLeftButtonUp">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFA5A5A5" Offset="1"/>
+                                <GradientStop Color="#FFE4E4E4" Offset="0"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="设备配置与控制" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
+                        </Grid>
+                    </Border>
+                    <Border x:Name="AlarmBorder" Height="35" Width="150" CornerRadius="10 10 0 0" BorderThickness="1" BorderBrush="#FF6C4715" MouseLeftButtonUp="SwitchBorder_MouseLeftButtonUp">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFA5A5A5" Offset="1"/>
+                                <GradientStop Color="#FFE4E4E4" Offset="0"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="故障检测与保护" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+                <Frame Grid.Row="1" x:Name="MainBody" NavigationUIVisibility="Hidden"></Frame>
             </Grid>
 
-            <Grid Grid.Column="1" Background="#FF313131" Name="DataGridView">
-            </Grid>
-
-            <Grid Grid.Column="2" Width="160" x:Name="DevListView">
+            <Grid Grid.Column="1" Grid.RowSpan="2" Width="160" x:Name="DevListView">
                 <Grid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="添加设备" Command="{Binding AddDevCommand}"></MenuItem>
@@ -101,14 +143,7 @@
                                         </Border>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsSelected" Value="True">
-                                                <Setter Property="Background" TargetName="b1">
-                                                    <Setter.Value>
-                                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                            <GradientStop Color="#FFCAFFCA"/>
-                                                            <GradientStop Color="#7F008000" Offset="1"/>
-                                                        </LinearGradientBrush>
-                                                    </Setter.Value>
-                                                </Setter>
+                                                <Setter Property="Background" Value="White" TargetName="b1"></Setter>
                                                 <Setter Property="BorderThickness" Value="1" TargetName="b1"></Setter>
                                                 <Setter Property="BorderBrush" Value="Black" TargetName="b1"></Setter>
                                             </Trigger>
@@ -133,59 +168,41 @@
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid Height="50" Background="#02FFFFFF">
-                                <Grid.ContextMenu>
+                            <Border Height="90" Width="160" Background="#FFB8B8B8">
+                                <Border.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="重新连接" Click="ReConnect_Click"></MenuItem>
                                         <MenuItem Header="断开连接" Click="DisConnect_Click"></MenuItem>
-                                        <!--<MenuItem Header="配置连接" Click="SetConnect_Click"></MenuItem>-->
                                         <MenuItem Header="删除设备" Click="DelDev_Click"></MenuItem>
                                     </ContextMenu>
-                                </Grid.ContextMenu>
+                                </Border.ContextMenu>
                                 <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Image Grid.Column="0" Source="{Binding ImageTitle}" Width="40"/>
-                                    <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock Text="BCMU" FontSize="14" VerticalAlignment="Center"/>
-                                        <TextBlock Grid.Row="1" Text="{Binding TotalID}" FontSize="12"/>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0" Source="{Binding DevImage}" Width="70"/>
+                                        <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding TotalID}" FontSize="14" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Row="1" Text="{Binding IP}" FontSize="12"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    <StackPanel Orientation="Horizontal" Grid.Row="1">
+                                        <Image Grid.Column="0" Source="{Binding ConnectImage}" Height="17" Margin="10 0"/>
+                                        <Image Grid.Column="0" Source="{Binding DaqDataImage}" Height="20" Margin="10 0"/>
+                                        <Image Grid.Column="0" Source="{Binding RecordDataImage}" Height="20" Margin="10 0"/>
                                     </StackPanel>
                                 </Grid>
-                            </Grid>
+                            </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
         </Grid>
-
-        <Border Name="StateContent" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Height="18" BorderThickness="1" BorderBrush="#FF767676">
-            <Border.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFFAFAFA"/>
-                    <GradientStop Color="#FFC9C9C9" Offset="1"/>
-                </LinearGradientBrush>
-            </Border.Background>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="10*"/>
-                    <ColumnDefinition Width="1.3*"/>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="1.3*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" BorderThickness="0 0 1 0" BorderBrush="#FFA3ABB1">
-                    <TextBlock Text="{Binding OperationContent}" VerticalAlignment="Center" FontSize="10"></TextBlock>
-                </Border>
-                <Border Grid.Column="1" BorderThickness="0 0 1 0" BorderBrush="#FFA3ABB1">
-                    <TextBlock Text="{Binding OperationType}" VerticalAlignment="Center" FontSize="10"></TextBlock>
-                </Border>
-                <Border Grid.Column="5" BorderThickness="1 0 0 0" BorderBrush="#FFA3ABB1">
-                    <TextBlock Text="{Binding CurrentTime}" VerticalAlignment="Center" FontSize="10"></TextBlock>
-                </Border>
-            </Grid>
-        </Border>
     </Grid>
 </Window>
