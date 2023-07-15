@@ -172,10 +172,6 @@ namespace EMS
             viewmodel.DisplayContent.RemoveDisConnectedDev(item);
         }
 
-        //private void SetConnect_Click(object sender, RoutedEventArgs e)
-        //{
-        //}
-
         private void DelDev_Click(object sender, RoutedEventArgs e)
         {
             var item = DevList.SelectedItem as BatteryTotalBase;

@@ -169,11 +169,20 @@ namespace EMS.ViewModel
                                     DataTypeList.Clear();
                                     DataTypeList.Add("Voltage");
                                     DataTypeList.Add("Current");
+                                    DataTypeList.Add("SOC");
+                                    DataTypeList.Add("Resistance");
+                                    DataTypeList.Add("Temperature1");
+                                    DataTypeList.Add("Temperature2");
                                     if (int.TryParse(items[2], out int Sort))
                                     {
                                         // 查询Battery数据
                                         List<double> vols = new List<double>();
                                         List<double> curs = new List<double>();
+                                        List<double> socList = new List<double>();
+                                        List<double> resistances = new List<double>();
+                                        List<double> temperature1List = new List<double>();
+                                        List<double> temperature2List = new List<double>();
+
                                         for (int i = 1; i < SeriesList.Count; i++)
                                         {
                                             var item0 = typeof(SeriesBatteryInfoModel).GetProperty("Voltage" + (Sort-1)).GetValue(SeriesList[i]);
@@ -187,17 +196,46 @@ namespace EMS.ViewModel
                                             {
                                                 curs.Add(cur);
                                             }
+
+                                            var item2 = typeof(SeriesBatteryInfoModel).GetProperty("SOC" + (Sort - 1)).GetValue(SeriesList[i]);
+                                            if (double.TryParse(item2.ToString(), out double soc))
+                                            {
+                                                socList.Add(soc);
+                                            }
+
+                                            var item3 = typeof(SeriesBatteryInfoModel).GetProperty("Resistance" + (Sort - 1)).GetValue(SeriesList[i]);
+                                            if (double.TryParse(item3.ToString(), out double resistance))
+                                            {
+                                                resistances.Add(resistance);
+                                            }
+
+                                            var item4 = typeof(SeriesBatteryInfoModel).GetProperty("Temperature" + (Sort - 1) * 2).GetValue(SeriesList[i]);
+                                            if (double.TryParse(item4.ToString(), out double temperature1))
+                                            {
+                                                temperature1List.Add(temperature1);
+                                            }
+
+                                            var item5 = typeof(SeriesBatteryInfoModel).GetProperty("Temperature" + ((Sort - 1) * 2 - 1)).GetValue(SeriesList[i]);
+                                            if (double.TryParse(item5.ToString(), out double temperature2))
+                                            {
+                                                temperature2List.Add(temperature2);
+                                            }
+
                                             TimeList.Add(SeriesList[i].HappenTime);
                                         }
                                         DisplayDataList.Add(vols.ToArray());
                                         DisplayDataList.Add(curs.ToArray());
+                                        DisplayDataList.Add(socList.ToArray());
+                                        DisplayDataList.Add(resistances.ToArray());
+                                        DisplayDataList.Add(temperature1List.ToArray());
+                                        DisplayDataList.Add(temperature2List.ToArray());
                                     }
                                 }
                                 else
                                 {
                                     DataTypeList.Clear();
-                                    DataTypeList.Add("SeriesVoltage");
-                                    DataTypeList.Add("SeriesCurrent");
+                                    DataTypeList.Add("Voltage");
+                                    DataTypeList.Add("Current");
                                     // 查询Series数据
                                     List<double> vols = new List<double>();
                                     List<double> curs = new List<double>();
@@ -215,22 +253,35 @@ namespace EMS.ViewModel
                             else
                             {
                                 DataTypeList.Clear();
-                                DataTypeList.Add("TotalVoltage");
-                                DataTypeList.Add("TotalCurrent");
+                                DataTypeList.Add("Voltage");
+                                DataTypeList.Add("Current");
+                                DataTypeList.Add("SOH");
+                                DataTypeList.Add("SOC");
+                                DataTypeList.Add("AverageTemperature");
+
                                 // 查询Total数据
                                 List<double> vols = new List<double>();
                                 List<double> curs = new List<double>();
+                                List<double> socList = new List<double>();
+                                List<double> sohList = new List<double>();
+                                List<double> averageTemperatures = new List<double>();
                                 TotalBatteryInfoManage TotalManage = new TotalBatteryInfoManage();
                                 var TotalList = TotalManage.Find(items[0], StartTime, EndTime);
                                 for (int i = 1; i < TotalList.Count; i++)
                                 {
                                     vols.Add(TotalList[i].Voltage);
                                     curs.Add(TotalList[i].Current);
+                                    socList.Add(TotalList[i].SOC);
+                                    sohList.Add(TotalList[i].SOH);
+                                    averageTemperatures.Add(TotalList[i].AverageTemperature);
                                     var span = TotalList[i].HappenTime - StartTime;
                                     TimeList.Add(TotalList[i].HappenTime);
                                 }
                                 DisplayDataList.Add(vols.ToArray());
                                 DisplayDataList.Add(curs.ToArray());
+                                DisplayDataList.Add(socList.ToArray());
+                                DisplayDataList.Add(sohList.ToArray());
+                                DisplayDataList.Add(averageTemperatures.ToArray());
                             }
                         }
                     }
