@@ -32,15 +32,6 @@ namespace EMS.View
             this.DataContext = viewmodel;
         }
 
-        public DataAnalysisView(List<BatteryTotalBase> items)
-        {
-            InitializeComponent();
-
-            viewmodel = new DataAnalysisViewModel(items);
-            this.DataContext = viewmodel;
-            //DevTree.Items.Add(viewmodel);
-        }
-
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count > 0)
