@@ -23,8 +23,80 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                     <TextBlock Text="间隔时间" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
-                    <TextBox VerticalAlignment="Center" Width="50" BorderThickness="1" Margin="2" Text="{Binding DaqTimeSpan}"></TextBox>
+                    <TextBox VerticalAlignment="Center" Width="100" BorderThickness="1" Margin="2" Text="{Binding DaqTimeSpan}"></TextBox>
                     <TextBlock Text="S" VerticalAlignment="Center"></TextBlock>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="参数集合1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                    <TextBlock Text="参数1" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
+                    <TextBox VerticalAlignment="Center" Width="100" BorderThickness="1" Margin="2" Text="{Binding Param1_1}"></TextBox>
+                    <TextBlock Text="单位" VerticalAlignment="Center"></TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                    <TextBlock Text="参数2" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
+                    <TextBox VerticalAlignment="Center" Width="100" BorderThickness="1" Margin="2" Text="{Binding Param1_2}"></TextBox>
+                    <TextBlock Text="单位" VerticalAlignment="Center"></TextBlock>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="2" Header="参数集合2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                    <TextBlock Text="参数1" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
+                    <TextBox VerticalAlignment="Center" Width="100" BorderThickness="1" Margin="2" Text="{Binding Param2_1}"></TextBox>
+                    <TextBlock Text="单位" VerticalAlignment="Center"></TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                    <TextBlock Text="参数2" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
+                    <TextBox VerticalAlignment="Center" Width="100" BorderThickness="1" Margin="2" Text="{Binding Param2_2}"></TextBox>
+                    <TextBlock Text="单位" VerticalAlignment="Center"></TextBlock>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="3" Header="参数集合3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                    <TextBlock Text="参数1" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
+                    <TextBox VerticalAlignment="Center" Width="100" BorderThickness="1" Margin="2" Text="{Binding Param3_1}"></TextBox>
+                    <TextBlock Text="单位" VerticalAlignment="Center"></TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                    <TextBlock Text="参数2" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
+                    <TextBox VerticalAlignment="Center" Width="100" BorderThickness="1" Margin="2" Text="{Binding Param3_2}"></TextBox>
+                    <TextBlock Text="单位" VerticalAlignment="Center"></TextBlock>
                 </StackPanel>
             </Grid>
         </GroupBox>

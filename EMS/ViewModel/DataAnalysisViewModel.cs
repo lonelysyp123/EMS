@@ -370,7 +370,6 @@ namespace EMS.ViewModel
                 Title = "时间",
                 IntervalType = DateTimeIntervalType.Seconds,
                 StringFormat = "HH:mm:ss",
-                
             });
         }
     }
