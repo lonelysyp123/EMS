@@ -40,23 +40,37 @@ namespace EMS.Model
             }
         }
 
-        private double _temperature;
+        private double _temperature1;
         /// <summary>
-        /// 电流
+        /// 温度
         /// </summary>
-        public double Temperature
+        public double Temperature1
         {
 
-            get => _temperature;
+            get => _temperature1;
             set
             {
-                SetProperty(ref _temperature, value);
+                SetProperty(ref _temperature1, value);
+            }
+        }
+
+        private double _temperature2;
+        /// <summary>
+        /// 温度
+        /// </summary>
+        public double Temperature2
+        {
+
+            get => _temperature2;
+            set
+            {
+                SetProperty(ref _temperature2, value);
             }
         }
 
         private double _soc;
         /// <summary>
-        /// 电流
+        /// SOC
         /// </summary>
         public double SOC
         {

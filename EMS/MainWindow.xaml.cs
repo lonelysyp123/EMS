@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace EMS
 {
@@ -67,9 +68,12 @@ namespace EMS
             dataGrid.MinRowHeight = 30;
             dataGrid.Background = new SolidColorBrush(Colors.Transparent);
             dataGrid.Columns.Add(new DataGridTextColumn() { Header = "序号", Width = new DataGridLength(2, DataGridLengthUnitType.Star), Binding = new Binding("BCMUID") });
-            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "别名", Width = new DataGridLength(4, DataGridLengthUnitType.Star), Binding = new Binding("TotalID") });
+            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "别名", Width = new DataGridLength(2, DataGridLengthUnitType.Star), Binding = new Binding("TotalID") });
             dataGrid.Columns.Add(new DataGridTextColumn() { Header = "电压", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("TotalVoltage") });
             dataGrid.Columns.Add(new DataGridTextColumn() { Header = "电流", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("TotalCurrent") });
+            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "SOC", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("TotalSOC") });
+            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "SOH", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("TotalSOH") });
+            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "平均温度", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("AverageTemperature") });
             dataGrid.ItemsSource = item.OnlineBatteryTotalList;
             DataGridView.Children.Add(dataGrid);
         }
@@ -87,9 +91,12 @@ namespace EMS
             dataGrid.MinRowHeight = 30;
             dataGrid.Background = new SolidColorBrush(Colors.Transparent);
             dataGrid.Columns.Add(new DataGridTextColumn() { Header = "序号", Width = new DataGridLength(2, DataGridLengthUnitType.Star), Binding = new Binding("SeriesId") });
-            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "别名", Width = new DataGridLength(4, DataGridLengthUnitType.Star), Binding = new Binding("SeriesId") });
             dataGrid.Columns.Add(new DataGridTextColumn() { Header = "电压", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("SeriesVoltage") });
             dataGrid.Columns.Add(new DataGridTextColumn() { Header = "电流", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("SeriesCurrent") });
+            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "告警状态", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("AlarmState") });
+            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "故障状态", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("FaultState") });
+            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "充电通道状态", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("ChargeChannelState") });
+            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "充电累计容量", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("ChargeCapacitySum") });
             dataGrid.ItemsSource = item.Series;
             DataGridView.Children.Add(dataGrid);
         }
@@ -107,9 +114,12 @@ namespace EMS
             dataGrid.MinRowHeight = 30;
             dataGrid.Background = new SolidColorBrush(Colors.Transparent);
             dataGrid.Columns.Add(new DataGridTextColumn() { Header = "序号", Width = new DataGridLength(2, DataGridLengthUnitType.Star), Binding = new Binding("BatteryID") });
-            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "别名", Width = new DataGridLength(4, DataGridLengthUnitType.Star), Binding = new Binding("BatteryID") });
             dataGrid.Columns.Add(new DataGridTextColumn() { Header = "电压", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("Voltage") });
             dataGrid.Columns.Add(new DataGridTextColumn() { Header = "电流", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("Current") });
+            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "温度", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("Temperature") });
+            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "SOC", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("SOC") });
+            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "内阻", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("Resistance") });
+            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "单体放满容量", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("Capacity") });
             dataGrid.ItemsSource = item.Batteries;
             DataGridView.Children.Add(dataGrid);
         }
@@ -127,9 +137,12 @@ namespace EMS
             dataGrid.MinRowHeight = 30;
             dataGrid.Background = new SolidColorBrush(Colors.Transparent);
             dataGrid.Columns.Add(new DataGridTextColumn() { Header = "序号", Width = new DataGridLength(2, DataGridLengthUnitType.Star), Binding = new Binding("BatteryID") });
-            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "别名", Width = new DataGridLength(4, DataGridLengthUnitType.Star), Binding = new Binding("BatteryID") });
             dataGrid.Columns.Add(new DataGridTextColumn() { Header = "电压", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("Voltage") });
             dataGrid.Columns.Add(new DataGridTextColumn() { Header = "电流", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("Current") });
+            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "温度", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("Temperature") });
+            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "SOC", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("SOC") });
+            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "内阻", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("Resistance") });
+            dataGrid.Columns.Add(new DataGridTextColumn() { Header = "单体放满容量", Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("Capacity") });
             dataGrid.ItemsSource = new ObservableCollection<BatteryBase>() { battery };
             DataGridView.Children.Add(dataGrid);
         }

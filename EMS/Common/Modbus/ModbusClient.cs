@@ -307,19 +307,5 @@ namespace EMS.Common.Modbus.ModbusTCP
             string value = BitConverter.ToString(ReadFunc(address, num), 0);
             return value;
         }
-
-        public bool U16_Str(byte[] values, int startindex, int num, out string value)
-        {
-            value = "";
-            if (startindex >= 0 && num > 0)
-            {
-                if (startindex + num <= values.Length)
-                {
-                    value = BitConverter.ToString(values, startindex, num);
-                    return true;
-                }
-            }
-            return false;
-        }
     }
 }

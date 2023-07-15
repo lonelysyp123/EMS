@@ -134,7 +134,6 @@ namespace EMS.Model
         public string Port { set; get; }
 
         public ushort SeriesCount { get; set; }
-        public ushort BatteriesCount { get; set; }
         public ushort BatteriesCountInSeries { get; set; }
         public ObservableCollection<BatterySeriesBase> Series { get; set; }
 

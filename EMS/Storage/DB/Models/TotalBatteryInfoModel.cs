@@ -12,8 +12,10 @@ namespace EMS.Storage.DB.Models
         [Key]
         public int ID { get; set; }
         public string BCMUID { get; set; }
-        public double TotalVoltage { get; set; }
-        public double TotalCurrent { get; set; }
+        public double Voltage { get; set; }
+        public double Current { get; set; }
+        public double SOH { get; set; }
+        public double SOC { get; set; }
         public double AverageTemperature { get; set; }
         public DateTime HappenTime { get; set; }
     }

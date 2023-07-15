@@ -224,8 +224,8 @@ namespace EMS.ViewModel
                                 var TotalList = TotalManage.Find(items[0], StartTime, EndTime);
                                 for (int i = 1; i < TotalList.Count; i++)
                                 {
-                                    vols.Add(TotalList[i].TotalVoltage);
-                                    curs.Add(TotalList[i].TotalCurrent);
+                                    vols.Add(TotalList[i].Voltage);
+                                    curs.Add(TotalList[i].Current);
                                     var span = TotalList[i].HappenTime - StartTime;
                                     TimeList.Add(TotalList[i].HappenTime);
                                 }

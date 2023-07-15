@@ -16,6 +16,7 @@ namespace EMS.Storage.DB.Models
         public string BMUID { get; set; }
         public double SeriesVoltage { get; set; }
         public double SeriesCurrent { get; set; }
+
         public double Voltage0 { get; set; }
         public double Voltage1 { get; set; }
         public double Voltage2 { get; set; }
@@ -32,6 +33,7 @@ namespace EMS.Storage.DB.Models
         public double Voltage13 { get; set; }
         public double Voltage14 { get; set; }
         public double Voltage15 { get; set; }
+
         public double Current0 { get; set; }
         public double Current1 { get; set; }
         public double Current2 { get; set; }
@@ -48,6 +50,41 @@ namespace EMS.Storage.DB.Models
         public double Current13 { get; set; }
         public double Current14 { get; set; }
         public double Current15 { get; set; }
+
+        public double SOC0 { get; set; }
+        public double SOC1 { get; set; }
+        public double SOC2 { get; set; }
+        public double SOC3 { get; set; }
+        public double SOC4 { get; set; }
+        public double SOC5 { get; set; }
+        public double SOC6 { get; set; }
+        public double SOC7 { get; set; }
+        public double SOC8 { get; set; }
+        public double SOC9 { get; set; }
+        public double SOC10 { get; set; }
+        public double SOC11 { get; set; }
+        public double SOC12 { get; set; }
+        public double SOC13 { get; set; }
+        public double SOC14 { get; set; }
+        public double SOC15 { get; set; }
+
+        public double Resistance0 { get; set; }
+        public double Resistance1 { get; set; }
+        public double Resistance2 { get; set; }
+        public double Resistance3 { get; set; }
+        public double Resistance4 { get; set; }
+        public double Resistance5 { get; set; }
+        public double Resistance6 { get; set; }
+        public double Resistance7 { get; set; }
+        public double Resistance8 { get; set; }
+        public double Resistance9 { get; set; }
+        public double Resistance10 { get; set; }
+        public double Resistance11 { get; set; }
+        public double Resistance12 { get; set; }
+        public double Resistance13 { get; set; }
+        public double Resistance14 { get; set; }
+        public double Resistance15 { get; set; }
+
         public double Temperature0 { get; set; }
         public double Temperature1 { get; set; }
         public double Temperature2 { get; set; }
