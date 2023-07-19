@@ -33,15 +33,15 @@ namespace EMS.ViewModel
             }
         }
 
-        private string _treeName;
-        public string TreeName
-        {
-            get => _treeName;
-            set
-            {
-                SetProperty(ref _treeName, value);
-            }
-        }
+        //private string _treeName;
+        //public string TreeName
+        //{
+        //    get => _treeName;
+        //    set
+        //    {
+        //        SetProperty(ref _treeName, value);
+        //    }
+        //}
 
         //public ConcurrentQueue<TotalBatteryInfoModel> TotalBatteryInfoQueue;
         private List<ModbusClient> ClientList;
@@ -51,7 +51,7 @@ namespace EMS.ViewModel
         {
             IntegratedDev = new IntegratedDevViewModel();
             OnlineBatteryTotalList = new ObservableCollection<BatteryTotalBase>();
-            TreeName = "EMS";
+            //TreeName = "EMS";
             ClientList = new List<ModbusClient>();
         }
 
@@ -97,7 +97,6 @@ namespace EMS.ViewModel
                 {
                     ClientList[index].Connect();
                     OnlineBatteryTotalList[index].IsConnected = true;
-                    OnlineBatteryTotalList[index].ImageTitleChange();
                     InitBatteryTotal(index);
                 }
             }
@@ -112,21 +111,10 @@ namespace EMS.ViewModel
         /// </summary>
         public void Disconnect(int index)
         {
-            try
+            if (OnlineBatteryTotalList[index].IsConnected)
             {
-                if (OnlineBatteryTotalList.Count > 0)
-                {
-                    if (OnlineBatteryTotalList[index].IsConnected)
-                    {
-                        ClientList[index].Disconnect();
-                        OnlineBatteryTotalList[index].IsConnected = false;
-                        OnlineBatteryTotalList[index].ImageTitleChange();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
+                ClientList[index].Disconnect();
+                OnlineBatteryTotalList[index].IsConnected = false;
             }
         }
 
@@ -250,7 +238,7 @@ namespace EMS.ViewModel
                         // 获取单串电池信息
                         ushort[] seriesValues = ClientList[(int)index].ReadU16Array((ushort)(11001 + i * 10), 2);
                         OnlineBatteryTotalList[(int)index].Series[i].SeriesVoltage = seriesValues[0] * 0.001;
-                        OnlineBatteryTotalList[(int)index].Series[i].SeriesCurrent = seriesValues[1] * 0.1; 
+                        OnlineBatteryTotalList[(int)index].Series[i].SeriesCurrent = seriesValues[1] * 0.1;
 
                         for (int j = 0; j < OnlineBatteryTotalList[(int)index].Series[i].Batteries.Count; j++)
                         {

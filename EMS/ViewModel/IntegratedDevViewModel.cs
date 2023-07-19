@@ -74,48 +74,22 @@ namespace EMS.Model
             AddDevArrayView view = new AddDevArrayView();
             if (view.ShowDialog() == true)
             {
-                // 新增设备
-                if (view.IsRtu)
+                // add Modbus TCP Dev Array
+                for (int i = view.beforeN; i <= view.afterN; i++)
                 {
-                    // add Modbus RTU Dev Array
-                    for (int i = view.beforeN; i <= view.afterN; i++)
+                    string ip = view.segment + i.ToString();
+                    //! 判断该IP是否存在
+                    var objs = BatteryTotalList.Where(dev => dev.TotalID == ip).ToList();
+                    if (objs.Count == 0)
                     {
-                        string port = view.segment + i.ToString();
-                        //! 判断该IP是否存在
-                        var objs = BatteryTotalList.Where(dev => dev.BCMUID == port).ToList();
-                        if (objs.Count == 0)
-                        {
-                            //! 界面上新增IP
-                            BatteryTotalBase dev = new BatteryTotalBase();
-                            dev.BCMUID = port;
-                            dev.IsRTU = true;
-                            BatteryTotalList.Add(dev);
-                        }
-                    }
-                }
-                else
-                {
-                    // add Modbus TCP Dev Array
-                    for (int i = view.beforeN; i <= view.afterN; i++)
-                    {
-                        string ip = view.segment + i.ToString();
-                        //! 判断该IP是否存在
-                        var objs = BatteryTotalList.Where(dev => dev.TotalID == ip).ToList();
-                        if (objs.Count == 0)
-                        {
-                            //! 界面上新增IP
-                            BatteryTotalBase dev = new BatteryTotalBase();
-                            dev.BCMUID = "Test";
-                            dev.IP = ip;
-                            dev.Port = view.TCPPort.Text;
-                            dev.TotalID = ip;
-                            dev.IsRTU = false;
-                            BatteryTotalList.Add(dev);
-                            //! 配置文件中新增IP
-                            DevConnectInfoModel entity = new DevConnectInfoModel() { BCMUID = "Test", IP = ip, Port = view.TCPPort.Text };
-                            DevConnectInfoManage manage = new DevConnectInfoManage();
-                            manage.Insert(entity);
-                        }
+                        //! 界面上新增IP
+                        BatteryTotalBase dev = new BatteryTotalBase(ip, view.TCPPort.Text);
+                        dev.BCMUID = "...";
+                        BatteryTotalList.Add(dev);
+                        //! 配置文件中新增IP
+                        DevConnectInfoModel entity = new DevConnectInfoModel() { BCMUID = "...", IP = ip, Port = view.TCPPort.Text };
+                        DevConnectInfoManage manage = new DevConnectInfoManage();
+                        manage.Insert(entity);
                     }
                 }
             }
@@ -126,35 +100,19 @@ namespace EMS.Model
             AddDevView view = new AddDevView();
             if (view.ShowDialog() == true)
             {
-                // 新增设备
-                if (view.IsRtu)
+                //! 判断该IP是否存在
+                var objs = BatteryTotalList.Where(dev => dev.TotalID == view.IPText.AddressText).ToList();
+                if (objs.Count == 0)
                 {
-                    // add Modbus RTU Dev
-                    BatteryTotalBase dev = new BatteryTotalBase();
-                    dev.TotalID = view.RTUPort.Text;
-                    dev.IsRTU = true;
+                    // add Modbus TCP Dev
+                    BatteryTotalBase dev = new BatteryTotalBase(view.IPText.AddressText, view.TCPPort.Text);
+                    dev.BCMUID = "...";
                     BatteryTotalList.Add(dev);
-                }
-                else
-                {
-                    //! 判断该IP是否存在
-                    var objs = BatteryTotalList.Where(dev => dev.TotalID == view.IPText.AddressText).ToList();
-                    if (objs.Count == 0)
-                    {
-                        // add Modbus TCP Dev
-                        BatteryTotalBase dev = new BatteryTotalBase();
-                        dev.BCMUID = "Test";
-                        dev.TotalID = view.IPText.AddressText;
-                        dev.IsRTU = false;
-                        dev.IP = view.IPText.AddressText;
-                        dev.Port = view.TCPPort.Text;
-                        BatteryTotalList.Add(dev);
 
-                        //! 配置文件中新增IP
-                        DevConnectInfoModel entity = new DevConnectInfoModel() { BCMUID = "Test", IP = view.IPText.AddressText, Port = view.TCPPort.Text };
-                        DevConnectInfoManage manage = new DevConnectInfoManage();
-                        manage.Insert(entity);
-                    }
+                    //! 配置文件中新增IP
+                    DevConnectInfoModel entity = new DevConnectInfoModel() { BCMUID = "...", IP = view.IPText.AddressText, Port = view.TCPPort.Text };
+                    DevConnectInfoManage manage = new DevConnectInfoManage();
+                    manage.Insert(entity);
                 }
             }
         }

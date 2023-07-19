@@ -94,17 +94,59 @@ namespace EMS.Model
             }
         }
 
-        private BitmapSource _imageTitle;
+        private BitmapSource _devImage;
         /// <summary>
         /// 标签图标
         /// </summary>
-        public BitmapSource ImageTitle
+        public BitmapSource DevImage
         {
 
-            get => _imageTitle;
+            get => _devImage;
             set
             {
-                SetProperty(ref _imageTitle, value);
+                SetProperty(ref _devImage, value);
+            }
+        }
+
+        private BitmapSource _connectImage;
+        /// <summary>
+        /// 连接图标
+        /// </summary>
+        public BitmapSource ConnectImage
+        {
+
+            get => _connectImage;
+            set
+            {
+                SetProperty(ref _connectImage, value);
+            }
+        }
+
+        private BitmapSource _daqDataImage;
+        /// <summary>
+        /// 采集图标
+        /// </summary>
+        public BitmapSource DaqDataImage
+        {
+
+            get => _daqDataImage;
+            set
+            {
+                SetProperty(ref _daqDataImage, value);
+            }
+        }
+
+        private BitmapSource _recordDataImage;
+        /// <summary>
+        /// 记录图标
+        /// </summary>
+        public BitmapSource RecordDataImage
+        {
+
+            get => _recordDataImage;
+            set
+            {
+                SetProperty(ref _recordDataImage, value);
             }
         }
 
@@ -115,7 +157,10 @@ namespace EMS.Model
             get => _BCMUID;
             set
             {
-                SetProperty(ref _BCMUID, value);
+                if(SetProperty(ref _BCMUID, value))
+                {
+                    _totalID = "BMS(" + value + ")";
+                }
             }
         }
 
@@ -137,14 +182,46 @@ namespace EMS.Model
         public ushort BatteriesCountInSeries { get; set; }
         public ObservableCollection<BatterySeriesBase> Series { get; set; }
 
-        //private ModbusClient client;
-        public bool IsConnected = false;
-        public bool IsRTU;
-        public bool IsDaq = false;
-        public BatteryTotalBase()
+        private bool _isConnected;
+        public bool IsConnected
         {
-            Series = new ObservableCollection<BatterySeriesBase>();
-            ImageTitleChange();
+            get { return _isConnected; }
+            set
+            {
+                if (_isConnected != value)
+                {
+                    _isConnected = value;
+                    ConnectImageChange(value);
+                }
+            }
+        }
+
+        private bool _isDaqData;
+        public bool IsDaqData
+        {
+            get { return _isDaqData; }
+            set
+            {
+                if (_isDaqData != value)
+                {
+                    _isDaqData = value;
+                    DaqImageChange(value);
+                }
+            }
+        }
+
+        private bool _isRecordData;
+        public bool IsRecordData
+        {
+            get { return _isRecordData; } 
+            set
+            {
+                if (_isRecordData != value)
+                {
+                    _isRecordData = value;
+                    RecordImageChange(value);
+                }
+            }
         }
 
         /// <summary>
@@ -157,35 +234,94 @@ namespace EMS.Model
             Series = new ObservableCollection<BatterySeriesBase>();
             IP = ip;
             Port = port;
-            TotalID = ip;
-            ImageTitleChange();
+            ImageTitle();
+            ConnectImageChange(false);
+            DaqImageChange(false);
+            RecordImageChange(false);
         }
 
         /// <summary>
-        /// 标签图标改变
+        /// 标签图标
         /// </summary>
-        public void ImageTitleChange()
+        public void ImageTitle()
         {
             BitmapImage bi;
-            if (IsConnected)
+            DirectoryInfo directory = new DirectoryInfo("./Resource/Image");
+            FileInfo[] files = directory.GetFiles("BMS.png");
+            bi = new BitmapImage();
+            bi.BeginInit();
+            bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
+            bi.EndInit();
+            DevImage = bi;
+        }
+
+        public void ConnectImageChange(bool isconnected)
+        {
+            BitmapImage bi;
+            DirectoryInfo directory;
+            FileInfo[] files;
+            if (isconnected)
             {
-                DirectoryInfo directory = new DirectoryInfo("./Resource/Image");
-                FileInfo[] files = directory.GetFiles("Online.png");
+                directory = new DirectoryInfo("./Resource/Image");
+                files = directory.GetFiles("OnConnect.png");
                 bi = new BitmapImage();
-                bi.BeginInit();
-                bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
-                bi.EndInit();
             }
             else
             {
-                DirectoryInfo directory = new DirectoryInfo("./Resource/Image");
-                FileInfo[] files = directory.GetFiles("Offline.png");
+                directory = new DirectoryInfo("./Resource/Image");
+                files = directory.GetFiles("OffConnect.png");
                 bi = new BitmapImage();
-                bi.BeginInit();
-                bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
-                bi.EndInit();
             }
-            ImageTitle = bi;
+            bi.BeginInit();
+            bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
+            bi.EndInit();
+            ConnectImage = bi;
+        }
+
+        public void DaqImageChange(bool isdaq)
+        {
+            BitmapImage bi;
+            DirectoryInfo directory;
+            FileInfo[] files;
+            if (isdaq)
+            {
+                directory = new DirectoryInfo("./Resource/Image");
+                files = directory.GetFiles("OnDaq.png");
+                bi = new BitmapImage();
+            }
+            else
+            {
+                directory = new DirectoryInfo("./Resource/Image");
+                files = directory.GetFiles("OffDaq.png");
+                bi = new BitmapImage();
+            }
+            bi.BeginInit();
+            bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
+            bi.EndInit();
+            DaqDataImage = bi;
+        }
+
+        public void RecordImageChange(bool isrecord)
+        {
+            BitmapImage bi;
+            DirectoryInfo directory;
+            FileInfo[] files;
+            if (isrecord)
+            {
+                directory = new DirectoryInfo("./Resource/Image");
+                files = directory.GetFiles("OnRecord.png");
+                bi = new BitmapImage();
+            }
+            else
+            {
+                directory = new DirectoryInfo("./Resource/Image");
+                files = directory.GetFiles("OffRecord.png");
+                bi = new BitmapImage();
+            }
+            bi.BeginInit();
+            bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
+            bi.EndInit();
+            RecordDataImage = bi;
         }
     }
 }

@@ -52,7 +52,7 @@ namespace EMS.ViewModel
         public RelayCommand StartOrStopDaqCommand { set; get; }
         public RelayCommand StartOrStopSaveDataCommand { set; get; }
 
-        public StateContentViewModel StateContent;
+        //public StateContentViewModel StateContent;
         public DisplayContentViewModel DisplayContent;
         public SystemConfigurationBase SystemConfiguration;
 
@@ -63,7 +63,7 @@ namespace EMS.ViewModel
             OpenAboutCommand = new RelayCommand(OpenAboutView);
             StartOrStopDaqCommand = new RelayCommand(StartOrStopDaq);
             StartOrStopSaveDataCommand = new RelayCommand(StartOrStopSaveData);
-            StateContent = new StateContentViewModel();
+            //StateContent = new StateContentViewModel();
             DisplayContent = new DisplayContentViewModel();
             SystemConfiguration = InitSystemConfiguration();
             DisplayContent.DaqTimeSpan = SystemConfiguration.daqConfiguration.DaqTimeSpan;
@@ -106,7 +106,7 @@ namespace EMS.ViewModel
                 DisplayContent.StopDisplayRealTimeData();
                 IsStartDaq = false;
                 DaqImageButtonChange();
-                ShowOperation("数据采集已停止", "操作");
+                //ShowOperation("数据采集已停止", "操作");
             }
             else
             {
@@ -114,7 +114,7 @@ namespace EMS.ViewModel
                 DisplayContent.DisplayRealTimeData();
                 IsStartDaq = true;
                 DaqImageButtonChange();
-                ShowOperation("数据采集已开始", "操作");
+                //ShowOperation("数据采集已开始", "操作");
             }
         }
 
@@ -166,12 +166,6 @@ namespace EMS.ViewModel
             //DataAnalysisView view = new DataAnalysisView(DisplayContent.IntegratedDev.BatteryTotalList.ToList());
             DataAnalysisView view = new DataAnalysisView();
             view.ShowDialog();
-        }
-
-        private void ShowOperation(string content, string type)
-        {
-            StateContent.OperationContent = content;
-            StateContent.OperationType = type;
         }
 
         private void OpenSystemSetView()
