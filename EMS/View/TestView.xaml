@@ -9,6 +9,19 @@
       Title="TestView">
 
     <Grid>
-        
+        <Grid.Background>
+            <RadialGradientBrush GradientOrigin="0.5,0" Center="0.5,0.1" RadiusX="0.5" RadiusY="0.4">
+                <GradientStop Color="#FF080931" Offset="1"/>
+                <GradientStop Color="#FFA77F7F"/>
+            </RadialGradientBrush>
+        </Grid.Background>
+        <Polygon Points="0,0 800,0 800,30 510,30 509,30.05 508,30.07 507,30.1 506,30.2 505,30.3 504,30.5 503,30.7 502,31 501,31.5 500,32 499,32.5 498, 490,40 480,60 320,60 300,30 0,30">
+            <Polygon.Fill>
+                <RadialGradientBrush GradientOrigin="0.5,1" Center="0.5,0.9" RadiusX="0.6" RadiusY="1">
+                    <GradientStop Color="#CCB3F5FD" Offset="0"/>
+                    <GradientStop Color="#00080931" Offset="1"/>
+                </RadialGradientBrush>
+            </Polygon.Fill>
+        </Polygon>
     </Grid>
 </Page>

@@ -168,12 +168,6 @@ namespace EMS.ViewModel
             view.ShowDialog();
         }
 
-        //private void ShowOperation(string content, string type)
-        //{
-        //    StateContent.OperationContent = content;
-        //    StateContent.OperationType = type;
-        //}
-
         private void OpenSystemSetView()
         {
             DBManage<DaqConfigurationModel> manage = new DBManage<DaqConfigurationModel>();
