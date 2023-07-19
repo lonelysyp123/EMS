@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="TestView">
 
-    <Grid>
+    <!--<Grid>
         <Grid.Background>
             <RadialGradientBrush GradientOrigin="0.5,0" Center="0.5,0.1" RadiusX="0.5" RadiusY="0.4">
                 <GradientStop Color="#FF080931" Offset="1"/>
@@ -23,5 +23,5 @@
                 </RadialGradientBrush>
             </Polygon.Fill>
         </Polygon>
-    </Grid>
+    </Grid>-->
 </Page>
