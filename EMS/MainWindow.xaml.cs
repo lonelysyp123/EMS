@@ -94,7 +94,7 @@ namespace EMS
         DevTest_CollectView devTest_Daq;
         DataAnalysis_OptimizeView dataAnalysis_Optimize;
         DevControlView devControlView;
-        DevAlarm_ErrorView devAlarm_Error;
+        //DevAlarm_ErrorView devAlarm_Error;
         private void SwitchBorder_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             LinearGradientBrush selectedbrush = new LinearGradientBrush(Color.FromRgb(255, 217, 173), Color.FromRgb(253, 159, 47), new Point(0.5, 0), new Point(0.5, 1));
@@ -102,7 +102,7 @@ namespace EMS
             DaqDataBorder.Background = unselectedbrush;
             AnalysisDataBorder.Background = unselectedbrush;
             ControlBorder.Background = unselectedbrush;
-            AlarmBorder.Background = unselectedbrush;
+            //AlarmBorder.Background = unselectedbrush;
             (sender as Border).Background = selectedbrush;
             SelectedPage((sender as Border).Name);
         }
@@ -132,13 +132,13 @@ namespace EMS
                     }
                     MainBody.Content = new Frame() { Content = devControlView };
                     break;
-                case "AlarmBorder":
-                    if (devAlarm_Error == null)
-                    {
-                        devAlarm_Error = new DevAlarm_ErrorView();
-                    }
-                    MainBody.Content = new Frame() { Content = devAlarm_Error };
-                    break;
+                //case "AlarmBorder":
+                //    if (devAlarm_Error == null)
+                //    {
+                //        devAlarm_Error = new DevAlarm_ErrorView();
+                //    }
+                //    MainBody.Content = new Frame() { Content = devAlarm_Error };
+                //    break;
                 default:
                     break;
             }
