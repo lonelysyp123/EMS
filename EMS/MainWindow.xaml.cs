@@ -36,16 +36,26 @@ namespace EMS
             var item = DevList.SelectedItem as BatteryTotalBase;
             try
             {
-                // 连接成功后将设备信息添加到左边的导航栏中
-                viewmodel.DisplayContent.AddConnectedDev(item);
-                devTest_Daq.AddDevIntoView(item);
-                // 更新数据库中设备信息BCMUID
-                DevConnectInfoManage manage = new DevConnectInfoManage();
-                manage.Update(new DevConnectInfoModel() { BCMUID = item.BCMUID, IP = item.IP, Port = item.Port });
+                if (item.IsConnected)
+                {
+                    DisConnect_Click(null, null);
+                    ReConnect_Click(null,null);
+                }
+                else
+                {
+                    // 连接成功后将设备信息添加到左边的导航栏中
+                    if (viewmodel.DisplayContent.AddConnectedDev(item))
+                    {
+                        devTest_Daq.AddDevIntoView(item);
+
+                        // 更新数据库中设备信息BCMUID
+                        DevConnectInfoManage manage = new DevConnectInfoManage();
+                        manage.Update(new DevConnectInfoModel() { BCMUID = item.BCMUID, IP = item.IP, Port = item.Port });
+                    }
+                }
             }
             catch
             {
-                viewmodel.DisplayContent.RemoveDisConnectedDev(item);
                 MessageBox.Show("重新连接设备失败，请检查通讯参数和连接介质！");
             }
         }
@@ -54,8 +64,11 @@ namespace EMS
         {
             // 断开连接设备
             var item = DevList.SelectedItem as BatteryTotalBase;
-            devTest_Daq.RemoveDevIntoView();
-            viewmodel.DisplayContent.RemoveDisConnectedDev(item);
+            int index = viewmodel.DisplayContent.RemoveDisConnectedDev(item);
+            if (index >= 0)
+            {
+                devTest_Daq.RemoveDevIntoView(index);
+            }
         }
 
         private void DelDev_Click(object sender, RoutedEventArgs e)

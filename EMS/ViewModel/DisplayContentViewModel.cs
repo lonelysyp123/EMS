@@ -18,6 +18,7 @@ using System.Windows;
 using System.Reflection;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.Net;
+using System.Windows.Threading;
 
 namespace EMS.ViewModel
 {
@@ -33,20 +34,11 @@ namespace EMS.ViewModel
             }
         }
 
-        //private string _treeName;
-        //public string TreeName
-        //{
-        //    get => _treeName;
-        //    set
-        //    {
-        //        SetProperty(ref _treeName, value);
-        //    }
-        //}
-
         //public ConcurrentQueue<TotalBatteryInfoModel> TotalBatteryInfoQueue;
         private List<ModbusClient> ClientList;
         public int DaqTimeSpan = 0;
         public IntegratedDevViewModel IntegratedDev;
+        public bool IsStartSaveData = false;
         public DisplayContentViewModel()
         {
             IntegratedDev = new IntegratedDevViewModel();
@@ -55,49 +47,70 @@ namespace EMS.ViewModel
             ClientList = new List<ModbusClient>();
         }
 
-        public void AddConnectedDev(BatteryTotalBase battery)
+        public bool IsStartDaqData = false;
+        public bool AddConnectedDev(BatteryTotalBase battery)
         {
-            if(!OnlineBatteryTotalList.Contains(battery))
+            try
             {
-                if (int.TryParse(battery.Port, out int port))
+                if (!OnlineBatteryTotalList.Contains(battery))
                 {
-                    OnlineBatteryTotalList.Add(battery);
-                    ClientList.Add(new ModbusClient(battery.IP, port));
-                    ConnectBCMU(OnlineBatteryTotalList.Count-1);
+                    if (int.TryParse(battery.Port, out int port))
+                    {
+                        ModbusClient client = new ModbusClient(battery.IP, port);
+                        Connect(battery, client);
+                        OnlineBatteryTotalList.Add(battery);
+                        ClientList.Add(client);
+                        if (IsStartDaqData)
+                        {
+                            OnlineBatteryTotalList[OnlineBatteryTotalList.Count-1].IsDaqData = true;
+                            Thread thread = new Thread(ReadBatteryTotalData);
+                            thread.IsBackground = true;
+                            thread.Start(OnlineBatteryTotalList.Count - 1);
+                        }
+                        return true;
+                    }
                 }
-                else
-                {
-                    // 设备连接信息有误
-                    throw new Exception("Connect Info is Error");
-                }
+                return false;
+            }
+            catch 
+            {
+                return false;
             }
         }
 
-        public void RemoveDisConnectedDev(BatteryTotalBase item)
+        public int RemoveDisConnectedDev(BatteryTotalBase item)
         {
-            if (!IsStartReadData)
+            try
             {
-                Disconnect(OnlineBatteryTotalList.IndexOf(item));
-                OnlineBatteryTotalList.Remove(item);
+                if (OnlineBatteryTotalList.Count > 0)
+                {
+                    int index = OnlineBatteryTotalList.IndexOf(item);
+                    Disconnect(index);
+                    OnlineBatteryTotalList[index].IsDaqData = false;
+                    OnlineBatteryTotalList.RemoveAt(index);
+                    ClientList.RemoveAt(index);
+                    return index;
+                }
+                return -1;
             }
-            else
+            catch
             {
-                MessageBox.Show("请先停止数据采集");
+                return -1;
             }
         }
 
         /// <summary>
         /// 连接
         /// </summary>
-        private void ConnectBCMU(int index)
+        private void Connect(BatteryTotalBase obj, ModbusClient client)
         {
             try
             {
-                if (!OnlineBatteryTotalList[index].IsConnected)
+                if (!obj.IsConnected)
                 {
-                    ClientList[index].Connect();
-                    OnlineBatteryTotalList[index].IsConnected = true;
-                    InitBatteryTotal(index);
+                    client.Connect();
+                    obj.IsConnected = true;
+                    InitBatteryTotal(obj, client);
                 }
             }
             catch (Exception ex)
@@ -147,6 +160,36 @@ namespace EMS.ViewModel
                         series.Batteries.Add(battery);
                     }
                     OnlineBatteryTotalList[index].Series.Add(series);
+                }
+            }
+        }
+
+        public void InitBatteryTotal(BatteryTotalBase obj, ModbusClient client)
+        {
+            if (obj.IsConnected)
+            {
+                // 信息补全
+                obj.BCMUID = client.ReadU16(10000).ToString();
+                obj.TotalVoltage = client.ReadU16(10001) * 0.001;
+                obj.TotalCurrent = client.ReadU16(10002) * 0.1;
+                obj.SeriesCount = client.ReadU16(10100);
+                obj.Series.Clear();
+                for (int i = 0; i < obj.SeriesCount; i++)
+                {
+                    BatterySeriesBase series = new BatterySeriesBase();
+                    series.SeriesId = client.ReadU16((ushort)(11000 + i * 10)).ToString();
+                    series.SeriesVoltage = client.ReadU16((ushort)(11001 + i * 10)) * 0.001;
+                    series.SeriesCurrent = client.ReadU16((ushort)(11002 + i * 10)) * 0.1;
+                    series.BatteryCount = client.ReadU16((ushort)(10200 + i * 10));
+                    for (int j = 0; j < series.BatteryCount; j++)
+                    {
+                        BatteryBase battery = new BatteryBase();
+                        battery.BatteryID = client.ReadU16((ushort)(12000 + j * 10)).ToString();
+                        battery.Voltage = client.ReadU16((ushort)(12001 + j * 10)) * 0.001;
+                        battery.Current = client.ReadU16((ushort)(12002 + j * 10)) * 0.1;
+                        series.Batteries.Add(battery);
+                    }
+                    obj.Series.Add(series);
                 }
             }
         }
@@ -202,175 +245,194 @@ namespace EMS.ViewModel
 
         public void DisplayRealTimeData()
         {
-            IsStartReadData = true;
+            IsStartDaqData = true;
             for (int i = 0; i < OnlineBatteryTotalList.Count; i++)
             {
+                OnlineBatteryTotalList[i].IsDaqData = true;
                 Thread thread = new Thread(ReadBatteryTotalData);
+                thread.IsBackground = true;
                 thread.Start(i);
             }
         }
 
         public void StopDisplayRealTimeData()
         {
-            IsStartReadData = false;
+            IsStartDaqData = false;
+            for (int i = 0; i < OnlineBatteryTotalList.Count; i++)
+            {
+                OnlineBatteryTotalList[i].IsDaqData = false;
+            }
         }
 
-        private bool IsStartReadData = false;
-        public bool IsStartSaveData = false;
         private void ReadBatteryTotalData(object index)
         {
-            try
+            var item = OnlineBatteryTotalList[(int)index];
+            var client = ClientList[(int)index];
+            while (true)
             {
-                while (true)
+                try
                 {
-                    if (!IsStartReadData)
+                    if (!item.IsDaqData)
                     {
                         break;
                     }
 
                     Thread.Sleep(DaqTimeSpan * 1000);
-                    //** 注：应该尽可能的少次多量读取数据，多次读取数据会因为读取次数过于频繁导致丢包
-                    // 获取总簇电池信息
-                    OnlineBatteryTotalList[(int)index].TotalVoltage = ClientList[(int)index].ReadU16(10001) * 0.001;
-                    OnlineBatteryTotalList[(int)index].TotalCurrent = ClientList[(int)index].ReadU16(10002) * 0.1;
-                    for (int i = 0; i < OnlineBatteryTotalList[(int)index].Series.Count; i++)
+                    if (item.IsConnected)
                     {
-                        // 获取单串电池信息
-                        ushort[] seriesValues = ClientList[(int)index].ReadU16Array((ushort)(11001 + i * 10), 2);
-                        OnlineBatteryTotalList[(int)index].Series[i].SeriesVoltage = seriesValues[0] * 0.001;
-                        OnlineBatteryTotalList[(int)index].Series[i].SeriesCurrent = seriesValues[1] * 0.1;
-
-                        for (int j = 0; j < OnlineBatteryTotalList[(int)index].Series[i].Batteries.Count; j++)
+                        //** 注：应该尽可能的少次多量读取数据，多次读取数据会因为读取次数过于频繁导致丢包
+                        // 获取总簇电池信息
+                        item.TotalVoltage = client.ReadU16(10001) * 0.001;
+                        item.TotalCurrent = client.ReadU16(10002) * 0.1;
+                        for (int i = 0; i < item.Series.Count; i++)
                         {
-                            // 获取单个电池信息
-                            ushort[] BatteryValues = ClientList[(int)index].ReadU16Array((ushort)(12001 + j * 10), 3);
-                            OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Voltage = BatteryValues[0] * 0.001;
-                            OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Current = BatteryValues[1] * 0.1;
-                        }
-                    }
+                            // 获取单串电池信息
+                            ushort[] seriesValues = client.ReadU16Array((ushort)(11001 + i * 10), 2);
+                            item.Series[i].SeriesVoltage = seriesValues[0] * 0.001;
+                            item.Series[i].SeriesCurrent = seriesValues[1] * 0.1;
 
-                    if (IsStartSaveData)
-                    {
-                        DateTime date = DateTime.Now;
-                        TotalBatteryInfoManage TotalManage = new TotalBatteryInfoManage();
-                        TotalBatteryInfoModel TotalModel = new TotalBatteryInfoModel();
-                        TotalModel.BCMUID = OnlineBatteryTotalList[(int)index].BCMUID;
-                        TotalModel.Voltage = OnlineBatteryTotalList[(int)index].TotalVoltage;
-                        TotalModel.Current = OnlineBatteryTotalList[(int)index].TotalCurrent;
-                        TotalModel.HappenTime = date;
-                        TotalManage.Insert(TotalModel);
-
-                        SeriesBatteryInfoManage SeriesManage = new SeriesBatteryInfoManage();
-                        for (int i = 0; i < OnlineBatteryTotalList[(int)index].Series.Count; i++)
-                        {
-                            SeriesBatteryInfoModel model = new SeriesBatteryInfoModel();
-                            model.BCMUID = OnlineBatteryTotalList[(int)index].BCMUID;
-                            model.BMUID = OnlineBatteryTotalList[(int)index].Series[i].SeriesId;
-                            model.HappenTime = date;
-                            typeof(SeriesBatteryInfoModel).GetProperty("SeriesVoltage").SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].SeriesVoltage);
-                            typeof(SeriesBatteryInfoModel).GetProperty("SeriesCurrent").SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].SeriesCurrent);
-                            for (int j = 0; j < OnlineBatteryTotalList[(int)index].Series[i].Batteries.Count; j++)
+                            for (int j = 0; j < item.Series[i].Batteries.Count; j++)
                             {
-                                typeof(SeriesBatteryInfoModel).GetProperty("Voltage" + j).SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Voltage);
-                                typeof(SeriesBatteryInfoModel).GetProperty("Current" + j).SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Current);
+                                // 获取单个电池信息
+                                ushort[] BatteryValues = client.ReadU16Array((ushort)(12001 + j * 10), 3);
+                                item.Series[i].Batteries[j].Voltage = BatteryValues[0] * 0.001;
+                                item.Series[i].Batteries[j].Current = BatteryValues[1] * 0.1;
                             }
-                            SeriesManage.Insert(model);
+                        }
+
+                        if (item.IsRecordData)
+                        {
+                            DateTime date = DateTime.Now;
+                            TotalBatteryInfoManage TotalManage = new TotalBatteryInfoManage();
+                            TotalBatteryInfoModel TotalModel = new TotalBatteryInfoModel();
+                            TotalModel.BCMUID = item.BCMUID;
+                            TotalModel.Voltage = item.TotalVoltage;
+                            TotalModel.Current = item.TotalCurrent;
+                            TotalModel.HappenTime = date;
+                            TotalManage.Insert(TotalModel);
+
+                            SeriesBatteryInfoManage SeriesManage = new SeriesBatteryInfoManage();
+                            for (int i = 0; i < item.Series.Count; i++)
+                            {
+                                SeriesBatteryInfoModel model = new SeriesBatteryInfoModel();
+                                model.BCMUID = item.BCMUID;
+                                model.BMUID = item.Series[i].SeriesId;
+                                model.HappenTime = date;
+                                typeof(SeriesBatteryInfoModel).GetProperty("SeriesVoltage").SetValue(model, item.Series[i].SeriesVoltage);
+                                typeof(SeriesBatteryInfoModel).GetProperty("SeriesCurrent").SetValue(model, item.Series[i].SeriesCurrent);
+                                for (int j = 0; j < item.Series[i].Batteries.Count; j++)
+                                {
+                                    typeof(SeriesBatteryInfoModel).GetProperty("Voltage" + j).SetValue(model, item.Series[i].Batteries[j].Voltage);
+                                    typeof(SeriesBatteryInfoModel).GetProperty("Current" + j).SetValue(model, item.Series[i].Batteries[j].Current);
+                                }
+                                SeriesManage.Insert(model);
+                            }
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                    App.Current.Dispatcher.Invoke(() =>
+                    {
+                        item.IsConnected = false;
+                        item.IsDaqData = false;
+                        item.IsRecordData = false;
+                    });
+                    break;
+                }
             }
         }
 
         private void ReadBatteryTotalDataNew(object index)
         {
-            try
+            while (true)
             {
-                while (true)
+                try
                 {
-                    if (!IsStartReadData)
+                    if (!OnlineBatteryTotalList[(int)index].IsDaqData)
                     {
                         break;
                     }
 
                     Thread.Sleep(DaqTimeSpan * 1000);
-                    //** 注：应该尽可能的少次多量读取数据，多次读取数据会因为读取次数过于频繁导致丢包
-                    var BCMUData = ClientList[(int)index].ReadFunc(11000, 100);
-                    var BMUData = ClientList[(int)index].ReadFunc(1000, 300);
-
-                    // 获取总簇电池信息
-                    OnlineBatteryTotalList[(int)index].TotalVoltage = BitConverter.ToUInt16(BCMUData, 0) * 0.001;
-                    OnlineBatteryTotalList[(int)index].TotalCurrent = BitConverter.ToUInt16(BCMUData, 0) * 0.1;
-                    OnlineBatteryTotalList[(int)index].TotalSOC = BitConverter.ToUInt16(BCMUData, 0) * 0.1;
-                    OnlineBatteryTotalList[(int)index].TotalSOH = BitConverter.ToUInt16(BCMUData, 0) * 0.1;
-                    OnlineBatteryTotalList[(int)index].AverageTemperature = BitConverter.ToUInt16(BCMUData, 0) * 0.1;
-
-                    for (int i = 0; i < OnlineBatteryTotalList[(int)index].SeriesCount; i++)
+                    if (OnlineBatteryTotalList[(int)index].IsConnected)
                     {
-                        // 获取单串电池信息
-                        OnlineBatteryTotalList[(int)index].Series[i].SeriesVoltage = BitConverter.ToUInt16(BMUData, 0) * 0.001;
-                        OnlineBatteryTotalList[(int)index].Series[i].SeriesCurrent = BitConverter.ToUInt16(BMUData, 0) * 0.1;
-                        OnlineBatteryTotalList[(int)index].Series[i].AlarmState = BitConverter.ToUInt16(BMUData, 0);
-                        OnlineBatteryTotalList[(int)index].Series[i].FaultState = BitConverter.ToUInt16(BMUData, 0);
-                        OnlineBatteryTotalList[(int)index].Series[i].ChargeChannelState = BitConverter.ToUInt16(BMUData, 0);
-                        OnlineBatteryTotalList[(int)index].Series[i].ChargeCapacitySum = BitConverter.ToUInt16(BMUData, 0);
+                        //** 注：应该尽可能的少次多量读取数据，多次读取数据会因为读取次数过于频繁导致丢包
+                        var BCMUData = ClientList[(int)index].ReadFunc(11000, 100);
+                        var BMUData = ClientList[(int)index].ReadFunc(1000, 300);
 
-                        for (int j = 0; j < OnlineBatteryTotalList[(int)index].BatteriesCountInSeries; j++)
+                        // 获取总簇电池信息
+                        OnlineBatteryTotalList[(int)index].TotalVoltage = BitConverter.ToUInt16(BCMUData, 0) * 0.001;
+                        OnlineBatteryTotalList[(int)index].TotalCurrent = BitConverter.ToUInt16(BCMUData, 0) * 0.1;
+                        OnlineBatteryTotalList[(int)index].TotalSOC = BitConverter.ToUInt16(BCMUData, 0) * 0.1;
+                        OnlineBatteryTotalList[(int)index].TotalSOH = BitConverter.ToUInt16(BCMUData, 0) * 0.1;
+                        OnlineBatteryTotalList[(int)index].AverageTemperature = BitConverter.ToUInt16(BCMUData, 0) * 0.1;
+
+                        for (int i = 0; i < OnlineBatteryTotalList[(int)index].SeriesCount; i++)
                         {
-                            // 获取单个电池信息
-                            OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Voltage = BitConverter.ToUInt16(BMUData, 0) * 0.001;
-                            OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Current = BitConverter.ToUInt16(BMUData, 0) * 0.1;
-                            OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Temperature1 = BitConverter.ToUInt16(BMUData, 0) * 0.1;
-                            OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Temperature2 = BitConverter.ToUInt16(BMUData, 0) * 0.1;
-                            OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].SOC = BitConverter.ToUInt16(BMUData, 0) * 0.1;
-                            OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Capacity = BitConverter.ToUInt16(BMUData, 0) * 0.1;
-                            OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Resistance = BitConverter.ToUInt16(BMUData, 0);
-                        }
-                    }
+                            // 获取单串电池信息
+                            OnlineBatteryTotalList[(int)index].Series[i].SeriesVoltage = BitConverter.ToUInt16(BMUData, 0) * 0.001;
+                            OnlineBatteryTotalList[(int)index].Series[i].SeriesCurrent = BitConverter.ToUInt16(BMUData, 0) * 0.1;
+                            OnlineBatteryTotalList[(int)index].Series[i].AlarmState = BitConverter.ToUInt16(BMUData, 0);
+                            OnlineBatteryTotalList[(int)index].Series[i].FaultState = BitConverter.ToUInt16(BMUData, 0);
+                            OnlineBatteryTotalList[(int)index].Series[i].ChargeChannelState = BitConverter.ToUInt16(BMUData, 0);
+                            OnlineBatteryTotalList[(int)index].Series[i].ChargeCapacitySum = BitConverter.ToUInt16(BMUData, 0);
 
-                    if (IsStartSaveData)
-                    {
-                        DateTime date = DateTime.Now;
-                        TotalBatteryInfoManage TotalManage = new TotalBatteryInfoManage();
-                        TotalBatteryInfoModel TotalModel = new TotalBatteryInfoModel();
-                        TotalModel.BCMUID = OnlineBatteryTotalList[(int)index].BCMUID;
-                        TotalModel.Voltage = OnlineBatteryTotalList[(int)index].TotalVoltage;
-                        TotalModel.Current = OnlineBatteryTotalList[(int)index].TotalCurrent;
-                        TotalModel.SOH = OnlineBatteryTotalList[(int)index].TotalSOH;
-                        TotalModel.SOC = OnlineBatteryTotalList[(int)index].TotalSOC;
-                        TotalModel.AverageTemperature = OnlineBatteryTotalList[(int)index].AverageTemperature;
-                        TotalModel.HappenTime = date;
-                        TotalManage.Insert(TotalModel);
-
-                        SeriesBatteryInfoManage SeriesManage = new SeriesBatteryInfoManage();
-                        for (int i = 0; i < OnlineBatteryTotalList[(int)index].Series.Count; i++)
-                        {
-                            SeriesBatteryInfoModel model = new SeriesBatteryInfoModel();
-                            model.BCMUID = OnlineBatteryTotalList[(int)index].BCMUID;
-                            model.BMUID = OnlineBatteryTotalList[(int)index].Series[i].SeriesId;
-                            model.SeriesVoltage = OnlineBatteryTotalList[(int)index].Series[i].SeriesVoltage;
-                            model.SeriesCurrent = OnlineBatteryTotalList[(int)index].Series[i].SeriesCurrent;
-                            model.HappenTime = date;
-                            for (int j = 0; j < OnlineBatteryTotalList[(int)index].Series[i].Batteries.Count; j++)
+                            for (int j = 0; j < OnlineBatteryTotalList[(int)index].BatteriesCountInSeries; j++)
                             {
-                                typeof(SeriesBatteryInfoModel).GetProperty("Voltage" + j).SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Voltage);
-                                typeof(SeriesBatteryInfoModel).GetProperty("Current" + j).SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Current);
-                                typeof(SeriesBatteryInfoModel).GetProperty("SOC" + j).SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].SOC);
-                                typeof(SeriesBatteryInfoModel).GetProperty("Resistance" + j).SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Resistance);
-                                typeof(SeriesBatteryInfoModel).GetProperty("Temperature" + (j * 2)).SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Temperature1);
-                                typeof(SeriesBatteryInfoModel).GetProperty("Temperature" + (j * 2 + 1)).SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Temperature2);
+                                // 获取单个电池信息
+                                OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Voltage = BitConverter.ToUInt16(BMUData, 0) * 0.001;
+                                OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Current = BitConverter.ToUInt16(BMUData, 0) * 0.1;
+                                OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Temperature1 = BitConverter.ToUInt16(BMUData, 0) * 0.1;
+                                OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Temperature2 = BitConverter.ToUInt16(BMUData, 0) * 0.1;
+                                OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].SOC = BitConverter.ToUInt16(BMUData, 0) * 0.1;
+                                OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Capacity = BitConverter.ToUInt16(BMUData, 0) * 0.1;
+                                OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Resistance = BitConverter.ToUInt16(BMUData, 0);
                             }
-                            SeriesManage.Insert(model);
+                        }
+
+                        if (OnlineBatteryTotalList[(int)index].IsRecordData)
+                        {
+                            DateTime date = DateTime.Now;
+                            TotalBatteryInfoManage TotalManage = new TotalBatteryInfoManage();
+                            TotalBatteryInfoModel TotalModel = new TotalBatteryInfoModel();
+                            TotalModel.BCMUID = OnlineBatteryTotalList[(int)index].BCMUID;
+                            TotalModel.Voltage = OnlineBatteryTotalList[(int)index].TotalVoltage;
+                            TotalModel.Current = OnlineBatteryTotalList[(int)index].TotalCurrent;
+                            TotalModel.SOH = OnlineBatteryTotalList[(int)index].TotalSOH;
+                            TotalModel.SOC = OnlineBatteryTotalList[(int)index].TotalSOC;
+                            TotalModel.AverageTemperature = OnlineBatteryTotalList[(int)index].AverageTemperature;
+                            TotalModel.HappenTime = date;
+                            TotalManage.Insert(TotalModel);
+
+                            SeriesBatteryInfoManage SeriesManage = new SeriesBatteryInfoManage();
+                            for (int i = 0; i < OnlineBatteryTotalList[(int)index].Series.Count; i++)
+                            {
+                                SeriesBatteryInfoModel model = new SeriesBatteryInfoModel();
+                                model.BCMUID = OnlineBatteryTotalList[(int)index].BCMUID;
+                                model.BMUID = OnlineBatteryTotalList[(int)index].Series[i].SeriesId;
+                                model.SeriesVoltage = OnlineBatteryTotalList[(int)index].Series[i].SeriesVoltage;
+                                model.SeriesCurrent = OnlineBatteryTotalList[(int)index].Series[i].SeriesCurrent;
+                                model.HappenTime = date;
+                                for (int j = 0; j < OnlineBatteryTotalList[(int)index].Series[i].Batteries.Count; j++)
+                                {
+                                    typeof(SeriesBatteryInfoModel).GetProperty("Voltage" + j).SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Voltage);
+                                    typeof(SeriesBatteryInfoModel).GetProperty("Current" + j).SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Current);
+                                    typeof(SeriesBatteryInfoModel).GetProperty("SOC" + j).SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].SOC);
+                                    typeof(SeriesBatteryInfoModel).GetProperty("Resistance" + j).SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Resistance);
+                                    typeof(SeriesBatteryInfoModel).GetProperty("Temperature" + (j * 2)).SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Temperature1);
+                                    typeof(SeriesBatteryInfoModel).GetProperty("Temperature" + (j * 2 + 1)).SetValue(model, OnlineBatteryTotalList[(int)index].Series[i].Batteries[j].Temperature2);
+                                }
+                                SeriesManage.Insert(model);
+                            }
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
             }
         }
 

@@ -89,22 +89,30 @@ namespace EMS.ViewModel
             if (DisplayContent.IsStartSaveData)
             {
                 DisplayContent.IsStartSaveData = false;
+                for (int i = 0; i < DisplayContent.OnlineBatteryTotalList.Count; i++)
+                {
+                    DisplayContent.OnlineBatteryTotalList[i].IsRecordData = false;
+                }
                 SaveImageButtonChange();
             }
             else
             {
                 DisplayContent.IsStartSaveData = true;
+                for (int i = 0; i < DisplayContent.OnlineBatteryTotalList.Count; i++)
+                {
+                    DisplayContent.OnlineBatteryTotalList[i].IsRecordData = true;
+                }
                 SaveImageButtonChange();
             }
         }
 
         private void StartOrStopDaq()
         {
-            if (IsStartDaq)
+            if (DisplayContent.IsStartDaqData)
             {
                 // 停止采集和显示数据
                 DisplayContent.StopDisplayRealTimeData();
-                IsStartDaq = false;
+                DisplayContent.IsStartDaqData = false;
                 DaqImageButtonChange();
                 //ShowOperation("数据采集已停止", "操作");
             }
@@ -112,17 +120,16 @@ namespace EMS.ViewModel
             {
                 // 开始采集并显示数据
                 DisplayContent.DisplayRealTimeData();
-                IsStartDaq = true;
+                DisplayContent.IsStartDaqData = true;
                 DaqImageButtonChange();
                 //ShowOperation("数据采集已开始", "操作");
             }
         }
 
-        private bool IsStartDaq = false;
         public void DaqImageButtonChange()
         {
             BitmapImage bi;
-            if (IsStartDaq)
+            if (DisplayContent.IsStartDaqData)
             {
                 DirectoryInfo directory = new DirectoryInfo("./Resource/Image");
                 FileInfo[] files = directory.GetFiles("pause.png");

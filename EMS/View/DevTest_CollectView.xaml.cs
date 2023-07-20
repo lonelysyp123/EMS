@@ -33,14 +33,18 @@ namespace EMS.View
             DataControl control = new DataControl();
             control.DataContext = model;
             control.Margin = new Thickness(30,10,30,10);
-            Grid.SetColumn(control, 0);
-            Grid.SetRow(control, 0);
+            int index = MainBody.Children.Count;
+            Grid.SetColumn(control, index/3);
+            Grid.SetRow(control, index%3);
             MainBody.Children.Add(control);
         }
 
-        public void RemoveDevIntoView()
+        public void RemoveDevIntoView(int index)
         {
-            MainBody.Children.RemoveAt(0);
+            if (MainBody.Children.Count >= index)
+            {
+                MainBody.Children.RemoveAt(index);
+            }
         }
 
         private void MainBody_MouseUp(object sender, MouseButtonEventArgs e)
@@ -49,6 +53,8 @@ namespace EMS.View
             if (control != null)
             {
                 // 打开单个电池展示界面
+                SeriesBatteryView view = new SeriesBatteryView((BatteryTotalBase)control.DataContext);
+                view.ShowDialog();
             }
         }
     }

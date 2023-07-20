@@ -115,6 +115,9 @@ namespace EMS.Model
         /// </summary>
         public string BatteryID { get; set; }
 
-        public BatteryBase() { }
+        public BatteryBase() 
+        {
+            SOC = 10;
+        }
     }
 }

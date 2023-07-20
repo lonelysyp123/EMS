@@ -62,17 +62,6 @@ namespace EMS.MyControl
             }
         }
 
-        public void SetAddressText(string date)
-        {
-            string[] parts = date.Split(':');
-            if (parts.Length == 3)
-            {
-                P1.Text = parts[0];
-                P2.Text = parts[1];
-                P3.Text = parts[2];
-            }
-        }
-
         private void Date_TextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");

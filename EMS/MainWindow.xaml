@@ -105,7 +105,7 @@
                             <TextBlock Grid.Row="0" Text="设备配置与控制" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
                         </Grid>
                     </Border>
-                    <Border x:Name="AlarmBorder" Height="35" Width="150" CornerRadius="10 10 0 0" BorderThickness="1" BorderBrush="#FF6C4715" MouseLeftButtonUp="SwitchBorder_MouseLeftButtonUp">
+                    <!--<Border x:Name="AlarmBorder" Height="35" Width="150" CornerRadius="10 10 0 0" BorderThickness="1" BorderBrush="#FF6C4715" MouseLeftButtonUp="SwitchBorder_MouseLeftButtonUp">
                         <Border.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="#FFA5A5A5" Offset="1"/>
@@ -119,7 +119,7 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Text="故障检测与保护" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
                         </Grid>
-                    </Border>
+                    </Border>-->
                 </StackPanel>
                 <Frame Grid.Row="1" x:Name="MainBody" NavigationUIVisibility="Hidden"></Frame>
             </Grid>
