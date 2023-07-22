@@ -27,7 +27,7 @@ namespace EMS
 
             viewmodel = new MainViewModel();
             this.DataContext = viewmodel;
-            DevListView.DataContext = viewmodel.DisplayContent.IntegratedDev;
+            DevListView.DataContext = viewmodel.DisplayContent;
             SelectedPage("DaqDataBorder");
         }
 
@@ -46,8 +46,6 @@ namespace EMS
                     // 连接成功后将设备信息添加到左边的导航栏中
                     if (viewmodel.DisplayContent.AddConnectedDev(item))
                     {
-                        devTest_Daq.AddDevIntoView(item);
-
                         // 更新数据库中设备信息BCMUID
                         DevConnectInfoManage manage = new DevConnectInfoManage();
                         manage.Update(new DevConnectInfoModel() { BCMUID = item.BCMUID, IP = item.IP, Port = item.Port });
@@ -65,10 +63,6 @@ namespace EMS
             // 断开连接设备
             var item = DevList.SelectedItem as BatteryTotalBase;
             int index = viewmodel.DisplayContent.RemoveDisConnectedDev(item);
-            if (index >= 0)
-            {
-                devTest_Daq.RemoveDevIntoView(index);
-            }
         }
 
         private void DelDev_Click(object sender, RoutedEventArgs e)
@@ -76,7 +70,7 @@ namespace EMS
             var item = DevList.SelectedItem as BatteryTotalBase;
             if (!item.IsConnected)
             {
-                viewmodel.DisplayContent.IntegratedDev.BatteryTotalList.Remove(item);
+                viewmodel.DisplayContent.BatteryTotalList.Remove(item);
                 DevConnectInfoManage manage = new DevConnectInfoManage();
                 manage.Delete(new DevConnectInfoModel() { IP = item.IP, Port = item.Port, BCMUID = item.BCMUID });
             }
@@ -115,6 +109,8 @@ namespace EMS
                     if (devTest_Daq == null)
                     {
                         devTest_Daq = new DevTest_CollectView();
+                        devTest_Daq.DevSource = viewmodel.DisplayContent.OnlineBatteryTotalList;
+                        devTest_Daq.DevSource.CollectionChanged += devTest_Daq.Test_CollectionChanged;
                     }
                     MainBody.Content = new Frame() { Content = devTest_Daq };
                     break;

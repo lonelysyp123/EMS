@@ -43,7 +43,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <DockPanel LastChildFill="True" Grid.Row="0" Grid.Column="0" Height="60" Background="Gray">
+            <!--<DockPanel LastChildFill="True" Grid.Row="0" Grid.Column="0" Height="60" Background="Gray">
                 <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Margin="5,0,5,0">
                     <Button Background="Transparent" BorderThickness="0" Command="{Binding StartOrStopDaqCommand}" Style="{x:Null}">
                         <Image x:Name="StartDaq" Source="{Binding StartDaqImageSource}" Width="30" Height="30" Margin="10,0"/>
@@ -52,15 +52,27 @@
                         <Ellipse x:Name="StartSave" Height="30" Width="30" Fill="{Binding SaveDataFillColor}" Margin="10"/>
                     </Button>
                 </StackPanel>
-            </DockPanel>
+            </DockPanel>-->
 
-            <Grid Grid.Column="0" Grid.Row="1" Background="#FF313131" Name="DataGridView">
+            <Grid Grid.Column="0" Grid.Row="1" Background="#FF313131">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal" Background="#FF5F5F5F">
-                    <Border x:Name="DaqDataBorder" Margin="5 0 0 0" Height="35" Width="150" CornerRadius="10 10 0 0" BorderThickness="1" BorderBrush="#FF6C4715" MouseLeftButtonUp="SwitchBorder_MouseLeftButtonUp">
+
+                    <Border Grid.Row="0" Grid.Column="0" Height="60" Width="150">
+                        <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Margin="5,0,5,0">
+                            <Button Background="Transparent" BorderThickness="0" Command="{Binding StartOrStopDaqCommand}" Style="{x:Null}">
+                                <Image x:Name="StartDaq" Source="{Binding StartDaqImageSource}" Width="30" Height="30" Margin="10,0"/>
+                            </Button>
+                            <Button Background="Transparent" BorderThickness="0" Command="{Binding StartOrStopSaveDataCommand}" Style="{x:Null}">
+                                <Ellipse x:Name="StartSave" Height="30" Width="30" Fill="{Binding SaveDataFillColor}" Margin="10"/>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+
+                    <Border x:Name="DaqDataBorder" Margin="5 0 0 0" Height="35" Width="150" CornerRadius="10 10 0 0" BorderThickness="1" BorderBrush="#FF6C4715" MouseLeftButtonUp="SwitchBorder_MouseLeftButtonUp" VerticalAlignment="Bottom">
                         <Border.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="#FFFD9F2F" Offset="1"/>
@@ -75,7 +87,7 @@
                             <TextBlock Grid.Row="0" Text="设备检测与采集" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
                         </Grid>
                     </Border>
-                    <Border x:Name="AnalysisDataBorder" Height="35" Width="150" CornerRadius="10 10 0 0" BorderThickness="1" BorderBrush="#FF6C4715" MouseLeftButtonUp="SwitchBorder_MouseLeftButtonUp">
+                    <Border x:Name="AnalysisDataBorder" Height="35" Width="150" CornerRadius="10 10 0 0" BorderThickness="1" BorderBrush="#FF6C4715" MouseLeftButtonUp="SwitchBorder_MouseLeftButtonUp" VerticalAlignment="Bottom">
                         <Border.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="#FFA5A5A5" Offset="1"/>
@@ -90,7 +102,7 @@
                             <TextBlock Grid.Row="0" Text="数据分析与优化" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
                         </Grid>
                     </Border>
-                    <Border x:Name="ControlBorder" Height="35" Width="150" CornerRadius="10 10 0 0" BorderThickness="1" BorderBrush="#FF6C4715" MouseLeftButtonUp="SwitchBorder_MouseLeftButtonUp">
+                    <Border x:Name="ControlBorder" Height="35" Width="150" CornerRadius="10 10 0 0" BorderThickness="1" BorderBrush="#FF6C4715" MouseLeftButtonUp="SwitchBorder_MouseLeftButtonUp" VerticalAlignment="Bottom">
                         <Border.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="#FFA5A5A5" Offset="1"/>
@@ -105,21 +117,6 @@
                             <TextBlock Grid.Row="0" Text="设备配置与控制" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
                         </Grid>
                     </Border>
-                    <!--<Border x:Name="AlarmBorder" Height="35" Width="150" CornerRadius="10 10 0 0" BorderThickness="1" BorderBrush="#FF6C4715" MouseLeftButtonUp="SwitchBorder_MouseLeftButtonUp">
-                        <Border.Background>
-                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="#FFA5A5A5" Offset="1"/>
-                                <GradientStop Color="#FFE4E4E4" Offset="0"/>
-                            </LinearGradientBrush>
-                        </Border.Background>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="故障检测与保护" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
-                        </Grid>
-                    </Border>-->
                 </StackPanel>
                 <Frame Grid.Row="1" x:Name="MainBody" NavigationUIVisibility="Hidden"></Frame>
             </Grid>

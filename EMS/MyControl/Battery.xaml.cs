@@ -64,7 +64,6 @@ namespace EMS.MyControl
             }
         }
 
-        private double _soc;
         public double SOC
         {
             get

@@ -1,13 +1,17 @@
 ﻿using EMS.Model;
 using EMS.MyControl;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -26,6 +30,25 @@ namespace EMS.View
         public DevTest_CollectView()
         {
             InitializeComponent();
+
+        }
+
+        public void Test_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    AddDevIntoView(item as BatteryTotalBase);
+                }
+            }
+            else
+            {
+                foreach (var item in e.OldItems)
+                {
+                    RemoveDevIntoView(e.OldStartingIndex);
+                }
+            }
         }
 
         public void AddDevIntoView(BatteryTotalBase model)
@@ -55,6 +78,19 @@ namespace EMS.View
                 // 打开单个电池展示界面
                 SeriesBatteryView view = new SeriesBatteryView((BatteryTotalBase)control.DataContext);
                 view.ShowDialog();
+            }
+        }
+
+        private ObservableCollection<BatteryTotalBase> devSource;
+        public ObservableCollection<BatteryTotalBase> DevSource
+        {
+            get
+            {
+                return devSource;
+            }
+            set
+            {
+                devSource = value;
             }
         }
     }

@@ -49,7 +49,6 @@ namespace EMS.MyControl
             }
         }
 
-        private string _dateText;
         public string DateText
         {
             get

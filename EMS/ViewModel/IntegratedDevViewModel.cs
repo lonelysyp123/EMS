@@ -26,22 +26,9 @@ namespace EMS.Model
             }
         }
 
-        private string _communicationProtocol;
-        public string CommunicationProtocol
-        {
-
-            get => _communicationProtocol;
-            set
-            {
-                SetProperty(ref _communicationProtocol, value);
-            }
-        }
-
         public RelayCommand AddDevCommand { get; set; }
         public RelayCommand AddDevArrayCommand { get; set; }
         public RelayCommand DelAllDevCommand { get; set; }
-
-
 
         public IntegratedDevViewModel()
         {
