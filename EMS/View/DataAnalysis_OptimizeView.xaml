@@ -25,12 +25,12 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
-                <Label Content="Level"></Label>
+                <Label Content="Level" VerticalAlignment="Center"></Label>
                 <trl:IDInput Width="90" Margin="2" IdText="{Binding IdSeries,Mode=TwoWay}"></trl:IDInput>
-                <Label Content="开始时间"></Label>
+                <Label Content="开始时间" VerticalAlignment="Center"></Label>
                 <DatePicker Name="Test1" VerticalContentAlignment="Center" Margin="10 2 2 2" Text="{Binding StartTime1, Mode=TwoWay}" Width="90"></DatePicker>
                 <trl:DateInput Width="90" Margin="2" DateText="{Binding StartTime2, Mode=TwoWay}"></trl:DateInput>
-                <Label Content="终止时间"></Label>
+                <Label Content="终止时间" VerticalAlignment="Center"></Label>
                 <DatePicker Name="Test3" VerticalContentAlignment="Center" Margin="10 2 2 2" Text="{Binding EndTime1, Mode=TwoWay}" Width="90"></DatePicker>
                 <trl:DateInput Width="90" Margin="2" DateText="{Binding EndTime2, Mode=TwoWay}"></trl:DateInput>
                 <Button Content="查询" Command="{Binding QueryCommand}" Width="80" Margin="3"></Button>

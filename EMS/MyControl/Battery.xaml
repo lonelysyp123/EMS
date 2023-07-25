@@ -9,15 +9,22 @@
     <Grid>
         <Image x:Name="BatteryIcon" Source="../Resource/Image/Battery0.png">
             <Image.ToolTip>
-                <Border>
+                <ToolTip Background="#7F5D5D5D">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock x:Name="BatteryTool" Foreground="White"></TextBlock>
+                        <TextBlock Grid.Row="0" x:Name="BatteryVol" Foreground="White" Text="Vol:0.001V"></TextBlock>
+                        <TextBlock Grid.Row="1" x:Name="BatteryTmp" Foreground="White" Text="Vol:0.1℃"></TextBlock>
+                        <TextBlock Grid.Row="2" x:Name="BatterySOC" Foreground="White"></TextBlock>
+                        <TextBlock Grid.Row="3" x:Name="BatteryRes" Foreground="White" Text="Vol:0.001Ω"></TextBlock>
+                        <TextBlock Grid.Row="4" x:Name="BatteryCap" Foreground="White" Text="Vol:0.1WH"></TextBlock>
                     </Grid>
-                </Border>
+                </ToolTip>
             </Image.ToolTip>
         </Image>
     </Grid>

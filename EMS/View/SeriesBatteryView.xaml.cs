@@ -32,28 +32,21 @@ namespace EMS.View
 
         private void InitView(BatteryTotalBase item)
         {
-            for (int i = 0; i < item.Series.Count; i++)
+            for (int i = 0; i < 3; i++)
             {
-                Grid grid = new Grid();
-                Grid.SetRow(grid, i+1);
-                grid.Margin = new Thickness(20,15,20,15);
-                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
-                grid.ColumnDefinitions.Add(new ColumnDefinition());
-
-                Border border = new Border();
-                border.Width = 150;
-                border.Background = new SolidColorBrush(Color.FromRgb(253,255,240));
-                Grid.SetColumn(border, 0);
-                grid.Children.Add(border);
-
-                Grid grid1 = new Grid();
-                Grid.SetColumn(grid1, 1);
-                for (int j = 0; j < 7; j++)
+                Grid grid;
+                if (i == 0)
                 {
-                    grid1.ColumnDefinitions.Add(new ColumnDefinition());
+                    grid = BMUA;
                 }
-                grid1.RowDefinitions.Add(new RowDefinition());
-                grid1.RowDefinitions.Add(new RowDefinition());
+                else if (i == 1)
+                {
+                    grid = BMUB;
+                }
+                else
+                {
+                    grid = BMUC;
+                }
 
                 for (int l = 0;l < item.Series[i].Batteries.Count; l++)
                 {
@@ -64,12 +57,8 @@ namespace EMS.View
                     Binding binding = new Binding() { Path = new PropertyPath("SOC")};
                     battery.SetBinding(Battery.SOCProperty, binding);
                     battery.DataContext = item.Series[i].Batteries[l];
-                    grid1.Children.Add(battery);
+                    grid.Children.Add(battery);
                 }
-
-                grid.Children.Add(grid1);
-
-                ViewBody.Children.Add(grid);
             }
         }
     }

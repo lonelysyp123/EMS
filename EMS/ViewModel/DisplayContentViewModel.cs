@@ -416,10 +416,18 @@ namespace EMS.ViewModel
                     Console.WriteLine(ex.ToString());
                     App.Current.Dispatcher.Invoke(() =>
                     {
-                        item.IsConnected = false;
-                        item.IsDaqData = false;
-                        item.IsRecordData = false;
-                        OnlineBatteryTotalList.Remove(item);
+                        if (item != null)
+                        {
+                            item.IsConnected = false;
+                            item.IsDaqData = false;
+                            item.IsRecordData = false;
+                            OnlineBatteryTotalList.Remove(item);
+                        }
+
+                        if (client != null)
+                        {
+                            ClientList.Remove(client);
+                        }
                     });
                     break;
                 }

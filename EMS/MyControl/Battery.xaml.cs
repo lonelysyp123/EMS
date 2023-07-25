@@ -30,9 +30,9 @@ namespace EMS.MyControl
                 "SOC",
                 typeof(double),
                 typeof(Battery),
-                new PropertyMetadata(0.0, OnPropertyChangedCallback));
+                new PropertyMetadata(0.0, OnSOCPropertyChangedCallback));
 
-        private static void OnPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnSOCPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as Battery;
             if (e.NewValue != null)
@@ -60,7 +60,7 @@ namespace EMS.MyControl
                         control.BatteryIcon.Source = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/Battery30.png"));
                     }
                 }
-                control.BatteryTool.Text = "SOC:" + obj + "%";
+                control.BatterySOC.Text = "SOC:" + obj + "%";
             }
         }
 

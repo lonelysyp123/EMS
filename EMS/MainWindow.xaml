@@ -72,7 +72,7 @@
                         </StackPanel>
                     </Border>
 
-                    <Border x:Name="DaqDataBorder" Margin="5 0 0 0" Height="35" Width="150" CornerRadius="10 10 0 0" BorderThickness="1" BorderBrush="#FF6C4715" MouseLeftButtonUp="SwitchBorder_MouseLeftButtonUp" VerticalAlignment="Bottom">
+                    <Border x:Name="DaqDataBorder" Margin="5 0 0 0" Height="35" Width="200" CornerRadius="10 10 0 0" BorderThickness="1" BorderBrush="#FF6C4715" MouseLeftButtonUp="SwitchBorder_MouseLeftButtonUp" VerticalAlignment="Bottom">
                         <Border.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="#FFFD9F2F" Offset="1"/>
@@ -140,22 +140,12 @@
                                         </Border>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsSelected" Value="True">
-                                                <Setter Property="Background" Value="White" TargetName="b1"></Setter>
-                                                <Setter Property="BorderThickness" Value="1" TargetName="b1"></Setter>
-                                                <Setter Property="BorderBrush" Value="Black" TargetName="b1"></Setter>
+                                                <Setter Property="BorderThickness" Value="2" TargetName="b1"></Setter>
+                                                <Setter Property="BorderBrush" Value="Green" TargetName="b1"></Setter>
                                             </Trigger>
-
                                             <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" TargetName="b1">
-                                                    <Setter.Value>
-                                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                            <GradientStop Color="#7FC4FAFA" Offset="0.896"/>
-                                                            <GradientStop Color="#7F89EAFF" Offset="1"/>
-                                                        </LinearGradientBrush>
-                                                    </Setter.Value>
-                                                </Setter>
                                                 <Setter Property="BorderThickness" Value="1" TargetName="b1"></Setter>
-                                                <Setter Property="BorderBrush" Value="Black"  TargetName="b1"></Setter>
+                                                <Setter Property="BorderBrush" Value="LightGreen"  TargetName="b1"></Setter>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>

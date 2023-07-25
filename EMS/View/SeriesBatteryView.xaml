@@ -14,16 +14,140 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Border Height="40">
-            <Border.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF267200" Offset="1"/>
-                    <GradientStop Color="#FF56FF00" Offset="0"/>
-                </LinearGradientBrush>
-            </Border.Background>
-            <Grid>
-                
+
+        <StackPanel Margin="5" Orientation="Horizontal">
+            <TextBlock Text="BCMU(...)" Foreground="White" Margin="10 0"></TextBlock>
+            <TextBlock Text="Vol:0.001V" Foreground="White" Margin="10 0"></TextBlock>
+            <TextBlock Text="Template:0.1℃" Foreground="White" Margin="10 0"></TextBlock>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="20 15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Width="150" CornerRadius="10,0,0,10" Background="#FFFDFFF0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="BMU(A)"></TextBlock>
+                    <Grid Margin="10" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="告警状态" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Row="1" Text="故障状态" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Row="2" Text="充电通道状态" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Row="3" Text="充电累计容量" VerticalAlignment="Center"></TextBlock>
+                    </Grid>
+                </Grid>
+            </Border>
+            <Grid Grid.Column="1" x:Name="BMUA">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
             </Grid>
-        </Border>
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="20 15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Width="150" CornerRadius="10,0,0,10" Background="#FFFDFFF0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="BMU(B)"></TextBlock>
+                    <Grid Margin="10" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="告警状态" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Row="1" Text="故障状态" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Row="2" Text="充电通道状态" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Row="3" Text="充电累计容量" VerticalAlignment="Center"></TextBlock>
+                    </Grid>
+                </Grid>
+            </Border>
+            <Grid Grid.Column="1" x:Name="BMUB">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="3" Margin="20 15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Width="150" CornerRadius="10,0,0,10" Background="#FFFDFFF0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="BMU(C)"></TextBlock>
+                    <Grid Margin="10" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="告警状态" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Row="1" Text="故障状态" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Row="2" Text="充电通道状态" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Row="3" Text="充电累计容量" VerticalAlignment="Center"></TextBlock>
+                    </Grid>
+                </Grid>
+            </Border>
+            <Grid Grid.Column="1" x:Name="BMUC">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

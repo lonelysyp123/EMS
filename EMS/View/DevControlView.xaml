@@ -5,10 +5,134 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EMS.View"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="600" d:DesignWidth="1000"
       Title="DevControlView">
 
-    <Grid Background="AntiqueWhite">
-        
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="5" Orientation="Horizontal">
+            <Image Grid.Column="0" Source="../Resource/Image/BMS.png" Height="70"/>
+            <TextBlock Text="BCMU(...)" Margin="10 0" VerticalAlignment="Bottom"></TextBlock>
+            <TextBlock Text="Vol:0.001V" Margin="10 0" VerticalAlignment="Bottom"></TextBlock>
+            <TextBlock Text="Template:0.1℃" Margin="10 0" VerticalAlignment="Bottom"></TextBlock>
+        </StackPanel>
+
+        <GroupBox Grid.Row="1" Header="时间信息">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="年" VerticalAlignment="Center"></TextBlock>
+                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0"></TextBox>
+                <TextBlock Text="月" VerticalAlignment="Center"></TextBlock>
+                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0"></TextBox>
+                <TextBlock Text="日" VerticalAlignment="Center"></TextBlock>
+                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0"></TextBox>
+                <TextBlock Text="时" VerticalAlignment="Center"></TextBlock>
+                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0"></TextBox>
+                <TextBlock Text="分" VerticalAlignment="Center"></TextBlock>
+                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0"></TextBox>
+                <TextBlock Text="秒" VerticalAlignment="Center"></TextBlock>
+                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0"></TextBox>
+                <Button Content="读取时间" Margin="10 0"></Button>
+                <Button Content="同步时间"></Button>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Row="2" Header="遥控信息">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="打开充电通道" VerticalAlignment="Center"></TextBlock>
+                    <ComboBox Width="50" Margin="10 0"></ComboBox>
+                    <Button Content="执行"></Button>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Text="关闭充电通道" VerticalAlignment="Center"></TextBlock>
+                    <ComboBox Width="50" Margin="10 0"></ComboBox>
+                    <Button Content="执行"></Button>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <TextBlock Text="均衡模式选择" VerticalAlignment="Center"></TextBlock>
+                    <ComboBox Width="50" Margin="10 0"></ComboBox>
+                    <Button Content="执行"></Button>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="3" Header="基础信息">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Width="80" Text="网络IP地址1" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                    <TextBlock Width="80" Text="网络IP掩码1" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                    <TextBlock Width="80" Text="网络IP网关1" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <TextBlock Width="80" Text="网络IP地址2" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                    <TextBlock Width="80" Text="网络IP掩码2" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                    <TextBlock Width="80" Text="网络IP网关2" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                    <TextBlock Visibility="Hidden" Width="80" Text="网络IP网关2" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Visibility="Hidden" Width="80"></TextBox>
+                    <Button Content="读取信息" Margin="30 0"></Button>
+                    <Button Content="同步信息"></Button>
+                </StackPanel>
+                <Separator Grid.Row="2" Margin="2 10"></Separator>
+                <StackPanel Grid.Row="3" Orientation="Horizontal">
+                    <TextBlock Width="80" Text="BCMU别名1" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                    <TextBlock Width="80" Text="BCMU别名2" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                    <TextBlock Width="80" Text="BCMU别名3" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                    <TextBlock Width="80" Text="BCMU别名4" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                </StackPanel>
+                <StackPanel Grid.Row="4" Orientation="Horizontal">
+                    <TextBlock Width="80" Text="BCMU别名5" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                    <TextBlock Width="80" Text="BCMU别名6" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                    <TextBlock Width="80" Text="BCMU别名7" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                    <TextBlock Width="80" Text="BCMU别名8" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                    <Button Content="读取信息" Margin="30 0"></Button>
+                    <Button Content="同步信息"></Button>
+                </StackPanel>
+                <Separator Grid.Row="5" Margin="2 10"></Separator>
+                <StackPanel Grid.Row="6" Orientation="Horizontal">
+                    <TextBlock Width="80" Text="BCMU序列ID1" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                    <TextBlock Text="BCMU序列ID2" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                    <TextBlock Text="BCMU序列ID3" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                    <TextBlock Text="BCMU序列ID4" VerticalAlignment="Center" Margin="0 10"></TextBlock>
+                    <TextBox Width="80"></TextBox>
+                    <Button Content="读取信息" Margin="30 0"></Button>
+                    <Button Content="同步信息"></Button>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
     </Grid>
 </Page>
