@@ -94,10 +94,14 @@ namespace EMS
             LinearGradientBrush selectedbrush = new LinearGradientBrush(Color.FromRgb(255, 217, 173), Color.FromRgb(253, 159, 47), new Point(0.5, 0), new Point(0.5, 1));
             LinearGradientBrush unselectedbrush = new LinearGradientBrush(Color.FromRgb(228, 228, 228), Color.FromRgb(165, 165, 165), new Point(0.5, 0), new Point(0.5, 1));
             DaqDataBorder.Background = unselectedbrush;
+            DaqDataBorder.Width = 150;
             AnalysisDataBorder.Background = unselectedbrush;
+            AnalysisDataBorder.Width = 150;
             ControlBorder.Background = unselectedbrush;
+            ControlBorder.Width = 150;
             //AlarmBorder.Background = unselectedbrush;
             (sender as Border).Background = selectedbrush;
+            (sender as Border).Width = 200;
             SelectedPage((sender as Border).Name);
         }
 

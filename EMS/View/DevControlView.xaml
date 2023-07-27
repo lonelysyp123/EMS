@@ -16,7 +16,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <StackPanel Margin="5" Orientation="Horizontal">
+        <StackPanel Margin="5" Orientation="Horizontal" x:Name="BCMUInfo">
             <Image Grid.Column="0" Source="../Resource/Image/BMS.png" Height="70"/>
             <TextBlock Text="BCMU(...)" Margin="10 0" VerticalAlignment="Bottom"></TextBlock>
             <TextBlock Text="Vol:0.001V" Margin="10 0" VerticalAlignment="Bottom"></TextBlock>
