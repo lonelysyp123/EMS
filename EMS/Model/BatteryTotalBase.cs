@@ -122,6 +122,20 @@ namespace EMS.Model
             }
         }
 
+        private BitmapSource _internetImage;
+        /// <summary>
+        /// 连接图标
+        /// </summary>
+        public BitmapSource InternetImage
+        {
+
+            get => _internetImage;
+            set
+            {
+                SetProperty(ref _internetImage, value);
+            }
+        }
+
         private BitmapSource _daqDataImage;
         /// <summary>
         /// 采集图标
@@ -196,6 +210,20 @@ namespace EMS.Model
             }
         }
 
+        private bool _isInternet;
+        public bool IsInternet
+        {
+            get { return _isInternet; }
+            set
+            {
+                if (_isInternet != value)
+                {
+                    _isInternet = value;
+                    InternetImageChange(value);
+                }
+            }
+        }
+
         private bool _isDaqData;
         public bool IsDaqData
         {
@@ -236,6 +264,7 @@ namespace EMS.Model
             Port = port;
             ImageTitle();
             ConnectImageChange(false);
+            InternetImageChange(false);
             DaqImageChange(false);
             RecordImageChange(false);
         }
@@ -276,6 +305,29 @@ namespace EMS.Model
             bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
             bi.EndInit();
             ConnectImage = bi;
+        }
+
+        public void InternetImageChange(bool isinternet)
+        {
+            BitmapImage bi;
+            DirectoryInfo directory;
+            FileInfo[] files;
+            if (isinternet)
+            {
+                directory = new DirectoryInfo("./Resource/Image");
+                files = directory.GetFiles("InNet.png");
+                bi = new BitmapImage();
+            }
+            else
+            {
+                directory = new DirectoryInfo("./Resource/Image");
+                files = directory.GetFiles("OutNet.png");
+                bi = new BitmapImage();
+            }
+            bi.BeginInit();
+            bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
+            bi.EndInit();
+            InternetImage = bi;
         }
 
         public void DaqImageChange(bool isdaq)
@@ -322,6 +374,12 @@ namespace EMS.Model
             bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
             bi.EndInit();
             RecordDataImage = bi;
+        }
+
+        public bool RequestInterNet()
+        {
+            Console.WriteLine("设备请求入网");
+            return true;
         }
     }
 }

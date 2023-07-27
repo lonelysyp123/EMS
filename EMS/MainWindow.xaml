@@ -160,6 +160,7 @@
                                     <ContextMenu>
                                         <MenuItem Header="重新连接" Click="ReConnect_Click"></MenuItem>
                                         <MenuItem Header="断开连接" Click="DisConnect_Click"></MenuItem>
+                                        <MenuItem Header="电池入网" Click="InterNet_Click"></MenuItem>
                                         <MenuItem Header="删除设备" Click="DelDev_Click"></MenuItem>
                                     </ContextMenu>
                                 </Border.ContextMenu>
@@ -180,9 +181,10 @@
                                         </StackPanel>
                                     </Grid>
                                     <StackPanel Orientation="Horizontal" Grid.Row="1">
-                                        <Image Grid.Column="0" Source="{Binding ConnectImage}" Height="17" Margin="10 0"/>
-                                        <Image Grid.Column="0" Source="{Binding DaqDataImage}" Height="20" Margin="10 0"/>
-                                        <Image Grid.Column="0" Source="{Binding RecordDataImage}" Height="20" Margin="10 0"/>
+                                        <Image Grid.Column="0" Source="{Binding ConnectImage}" Height="17" Margin="8 0"/>
+                                        <Image Grid.Column="0" Source="{Binding InternetImage}" Height="20" Margin="8 0"/>
+                                        <Image Grid.Column="0" Source="{Binding DaqDataImage}" Height="20" Margin="8 0"/>
+                                        <Image Grid.Column="0" Source="{Binding RecordDataImage}" Height="20" Margin="8 0"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>

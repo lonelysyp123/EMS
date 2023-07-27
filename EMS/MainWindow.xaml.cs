@@ -65,6 +65,13 @@ namespace EMS
             int index = viewmodel.DisplayContent.RemoveDisConnectedDev(item);
         }
 
+        private void InterNet_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("入网操作");
+            var item = DevList.SelectedItem as BatteryTotalBase;
+            viewmodel.DisplayContent.RequestInterNet(item);
+        }
+
         private void DelDev_Click(object sender, RoutedEventArgs e)
         {
             var item = DevList.SelectedItem as BatteryTotalBase;

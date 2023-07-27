@@ -53,8 +53,8 @@ namespace EMS.View
 
         public void AddDevIntoView(BatteryTotalBase model)
         {
-            DataControl control = new DataControl();
-            control.DataContext = model;
+            DataControl control = new DataControl(model);
+            //control.DataContext = model;
             control.Margin = new Thickness(30,10,30,10);
             int index = MainBody.Children.Count;
             Grid.SetColumn(control, index/3);

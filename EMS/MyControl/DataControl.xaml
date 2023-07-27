@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:oxy="http://oxyplot.org/wpf"
              xmlns:local="clr-namespace:EMS.MyControl"
              mc:Ignorable="d" 
              d:DesignHeight="182" d:DesignWidth="202">
@@ -80,8 +81,11 @@
                     <RadioButton Grid.Column="3" Content="ST" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
                     <RadioButton Grid.Column="4" Content="ST" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
                 </Grid>
-                <TextBlock Grid.Row="2" Grid.Column="1" Text="0.0W" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
-                <TextBlock Grid.Row="4" Grid.Column="1" Text="0.0Wh" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
+                <!--<TextBlock Grid.Row="2" Grid.Column="1" Text="0.0W" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="0.0Wh" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>-->
+                <!--<Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="6" Background="Black" Visibility="Collapsed">
+                    <oxy:PlotView Model="{Binding ChartModel}"></oxy:PlotView>
+                </Grid>-->
             </Grid>
             <Border Grid.Row="2" Background="White" CornerRadius="0 0 5 5">
                 <Grid Margin="5 0 5 0">

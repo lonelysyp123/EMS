@@ -159,6 +159,11 @@ namespace EMS.ViewModel
             }
         }
 
+        /// <summary>
+        /// 移除断开的设备
+        /// </summary>
+        /// <param name="item">断开的设备</param>
+        /// <returns>移除设备的序号</returns>
         public int RemoveDisConnectedDev(BatteryTotalBase item)
         {
             try
@@ -177,6 +182,30 @@ namespace EMS.ViewModel
             catch
             {
                 return -1;
+            }
+        }
+
+        /// <summary>
+        /// 指定设备请求入网
+        /// </summary>
+        /// <param name="item">指定设备</param>
+        /// <returns>请求设备的序号</returns>
+        public void RequestInterNet(BatteryTotalBase item)
+        {
+            try
+            {
+                if (item.RequestInterNet())
+                {
+                    item.IsInternet = true;
+                }
+                else
+                {
+                    item.IsInternet = false;
+                }
+            }
+            catch
+            {
+
             }
         }
 

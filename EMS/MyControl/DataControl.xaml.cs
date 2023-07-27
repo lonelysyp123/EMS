@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EMS.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Channels;
@@ -25,5 +26,12 @@ namespace EMS.MyControl
         {
             InitializeComponent();
         }
+
+        public DataControl(BatteryTotalBase model)
+        {
+            InitializeComponent();
+            this.DataContext = model;
+        }
+        
     }
 }
