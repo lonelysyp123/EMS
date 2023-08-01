@@ -43,6 +43,14 @@
                     <ColumnDefinition Width="1.2*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding TotalVoltage, StringFormat={}{0:F3}V}" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"></TextBlock>
+                <Grid Grid.Row="0" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Max:0.001V（A-10）" FontSize="8" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Grid.Row="1" Text="Min:0.001V（A-10）" FontSize="8" VerticalAlignment="Center"></TextBlock>
+                </Grid>
                 <Separator Grid.Row="1" Grid.Column="0" Margin="10 0 0 0">
                     <Separator.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
@@ -60,7 +68,7 @@
                         </LinearGradientBrush>
                     </Separator.Background>
                 </Separator>
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="0.000Ah" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"></TextBlock>
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="SOC" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"></TextBlock>
                 <Separator Grid.Row="5" Grid.Column="0" BorderThickness="0" Margin="10 0 0 0">
                     <Separator.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
@@ -69,27 +77,22 @@
                         </LinearGradientBrush>
                     </Separator.Background>
                 </Separator>
-                <TextBlock Grid.Row="6" Grid.ColumnSpan="2"  Text="备用参数" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="15"></TextBlock>
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="SOH" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"></TextBlock>
                 <Grid Grid.Row="7" Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
-                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <RadioButton Grid.Column="0" Content="ST" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
-                    <RadioButton Grid.Column="1" Content="ST" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
-                    <RadioButton Grid.Column="2" Content="ST" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
-                    <RadioButton Grid.Column="3" Content="ST" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
-                    <RadioButton Grid.Column="4" Content="ST" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
+                    <RadioButton Grid.Column="0" Content="充电" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
+                    <RadioButton Grid.Column="1" Content="放电" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
+                    <RadioButton Grid.Column="2" Content="静置" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
+                    <RadioButton Grid.Column="3" Content="离网" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
                 </Grid>
                 <!--<TextBlock Grid.Row="2" Grid.Column="1" Text="0.0W" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
                 <TextBlock Grid.Row="4" Grid.Column="1" Text="0.0Wh" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>-->
-                <!--<Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="6" Background="Black" Visibility="Collapsed">
-                    <oxy:PlotView Model="{Binding ChartModel}"></oxy:PlotView>
-                </Grid>-->
-                <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="6">
+                <!--<Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="6">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -102,18 +105,18 @@
                     <Image Grid.Row="0" Grid.Column="1" Margin="4" Source="../Resource/Image/Discharge.png"></Image>
                     <Image Grid.Row="1" Grid.Column="0" Margin="5" Source="../Resource/Image/Balanced.png"></Image>
                     <Image Grid.Row="1" Grid.Column="1" Margin="6" Source="../Resource/Image/Stewing.png"></Image>
-                </Grid>
+                </Grid>-->
             </Grid>
             <Border Grid.Row="2" Background="White" CornerRadius="0 0 5 5">
                 <Grid Margin="5 0 5 0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="T:0.0℃" FontSize="10" VerticalAlignment="Center"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="Param1" FontSize="10" VerticalAlignment="Center"></TextBlock>
-                    <TextBlock Grid.Column="2" Text="Param2" FontSize="10" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Grid.Column="0" Text="T:0.0℃" FontSize="10" VerticalAlignment="Center" Margin="0 0 10 0"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="Max:0.0℃（A-10）" FontSize="8" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="Min:0.0℃（A-10）" FontSize="8" VerticalAlignment="Center"></TextBlock>
                 </Grid>
             </Border>
         </Grid>
