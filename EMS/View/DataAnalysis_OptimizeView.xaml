@@ -7,7 +7,7 @@
       xmlns:oxy="http://oxyplot.org/wpf"
       xmlns:local="clr-namespace:EMS.View"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="600" d:DesignWidth="1000"
       Title="DataAnalysis_OptimizeView">
     <Grid Background="White">
         <Grid.RowDefinitions>
@@ -25,8 +25,11 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
-                <Label Content="Level" VerticalAlignment="Center"></Label>
-                <trl:IDInput Width="90" Margin="2" IdText="{Binding IdSeries,Mode=TwoWay}"></trl:IDInput>
+                <Label Content="BCMU" VerticalAlignment="Center"></Label>
+                <!--<trl:IDInput Width="90" Margin="2" IdText="{Binding IdSeries,Mode=TwoWay}"></trl:IDInput>-->
+                <TextBox Width="50" Text="{Binding SelectedTotal}"></TextBox>
+                <Label Content="BMU" VerticalAlignment="Center"></Label>
+                <TextBox Width="50" Text="{Binding SelectedSeries}"></TextBox>
                 <Label Content="开始时间" VerticalAlignment="Center"></Label>
                 <DatePicker Name="Test1" VerticalContentAlignment="Center" Margin="10 2 2 2" Text="{Binding StartTime1, Mode=TwoWay}" Width="90"></DatePicker>
                 <trl:DateInput Width="90" Margin="2" DateText="{Binding StartTime2, Mode=TwoWay}"></trl:DateInput>
@@ -35,8 +38,34 @@
                 <trl:DateInput Width="90" Margin="2" DateText="{Binding EndTime2, Mode=TwoWay}"></trl:DateInput>
                 <Button Content="查询" Command="{Binding QueryCommand}" Width="80" Margin="3"></Button>
             </StackPanel>
-            <Grid Grid.Row="1" Grid.Column="0" Width="140">
-                <ListBox ItemsSource="{Binding DataTypeList}" SelectionMode="Extended" SelectionChanged="ListBox_SelectionChanged">
+            <Grid Grid.Row="1" Grid.Column="0" Width="140" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ListBox Grid.Column="0" SelectionMode="Extended" SelectionChanged="BatteryList_SelectionChanged">
+                    <ListBoxItem Content="1"></ListBoxItem>
+                    <ListBoxItem Content="2"></ListBoxItem>
+                    <ListBoxItem Content="3"></ListBoxItem>
+                    <ListBoxItem Content="4"></ListBoxItem>
+                    <ListBoxItem Content="5"></ListBoxItem>
+                    <ListBoxItem Content="6"></ListBoxItem>
+                    <ListBoxItem Content="7"></ListBoxItem>
+                    <ListBoxItem Content="8"></ListBoxItem>
+                    <ListBoxItem Content="9"></ListBoxItem>
+                    <ListBoxItem Content="10"></ListBoxItem>
+                    <ListBoxItem Content="11"></ListBoxItem>
+                    <ListBoxItem Content="12"></ListBoxItem>
+                    <ListBoxItem Content="13"></ListBoxItem>
+                    <ListBoxItem Content="14"></ListBoxItem>
+                </ListBox>
+                <ListBox Grid.Column="1" SelectionChanged="DataTypeList_SelectionChanged" SelectedItem="{Binding SelectedType}" SelectedIndex="{Binding SelectedTypeIndex}">
+                    <ListBoxItem Content="Voltage"></ListBoxItem>
+                    <ListBoxItem Content="Current"></ListBoxItem>
+                    <ListBoxItem Content="SOC"></ListBoxItem>
+                    <ListBoxItem Content="Resistance"></ListBoxItem>
+                    <ListBoxItem Content="Temperature1"></ListBoxItem>
+                    <ListBoxItem Content="Temperature2"></ListBoxItem>
                 </ListBox>
             </Grid>
             <oxy:PlotView Grid.Row="1" Grid.Column="1" Model="{Binding DisplayDataModel}">

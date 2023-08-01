@@ -35,7 +35,7 @@
                 <Button Content="查询" Command="{Binding QueryCommand}" Width="80" Margin="3"></Button>
             </StackPanel>
             <Grid Grid.Row="1" Grid.Column="0" Width="140">
-                <ListBox ItemsSource="{Binding DataTypeList}" SelectionMode="Extended" SelectionChanged="ListBox_SelectionChanged">
+                <ListBox ItemsSource="{Binding DataTypeList}" SelectionMode="Extended" >
                 </ListBox>
             </Grid>
             <oxy:PlotView Grid.Row="1" Grid.Column="1" Model="{Binding DisplayDataModel}">

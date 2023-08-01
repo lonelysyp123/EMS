@@ -31,27 +31,5 @@ namespace EMS.View
             viewmodel = new DataAnalysisViewModel();
             this.DataContext = viewmodel;
         }
-
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Count > 0)
-            {
-                foreach (var item in e.AddedItems)
-                {
-                    viewmodel.SelectedDataTypeList.Add(item.ToString());
-                }
-            }
-
-            if (e.RemovedItems.Count > 0)
-            {
-                foreach (var item in e.RemovedItems)
-                {
-                    viewmodel.SelectedDataTypeList.Remove(item.ToString());
-
-                }
-            }
-
-            viewmodel.SwitchDataType();
-        }
     }
 }

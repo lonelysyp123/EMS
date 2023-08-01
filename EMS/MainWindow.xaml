@@ -160,7 +160,8 @@
                                     <ContextMenu>
                                         <MenuItem Header="重新连接" Click="ReConnect_Click"></MenuItem>
                                         <MenuItem Header="断开连接" Click="DisConnect_Click"></MenuItem>
-                                        <MenuItem Header="电池入网" Click="InterNet_Click"></MenuItem>
+                                        <MenuItem Header="并联入网" Click="InterNet_Click"></MenuItem>
+                                        <MenuItem Header="断联退网" Click="InterNet_Click"></MenuItem>
                                         <MenuItem Header="删除设备" Click="DelDev_Click"></MenuItem>
                                     </ContextMenu>
                                 </Border.ContextMenu>

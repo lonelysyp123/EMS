@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EMS.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,31 +21,39 @@ namespace EMS.View
     /// </summary>
     public partial class DataAnalysis_OptimizeView : Page
     {
+        private DataAnalysisViewModel viewmodel;
         public DataAnalysis_OptimizeView()
         {
             InitializeComponent();
+            viewmodel = new DataAnalysisViewModel();
+            this.DataContext = viewmodel;
         }
 
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void BatteryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //if (e.AddedItems.Count > 0)
-            //{
-            //    foreach (var item in e.AddedItems)
-            //    {
-            //        viewmodel.SelectedDataTypeList.Add(item.ToString());
-            //    }
-            //}
+            if (e.AddedItems.Count > 0)
+            {
+                foreach (var item in e.AddedItems)
+                {
+                    viewmodel.SelectedDataTypeList.Add(item.ToString());
+                }
+            }
 
-            //if (e.RemovedItems.Count > 0)
-            //{
-            //    foreach (var item in e.RemovedItems)
-            //    {
-            //        viewmodel.SelectedDataTypeList.Remove(item.ToString());
+            if (e.RemovedItems.Count > 0)
+            {
+                foreach (var item in e.RemovedItems)
+                {
+                    viewmodel.SelectedDataTypeList.Remove(item.ToString());
 
-            //    }
-            //}
+                }
+            }
 
-            //viewmodel.SwitchDataType();
+            viewmodel.SwitchBatteryData();
+        }
+
+        private void DataTypeList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            viewmodel.SwitchBatteryData();
         }
     }
 }

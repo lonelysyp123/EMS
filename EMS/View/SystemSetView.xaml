@@ -22,13 +22,13 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
-                    <TextBlock Text="间隔时间" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
+                    <TextBlock Width="50" Text="间隔时间" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
                     <TextBox VerticalAlignment="Center" Width="100" BorderThickness="1" Margin="2" Text="{Binding DaqTimeSpan}"></TextBox>
                     <TextBlock Text="S" VerticalAlignment="Center"></TextBlock>
                 </StackPanel>
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Row="1" Header="参数集合1">
+        <GroupBox Grid.Row="1" Header="MQTT">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -41,14 +41,31 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
-                    <TextBlock Text="参数1" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
+                    <TextBlock Width="50" Text="IP" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
                     <TextBox VerticalAlignment="Center" Width="100" BorderThickness="1" Margin="2" Text="{Binding Param1_1}"></TextBox>
-                    <TextBlock Text="单位" VerticalAlignment="Center"></TextBlock>
                 </StackPanel>
                 <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-                    <TextBlock Text="参数2" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
+                    <TextBlock Width="50" Text="用户名" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
                     <TextBox VerticalAlignment="Center" Width="100" BorderThickness="1" Margin="2" Text="{Binding Param1_2}"></TextBox>
-                    <TextBlock Text="单位" VerticalAlignment="Center"></TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Width="50" Text="密码" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
+                    <TextBox VerticalAlignment="Center" Width="100" BorderThickness="1" Margin="2" Text="{Binding Param1_2}"></TextBox>
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Width="50" Text="端口号" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
+                    <TextBox VerticalAlignment="Center" Width="100" BorderThickness="1" Margin="2" Text="{Binding Param1_2}"></TextBox>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
+                    <TextBlock Width="50" Text="主题" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
+                    <TextBox VerticalAlignment="Center" Width="100" BorderThickness="1" Margin="2" Text="{Binding Param1_2}"></TextBox>
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
+                    <TextBlock Width="50" Text="用户ID" VerticalAlignment="Center" Margin="15 0 3 0"></TextBlock>
+                    <TextBox VerticalAlignment="Center" Width="100" BorderThickness="1" Margin="2" Text="{Binding Param1_2}"></TextBox>
                 </StackPanel>
             </Grid>
         </GroupBox>

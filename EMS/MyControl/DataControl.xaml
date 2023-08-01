@@ -21,7 +21,10 @@
                         <GradientStop Color="#FF56FF00" Offset="0"/>
                     </LinearGradientBrush>
                 </Border.Background>
-                <TextBlock Text="{Binding TotalID}" Margin="5 0 5 0" VerticalAlignment="Center"></TextBlock>
+                <Grid>
+                    <TextBlock Text="{Binding TotalID}" Margin="5 0 5 0" VerticalAlignment="Center"></TextBlock>
+                    <Image Margin="5 0 5 0" HorizontalAlignment="Right" Source="../Resource/Image/Error.png" Visibility="Collapsed"></Image>
+                </Grid>
             </Border>
 
             <Grid Grid.Row="1" Background="White">
@@ -86,6 +89,20 @@
                 <!--<Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="6" Background="Black" Visibility="Collapsed">
                     <oxy:PlotView Model="{Binding ChartModel}"></oxy:PlotView>
                 </Grid>-->
+                <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Grid.Column="0" Margin="4" Source="../Resource/Image/Charge.png"></Image>
+                    <Image Grid.Row="0" Grid.Column="1" Margin="4" Source="../Resource/Image/Discharge.png"></Image>
+                    <Image Grid.Row="1" Grid.Column="0" Margin="5" Source="../Resource/Image/Balanced.png"></Image>
+                    <Image Grid.Row="1" Grid.Column="1" Margin="6" Source="../Resource/Image/Stewing.png"></Image>
+                </Grid>
             </Grid>
             <Border Grid.Row="2" Background="White" CornerRadius="0 0 5 5">
                 <Grid Margin="5 0 5 0">

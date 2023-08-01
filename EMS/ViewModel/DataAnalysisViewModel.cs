@@ -16,6 +16,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.Windows.Markup;
 using OxyPlot.Legends;
 using System.Windows.Media.Animation;
+using System.Windows.Controls;
 
 namespace EMS.ViewModel
 {
@@ -31,13 +32,43 @@ namespace EMS.ViewModel
             }
         }
 
-        private ObservableCollection<string> _dataTypeList;
-        public ObservableCollection<string> DataTypeList
+        private List<string> _totalList;
+        public List<string> TotalList
         {
-            get => _dataTypeList;
+            get => _totalList;
             set
             {
-                SetProperty(ref _dataTypeList, value);
+                SetProperty(ref _totalList, value);
+            }
+        }
+
+        private string _selectedTotal;
+        public string SelectedTotal
+        {
+            get => _selectedTotal;
+            set
+            {
+                SetProperty(ref _selectedTotal, value);
+            }
+        }
+
+        private List<string> _seriesList;
+        public List<string> SeriesList
+        {
+            get => _seriesList;
+            set
+            {
+                SetProperty(ref _seriesList, value);
+            }
+        }
+
+        private string _selectedSeries;
+        public string SelectedSeries
+        {
+            get => _selectedSeries;
+            set
+            {
+                SetProperty(ref _selectedSeries, value);
             }
         }
 
@@ -81,39 +112,40 @@ namespace EMS.ViewModel
             }
         }
 
-        private string _idSeries;
-        public string IdSeries
+        private ListBoxItem _selectedType;
+        public ListBoxItem SelectedType
         {
-            get => _idSeries;
+            get => _selectedType;
             set
             {
-                SetProperty(ref _idSeries, value);
+                SetProperty(ref _selectedType, value);
+            }
+        }
+
+        private int _selectedTypeIndex;
+        public int SelectedTypeIndex
+        {
+            get => _selectedTypeIndex;
+            set
+            {
+                SetProperty(ref _selectedTypeIndex, value);
             }
         }
 
         public RelayCommand QueryCommand { set; get; }
 
         public List<string> SelectedDataTypeList;
-        public List<double[]> DisplayDataList;
+        public List<List<double[]>> DisplayDataList;
+
         public List<DateTime> TimeList;
 
         public DataAnalysisViewModel()
         {
             QueryCommand = new RelayCommand(Query);
-            DisplayDataList = new List<double[]>();
-            TimeList = new List<DateTime>();
+
             DisplayDataModel = new PlotModel();
-            var l = new Legend
-            {
-                LegendBorder = OxyColors.Black,
-                LegendBackground = OxyColor.FromAColor(200, OxyColors.White),
-                LegendPosition = LegendPosition.TopRight,
-                LegendPlacement = LegendPlacement.Inside,
-                LegendOrientation = LegendOrientation.Vertical,
-            };
-            DisplayDataModel.Legends.Add(l);
-            DataTypeList = new ObservableCollection<string>();
-            IdSeries = "1-1-1";
+            DisplayDataList = new List<List<double[]>>();
+            TimeList = new List<DateTime>();
             StartTime2 = "00:00:00";
             EndTime2 = "00:00:00";
             SelectedDataTypeList = new List<string>();
@@ -127,31 +159,13 @@ namespace EMS.ViewModel
         {
             DisplayDataList.Clear();
             TimeList.Clear();
-            if (IdSeries != null)
+            if (SelectedTotal != null && SelectedSeries != null)
             {
-                var items = IdSeries.Split('-');
-                if (TryCombinTime(StartTime1, StartTime2, out DateTime StartTime))
+                if (TryCombinTime(StartTime1, StartTime2, out DateTime StartTime) && TryCombinTime(EndTime1, EndTime2, out DateTime EndTime))
                 {
-                    if (TryCombinTime(EndTime1, EndTime2, out DateTime EndTime))
+                    for (int i = 0; i < 14; i++)
                     {
-                        if (items[0] != "N")
-                        {
-                            if (items[1] != "N")
-                            {
-                                if (items[2] != "N")
-                                {
-                                    QueryBatteryInfo(items[0], items[1], items[2], StartTime, EndTime);
-                                }
-                                else
-                                {
-                                    QuerySeriesBatteryInfo(items[0], items[1], StartTime, EndTime);
-                                }
-                            }
-                            else
-                            {
-                                QueryTotalBatteryInfo(items[0], StartTime, EndTime);
-                            }
-                        }
+                        DisplayDataList.Add(QueryBatteryInfo(SelectedTotal, SelectedSeries, (i+1).ToString(), StartTime, EndTime));
                     }
                 }
             }
@@ -165,18 +179,11 @@ namespace EMS.ViewModel
         /// <param name="sort">电池序号</param>
         /// <param name="startTime">开始时间</param>
         /// <param name="endTime">停止时间</param>
-        private void QueryBatteryInfo(string BCMUID, string BMUID, string sort, DateTime startTime, DateTime endTime)
+        private List<double[]> QueryBatteryInfo(string BCMUID, string BMUID, string sort, DateTime startTime, DateTime endTime)
         {
             SeriesBatteryInfoManage SeriesManage = new SeriesBatteryInfoManage();
             var SeriesList = SeriesManage.Find(BCMUID, BMUID, startTime, endTime);
-
-            DataTypeList.Clear();
-            DataTypeList.Add("Voltage");
-            DataTypeList.Add("Current");
-            DataTypeList.Add("SOC");
-            DataTypeList.Add("Resistance");
-            DataTypeList.Add("Temperature1");
-            DataTypeList.Add("Temperature2");
+            List<double[]> obj = new List<double[]>();
             if (int.TryParse(sort, out int Sort))
             {
                 // 查询Battery数据
@@ -227,13 +234,14 @@ namespace EMS.ViewModel
 
                     TimeList.Add(SeriesList[i].HappenTime);
                 }
-                DisplayDataList.Add(vols.ToArray());
-                DisplayDataList.Add(curs.ToArray());
-                DisplayDataList.Add(socList.ToArray());
-                DisplayDataList.Add(resistances.ToArray());
-                DisplayDataList.Add(temperature1List.ToArray());
-                DisplayDataList.Add(temperature2List.ToArray());
+                obj.Add(vols.ToArray());
+                obj.Add(curs.ToArray());
+                obj.Add(socList.ToArray());
+                obj.Add(resistances.ToArray());
+                obj.Add(temperature1List.ToArray());
+                obj.Add(temperature2List.ToArray());
             }
+            return obj;
         }
 
         /// <summary>
@@ -243,26 +251,22 @@ namespace EMS.ViewModel
         /// <param name="BMUID">BMUID</param>
         /// <param name="startTime">开始时间</param>
         /// <param name="endTime">停止时间</param>
-        private void QuerySeriesBatteryInfo(string BCMUID, string BMUID, DateTime startTime, DateTime endTime)
-        {
-            SeriesBatteryInfoManage SeriesManage = new SeriesBatteryInfoManage();
-            var SeriesList = SeriesManage.Find(BCMUID, BMUID, startTime, endTime);
-
-            DataTypeList.Clear();
-            DataTypeList.Add("Voltage");
-            DataTypeList.Add("Current");
-            // 查询Series数据
-            List<double> vols = new List<double>();
-            List<double> curs = new List<double>();
-            for (int i = 1; i < SeriesList.Count; i++)
-            {
-                vols.Add(SeriesList[i].SeriesVoltage);
-                curs.Add(SeriesList[i].SeriesCurrent);
-                TimeList.Add(SeriesList[i].HappenTime);
-            }
-            DisplayDataList.Add(vols.ToArray());
-            DisplayDataList.Add(curs.ToArray());
-        }
+        //private void QuerySeriesBatteryInfo(string BCMUID, string BMUID, DateTime startTime, DateTime endTime)
+        //{
+        //    SeriesBatteryInfoManage SeriesManage = new SeriesBatteryInfoManage();
+        //    var SeriesList = SeriesManage.Find(BCMUID, BMUID, startTime, endTime);
+        //    // 查询Series数据
+        //    List<double> vols = new List<double>();
+        //    List<double> curs = new List<double>();
+        //    for (int i = 1; i < SeriesList.Count; i++)
+        //    {
+        //        vols.Add(SeriesList[i].SeriesVoltage);
+        //        curs.Add(SeriesList[i].SeriesCurrent);
+        //        TimeList.Add(SeriesList[i].HappenTime);
+        //    }
+        //    DisplayDataList.Add(vols.ToArray());
+        //    DisplayDataList.Add(curs.ToArray());
+        //}
 
         /// <summary>
         /// 查询电池簇数据
@@ -270,44 +274,37 @@ namespace EMS.ViewModel
         /// <param name="BCMUID">BCMUID</param>
         /// <param name="startTime">开始时间</param>
         /// <param name="endTime">停止时间</param>
-        private void QueryTotalBatteryInfo(string BCMUID, DateTime startTime, DateTime endTime)
-        {
-            DataTypeList.Clear();
-            DataTypeList.Add("Voltage");
-            DataTypeList.Add("Current");
-            DataTypeList.Add("SOH");
-            DataTypeList.Add("SOC");
-            DataTypeList.Add("AverageTemperature");
-
-            // 查询Total数据
-            List<double> vols = new List<double>();
-            List<double> curs = new List<double>();
-            List<double> socList = new List<double>();
-            List<double> sohList = new List<double>();
-            List<double> averageTemperatures = new List<double>();
-            TotalBatteryInfoManage TotalManage = new TotalBatteryInfoManage();
-            var TotalList = TotalManage.Find(BCMUID, startTime, endTime);
-            for (int i = 1; i < TotalList.Count; i++)
-            {
-                vols.Add(TotalList[i].Voltage);
-                curs.Add(TotalList[i].Current);
-                socList.Add(TotalList[i].SOC);
-                sohList.Add(TotalList[i].SOH);
-                averageTemperatures.Add(TotalList[i].AverageTemperature);
-                TimeList.Add(TotalList[i].HappenTime);
-            }
-            DisplayDataList.Add(vols.ToArray());
-            DisplayDataList.Add(curs.ToArray());
-            DisplayDataList.Add(socList.ToArray());
-            DisplayDataList.Add(sohList.ToArray());
-            DisplayDataList.Add(averageTemperatures.ToArray());
-        }
+        //private void QueryTotalBatteryInfo(string BCMUID, DateTime startTime, DateTime endTime)
+        //{
+        //    // 查询Total数据
+        //    List<double> vols = new List<double>();
+        //    List<double> curs = new List<double>();
+        //    List<double> socList = new List<double>();
+        //    List<double> sohList = new List<double>();
+        //    List<double> averageTemperatures = new List<double>();
+        //    TotalBatteryInfoManage TotalManage = new TotalBatteryInfoManage();
+        //    var TotalList = TotalManage.Find(BCMUID, startTime, endTime);
+        //    for (int i = 1; i < TotalList.Count; i++)
+        //    {
+        //        vols.Add(TotalList[i].Voltage);
+        //        curs.Add(TotalList[i].Current);
+        //        socList.Add(TotalList[i].SOC);
+        //        sohList.Add(TotalList[i].SOH);
+        //        averageTemperatures.Add(TotalList[i].AverageTemperature);
+        //        TimeList.Add(TotalList[i].HappenTime);
+        //    }
+        //    DisplayDataList.Add(vols.ToArray());
+        //    DisplayDataList.Add(curs.ToArray());
+        //    DisplayDataList.Add(socList.ToArray());
+        //    DisplayDataList.Add(sohList.ToArray());
+        //    DisplayDataList.Add(averageTemperatures.ToArray());
+        //}
 
         /// <summary>
         /// 选择数据类型
         /// </summary>
         /// <param name="type">数据类型</param>
-        public void SwitchDataType()
+        public void SwitchBatteryData()
         {
             InitChart();
             DisplayDataModel.Series.Clear();
@@ -317,12 +314,14 @@ namespace EMS.ViewModel
                 lineSeries.Title = SelectedDataTypeList[i];
                 lineSeries.MarkerSize = 3;
                 lineSeries.MarkerType = MarkerType.Circle;
-                int index = DataTypeList.IndexOf(SelectedDataTypeList[i]);
-                for (int j = 0; j < DisplayDataList[index].Length; j++)
+                if (int.TryParse(SelectedDataTypeList[i], out int index))
                 {
-                    lineSeries.Points.Add(DateTimeAxis.CreateDataPoint(TimeList[j], DisplayDataList[index][j]));
+                    for (int j = 0; j < DisplayDataList[index][SelectedTypeIndex].Length; j++)
+                    {
+                        lineSeries.Points.Add(DateTimeAxis.CreateDataPoint(TimeList[index], DisplayDataList[index][SelectedTypeIndex][j]));
+                    }
+                    DisplayDataModel.Series.Add(lineSeries);
                 }
-                DisplayDataModel.Series.Add(lineSeries);
             }
             DisplayDataModel.InvalidatePlot(true);
         }
@@ -362,9 +361,21 @@ namespace EMS.ViewModel
         /// </summary>
         private void InitChart()
         {
+            //! Legend
+            DisplayDataModel.Legends.Clear();
+            var l = new Legend
+            {
+                LegendBorder = OxyColors.Black,
+                LegendBackground = OxyColor.FromAColor(200, OxyColors.White),
+                LegendPosition = LegendPosition.TopRight,
+                LegendPlacement = LegendPlacement.Inside,
+                LegendOrientation = LegendOrientation.Vertical,
+            };
+            DisplayDataModel.Legends.Add(l);
+
             //! Axes
             DisplayDataModel.Axes.Clear();
-            DisplayDataModel.Axes.Add(new LinearAxis() { Position = AxisPosition.Left, Title = "幅值" });
+            DisplayDataModel.Axes.Add(new LinearAxis() { Position = AxisPosition.Left, Title = SelectedType.Content.ToString() });
             DisplayDataModel.Axes.Add(new DateTimeAxis() { 
                 Position = AxisPosition.Bottom, 
                 Title = "时间",
