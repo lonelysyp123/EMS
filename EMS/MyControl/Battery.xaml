@@ -18,11 +18,12 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" x:Name="BatteryVol" Foreground="Red" Text="Vol:0.001V"></TextBlock>
-                        <TextBlock Grid.Row="1" x:Name="BatteryTmp" Foreground="Blue" Text="Tmp:0.1℃"></TextBlock>
+                        <TextBlock Grid.Row="0" x:Name="BatteryVol" Foreground="Red" Text="{Binding Voltage, StringFormat=Vol:{0:F3}V}"></TextBlock>
+                        <TextBlock Grid.Row="1" x:Name="BatteryTmp1" Foreground="Blue" Text="{Binding Temperature1, StringFormat=Tmp1:{0:F1}℃}"></TextBlock>
+                        <TextBlock Grid.Row="1" x:Name="BatteryTmp2" Foreground="Blue" Text="{Binding Temperature2, StringFormat=Tmp2:{0:F1}℃}"></TextBlock>
                         <TextBlock Grid.Row="2" x:Name="BatterySOC" Foreground="White"></TextBlock>
-                        <TextBlock Grid.Row="3" x:Name="BatteryRes" Foreground="White" Text="Res:1mΩ"></TextBlock>
-                        <TextBlock Grid.Row="4" x:Name="BatteryCap" Foreground="White" Text="Cap:0.1AH"></TextBlock>
+                        <TextBlock Grid.Row="3" x:Name="BatteryRes" Foreground="White" Text="{Binding Resistance, StringFormat=Res:{0}mΩ}"></TextBlock>
+                        <TextBlock Grid.Row="4" x:Name="BatteryCap" Foreground="White" Text="{Binding Capacity, StringFormat=Cap:{0:F1}AH}"></TextBlock>
                     </Grid>
                 </ToolTip>
             </Image.ToolTip>

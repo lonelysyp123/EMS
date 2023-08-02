@@ -32,7 +32,7 @@ namespace EMS.View
 
         private void InitView(BatteryTotalBase item)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < item.Series.Count; i++)
             {
                 Grid grid;
                 if (i == 0)
@@ -47,7 +47,6 @@ namespace EMS.View
                 {
                     grid = BMUC;
                 }
-
                 for (int l = 0;l < item.Series[i].Batteries.Count; l++)
                 {
                     Battery battery = new Battery();
@@ -59,6 +58,7 @@ namespace EMS.View
                     battery.DataContext = item.Series[i].Batteries[l];
                     grid.Children.Add(battery);
                 }
+                grid.DataContext = item.Series[i];
             }
         }
     }

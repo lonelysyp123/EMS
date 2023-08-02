@@ -17,6 +17,14 @@ namespace EMS.Storage.DB.Models
         public double SOH { get; set; }
         public double SOC { get; set; }
         public double AverageTemperature { get; set; }
+        public double MinVoltage { get; set; }
+        public int MinVoltageIndex { get; set; }
+        public double MaxVoltage { get; set; }
+        public int MaxVoltageIndex { get; set; }
+        public double MinTemperature { get; set; }
+        public double MaxTemperature { get; set; }
+        public int MinTemperatureIndex { get; set; }
+        public int MaxTemperatureIndex { get; set; }
         public DateTime HappenTime { get; set; }
     }
 }

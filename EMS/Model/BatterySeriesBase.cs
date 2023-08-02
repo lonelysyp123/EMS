@@ -13,39 +13,11 @@ namespace EMS.Model
     /// </summary>
     public class BatterySeriesBase : ObservableObject
     {
-        private double _seriesVoltage;
-        /// <summary>
-        /// 电池串总电压
-        /// </summary>
-        public double SeriesVoltage
-        {
-
-            get => _seriesVoltage;
-            set
-            {
-                SetProperty(ref _seriesVoltage, value);
-            }
-        }
-
-        private double _seriesCurrent;
-        /// <summary>
-        /// 电池串电流
-        /// </summary>
-        public double SeriesCurrent
-        {
-
-            get => _seriesCurrent;
-            set
-            {
-                SetProperty(ref _seriesCurrent, value);
-            }
-        }
-
-        private int _alarmState;
+        private string _alarmState;
         /// <summary>
         /// 告警状态
         /// </summary>
-        public int AlarmState
+        public string AlarmState
         {
 
             get => _alarmState;
@@ -55,11 +27,11 @@ namespace EMS.Model
             }
         }
 
-        private int _faultState;
+        private string _faultState;
         /// <summary>
         /// 故障状态
         /// </summary>
-        public int FaultState
+        public string FaultState
         {
 
             get => _faultState;
@@ -69,11 +41,11 @@ namespace EMS.Model
             }
         }
 
-        private int _chargeChannelState;
+        private string _chargeChannelState;
         /// <summary>
         /// 充电通道状态
         /// </summary>
-        public int ChargeChannelState
+        public string ChargeChannelState
         {
 
             get => _chargeChannelState;
@@ -83,11 +55,11 @@ namespace EMS.Model
             }
         }
 
-        private int _chargeCapacitySum;
+        private double _chargeCapacitySum;
         /// <summary>
         /// 充电累计容量
         /// </summary>
-        public int ChargeCapacitySum
+        public double ChargeCapacitySum
         {
 
             get => _chargeCapacitySum;
@@ -97,15 +69,122 @@ namespace EMS.Model
             }
         }
 
+        private double _minVoltage;
+        /// <summary>
+        /// 单体最低电压
+        /// </summary>
+        public double MinVoltage
+        {
+
+            get => _minVoltage;
+            set
+            {
+                SetProperty(ref _minVoltage, value);
+            }
+        }
+
+        private int _minVoltageIndex;
+        /// <summary>
+        /// 单体最低电压编号
+        /// </summary>
+        public int MinVoltageIndex
+        {
+
+            get => _minVoltageIndex;
+            set
+            {
+                SetProperty(ref _minVoltageIndex, value);
+            }
+        }
+
+        private double _maxVoltage;
+        /// <summary>
+        /// 单体最高电压
+        /// </summary>
+        public double MaxVoltage
+        {
+
+            get => _maxVoltage;
+            set
+            {
+                SetProperty(ref _maxVoltage, value);
+            }
+        }
+
+        private int _maxVoltageIndex;
+        /// <summary>
+        /// 单体最高电压编号
+        /// </summary>
+        public int MaxVoltageIndex
+        {
+
+            get => _maxVoltageIndex;
+            set
+            {
+                SetProperty(ref _maxVoltageIndex, value);
+            }
+        }
+
+        private double _minTemperature;
+        /// <summary>
+        /// 单体最低温度
+        /// </summary>
+        public double MinTemperature
+        {
+
+            get => _minTemperature;
+            set
+            {
+                SetProperty(ref _minTemperature, value);
+            }
+        }
+
+        private int _minTemperatureIndex;
+        /// <summary>
+        /// 单体最低温度编号
+        /// </summary>
+        public int MinTemperatureIndex
+        {
+
+            get => _minTemperatureIndex;
+            set
+            {
+                SetProperty(ref _minTemperatureIndex, value);
+            }
+        }
+
+        private double _maxTemperature;
+        /// <summary>
+        /// 单体最高温度
+        /// </summary>
+        public double MaxTemperature
+        {
+
+            get => _maxTemperature;
+            set
+            {
+                SetProperty(ref _maxTemperature, value);
+            }
+        }
+
+        private int _maxTemperatureIndex;
+        /// <summary>
+        /// 单体最高温度编号
+        /// </summary>
+        public int MaxTemperatureIndex
+        {
+
+            get => _maxTemperatureIndex;
+            set
+            {
+                SetProperty(ref _maxTemperatureIndex, value);
+            }
+        }
+
         /// <summary>
         /// 电池串id
         /// </summary>
         public string SeriesId { get; set; }
-
-        /// <summary>
-        /// 单串电池数
-        /// </summary>
-        public ushort BatteryCount { get; set; }
 
         /// <summary>
         /// 电池集合

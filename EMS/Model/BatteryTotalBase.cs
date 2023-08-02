@@ -94,6 +94,118 @@ namespace EMS.Model
             }
         }
 
+        private double _minVoltage;
+        /// <summary>
+        /// 单体最低电压
+        /// </summary>
+        public double MinVoltage
+        {
+
+            get => _minVoltage;
+            set
+            {
+                SetProperty(ref _minVoltage, value);
+            }
+        }
+
+        private int _minVoltageIndex;
+        /// <summary>
+        /// 单体最低电压编号
+        /// </summary>
+        public int MinVoltageIndex
+        {
+
+            get => _minVoltageIndex;
+            set
+            {
+                SetProperty(ref _minVoltageIndex, value);
+            }
+        }
+
+        private double _maxVoltage;
+        /// <summary>
+        /// 单体最高电压
+        /// </summary>
+        public double MaxVoltage
+        {
+
+            get => _maxVoltage;
+            set
+            {
+                SetProperty(ref _maxVoltage, value);
+            }
+        }
+
+        private int _maxVoltageIndex;
+        /// <summary>
+        /// 单体最高电压编号
+        /// </summary>
+        public int MaxVoltageIndex
+        {
+
+            get => _maxVoltageIndex;
+            set
+            {
+                SetProperty(ref _maxVoltageIndex, value);
+            }
+        }
+
+        private double _minTemperature;
+        /// <summary>
+        /// 单体最低温度
+        /// </summary>
+        public double MinTemperature
+        {
+
+            get => _minTemperature;
+            set
+            {
+                SetProperty(ref _minTemperature, value);
+            }
+        }
+
+        private int _minTemperatureIndex;
+        /// <summary>
+        /// 单体最低温度编号
+        /// </summary>
+        public int MinTemperatureIndex
+        {
+
+            get => _minTemperatureIndex;
+            set
+            {
+                SetProperty(ref _minTemperatureIndex, value);
+            }
+        }
+
+        private double _maxTemperature;
+        /// <summary>
+        /// 单体最高温度
+        /// </summary>
+        public double MaxTemperature
+        {
+
+            get => _maxTemperature;
+            set
+            {
+                SetProperty(ref _maxTemperature, value);
+            }
+        }
+
+        private int _maxTemperatureIndex;
+        /// <summary>
+        /// 单体最高温度编号
+        /// </summary>
+        public int MaxTemperatureIndex
+        {
+
+            get => _maxTemperatureIndex;
+            set
+            {
+                SetProperty(ref _maxTemperatureIndex, value);
+            }
+        }
+
         private BitmapSource _devImage;
         /// <summary>
         /// 标签图标
@@ -192,6 +304,7 @@ namespace EMS.Model
         public string IP { set; get; }
         public string Port { set; get; }
 
+        public ushort BatteryCount { get; set; }
         public ushort SeriesCount { get; set; }
         public ushort BatteriesCountInSeries { get; set; }
         public ObservableCollection<BatterySeriesBase> Series { get; set; }

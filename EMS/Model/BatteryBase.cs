@@ -26,20 +26,6 @@ namespace EMS.Model
             }
         }
 
-        private double _current;
-        /// <summary>
-        /// 电流
-        /// </summary>
-        public double Current
-        {
-
-            get => _current;
-            set
-            {
-                SetProperty(ref _current, value);
-            }
-        }
-
         private double _temperature1;
         /// <summary>
         /// 温度
@@ -110,14 +96,9 @@ namespace EMS.Model
             }
         }
 
-        /// <summary>
-        /// 电池id
-        /// </summary>
-        public string BatteryID { get; set; }
-
         public BatteryBase() 
         {
-            SOC = 10;
+
         }
     }
 }

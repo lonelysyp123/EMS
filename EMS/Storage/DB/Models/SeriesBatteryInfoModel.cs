@@ -14,8 +14,20 @@ namespace EMS.Storage.DB.Models
         public int ID { get; set; }
         public string BCMUID { get; set; }
         public string BMUID { get; set; }
-        public double SeriesVoltage { get; set; }
-        public double SeriesCurrent { get; set; }
+
+        public double MinVoltage { get; set; }
+        public int MinVoltageIndex { get; set; }
+        public double MaxVoltage { get; set; }
+        public int MaxVoltageIndex { get; set; }
+        public double MinTemperature { get; set; }
+        public double MaxTemperature { get; set; }
+        public int MinTemperatureIndex { get; set; }
+        public int MaxTemperatureIndex { get; set; }
+
+        public string AlarmState { get; set; }
+        public string FaultState { get; set; }
+        public string ChargeChannelState { get; set; }
+        public double ChargeCapacitySum { get; set; }
 
         public double Voltage0 { get; set; }
         public double Voltage1 { get; set; }
@@ -34,22 +46,22 @@ namespace EMS.Storage.DB.Models
         public double Voltage14 { get; set; }
         public double Voltage15 { get; set; }
 
-        public double Current0 { get; set; }
-        public double Current1 { get; set; }
-        public double Current2 { get; set; }
-        public double Current3 { get; set; }
-        public double Current4 { get; set; }
-        public double Current5 { get; set; }
-        public double Current6 { get; set; }
-        public double Current7 { get; set; }
-        public double Current8 { get; set; }
-        public double Current9 { get; set; }
-        public double Current10 { get; set; }
-        public double Current11 { get; set; }
-        public double Current12 { get; set; }
-        public double Current13 { get; set; }
-        public double Current14 { get; set; }
-        public double Current15 { get; set; }
+        public double Capacity0 { get; set; }
+        public double Capacity1 { get; set; }
+        public double Capacity2 { get; set; }
+        public double Capacity3 { get; set; }
+        public double Capacity4 { get; set; }
+        public double Capacity5 { get; set; }
+        public double Capacity6 { get; set; }
+        public double Capacity7 { get; set; }
+        public double Capacity8 { get; set; }
+        public double Capacity9 { get; set; }
+        public double Capacity10 { get; set; }
+        public double Capacity11 { get; set; }
+        public double Capacity12 { get; set; }
+        public double Capacity13 { get; set; }
+        public double Capacity14 { get; set; }
+        public double Capacity15 { get; set; }
 
         public double SOC0 { get; set; }
         public double SOC1 { get; set; }
