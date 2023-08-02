@@ -10,35 +10,31 @@
 
     <Grid Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="70"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
         <StackPanel Margin="5" Orientation="Horizontal" x:Name="BCMUInfo">
-            <Image Grid.Column="0" Source="../Resource/Image/BMS.png" Height="70"/>
-            <TextBlock Text="BCMU(...)" Margin="10 0" VerticalAlignment="Bottom"></TextBlock>
-            <TextBlock Text="Vol:0.001V" Margin="10 0" VerticalAlignment="Bottom"></TextBlock>
-            <TextBlock Text="Template:0.1℃" Margin="10 0" VerticalAlignment="Bottom"></TextBlock>
         </StackPanel>
 
         <GroupBox Grid.Row="1" Header="时间信息">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="年" VerticalAlignment="Center"></TextBlock>
-                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0"></TextBox>
+                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0" Text="{Binding Year}"></TextBox>
                 <TextBlock Text="月" VerticalAlignment="Center"></TextBlock>
-                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0"></TextBox>
+                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0" Text="{Binding Month}"></TextBox>
                 <TextBlock Text="日" VerticalAlignment="Center"></TextBlock>
-                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0"></TextBox>
+                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0" Text="{Binding Day}"></TextBox>
                 <TextBlock Text="时" VerticalAlignment="Center"></TextBlock>
-                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0"></TextBox>
+                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0" Text="{Binding Hour}"></TextBox>
                 <TextBlock Text="分" VerticalAlignment="Center"></TextBlock>
-                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0"></TextBox>
+                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0" Text="{Binding Minute}"></TextBox>
                 <TextBlock Text="秒" VerticalAlignment="Center"></TextBlock>
-                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0"></TextBox>
-                <Button Content="读取时间" Margin="10 0"></Button>
-                <Button Content="同步时间"></Button>
+                <TextBox VerticalContentAlignment="Center" Width="50" Margin="10 0" Text="{Binding Second}"></TextBox>
+                <Button Content="读取信息" Margin="10 0" Command="{Binding ReadTimeInfoCommand}"></Button>
+                <Button Content="同步信息" Command="{Binding SyncTimeInfoCommand}"></Button>
             </StackPanel>
         </GroupBox>
         <GroupBox Grid.Row="2" Header="遥控信息">
@@ -51,22 +47,25 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="打开充电通道" VerticalAlignment="Center"></TextBlock>
-                    <ComboBox Width="50" Margin="10 0"></ComboBox>
-                    <Button Content="执行"></Button>
+                    <ComboBox Width="50" Margin="10 0" ItemsSource="{Binding Channels}" SelectedItem="{Binding SelectedOpenChannel}"></ComboBox>
+                    <Button Content="执行" Command="{Binding OpenChargeChannelCommand}"></Button>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
                     <TextBlock Text="关闭充电通道" VerticalAlignment="Center"></TextBlock>
-                    <ComboBox Width="50" Margin="10 0"></ComboBox>
-                    <Button Content="执行"></Button>
+                    <ComboBox Width="50" Margin="10 0" ItemsSource="{Binding Channels}" SelectedItem="{Binding SelectedCloseChannel}"></ComboBox>
+                    <Button Content="执行" Command="{Binding CloseChargeChannelCommand}"></Button>
                 </StackPanel>
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
                     <TextBlock Text="均衡模式选择" VerticalAlignment="Center"></TextBlock>
-                    <ComboBox Width="50" Margin="10 0"></ComboBox>
-                    <Button Content="执行"></Button>
+                    <ComboBox Width="80" Margin="10 0" SelectedItem="{Binding BalancedMode}">
+                        <ComboBoxItem>自动模式</ComboBoxItem>
+                        <ComboBoxItem>远程模式</ComboBoxItem>
+                    </ComboBox>
+                    <Button Content="执行" Command="{Binding SelectBalancedModeCommand}"></Button>
                 </StackPanel>
                 <StackPanel Grid.Column="3" Orientation="Horizontal">
                     <TextBlock Text="当前电池簇并网" VerticalAlignment="Center" Margin="10 0"></TextBlock>
-                    <Button Content="执行"></Button>
+                    <Button Content="执行" Command="{Binding InNetCommand}"></Button>
                 </StackPanel>
             </Grid>
         </GroupBox>
@@ -83,23 +82,23 @@
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Width="80" Text="网络IP地址1" VerticalAlignment="Center" Margin="0 10"></TextBlock>
-                    <TextBox Width="80"></TextBox>
+                    <TextBox Width="80" Text="{Binding Address1}"></TextBox>
                     <TextBlock Width="80" Text="网络IP掩码1" VerticalAlignment="Center" Margin="0 10"></TextBlock>
-                    <TextBox Width="80"></TextBox>
+                    <TextBox Width="80" Text="{Binding Mask1}"></TextBox>
                     <TextBlock Width="80" Text="网络IP网关1" VerticalAlignment="Center" Margin="0 10"></TextBlock>
-                    <TextBox Width="80"></TextBox>
+                    <TextBox Width="80" Text="{Binding Gateway1}"></TextBox>
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Horizontal">
                     <TextBlock Width="80" Text="网络IP地址2" VerticalAlignment="Center" Margin="0 10"></TextBlock>
-                    <TextBox Width="80"></TextBox>
+                    <TextBox Width="80" Text="{Binding Address2}"></TextBox>
                     <TextBlock Width="80" Text="网络IP掩码2" VerticalAlignment="Center" Margin="0 10"></TextBlock>
-                    <TextBox Width="80"></TextBox>
+                    <TextBox Width="80" Text="{Binding Mask2}"></TextBox>
                     <TextBlock Width="80" Text="网络IP网关2" VerticalAlignment="Center" Margin="0 10"></TextBlock>
-                    <TextBox Width="80"></TextBox>
+                    <TextBox Width="80" Text="{Binding Gateway2}"></TextBox>
                     <TextBlock Visibility="Hidden" Width="80" Text="网络IP网关2" VerticalAlignment="Center" Margin="0 10"></TextBlock>
                     <TextBox Visibility="Hidden" Width="80"></TextBox>
-                    <Button Content="读取信息" Margin="30 0"></Button>
-                    <Button Content="同步信息"></Button>
+                    <Button Content="读取信息" Margin="30 0" Command="{Binding ReadNetInfoCommand}"></Button>
+                    <Button Content="同步信息" Command="{Binding SyncNetInfoCommand}"></Button>
                 </StackPanel>
                 <Separator Grid.Row="2" Margin="2 10"></Separator>
                 <StackPanel Grid.Row="3" Orientation="Horizontal">

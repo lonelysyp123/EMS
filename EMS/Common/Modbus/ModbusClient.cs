@@ -172,7 +172,7 @@ namespace EMS.Common.Modbus.ModbusTCP
         /// </summary>
         /// <param name="address">寄存器</param>
         /// <param name="value">写入值</param>
-        private void WriteFunc(ushort address, ushort value)
+        public void WriteFunc(ushort address, ushort value)
         {
             try
             {

@@ -44,12 +44,22 @@ namespace EMS.ViewModel
             }
         }
 
+        private int _currentBatterySort;
+        public int CurrentBatterySort
+        {
+            get => _currentBatterySort;
+            set
+            {
+                SetProperty(ref _currentBatterySort, value);
+            }
+        }
+
         public RelayCommand AddDevCommand { get; set; }
         public RelayCommand AddDevArrayCommand { get; set; }
         public RelayCommand DelAllDevCommand { get; set; }
 
         //public ConcurrentQueue<TotalBatteryInfoModel> TotalBatteryInfoQueue;
-        private List<ModbusClient> ClientList;
+        public List<ModbusClient> ClientList;
         public int DaqTimeSpan = 0;
         public bool IsStartSaveData = false;
         public DisplayContentViewModel()
@@ -90,7 +100,7 @@ namespace EMS.ViewModel
                 {
                     string ip = view.segment + i.ToString();
                     //! 判断该IP是否存在
-                    var objs = BatteryTotalList.Where(dev => dev.TotalID == ip).ToList();
+                    var objs = BatteryTotalList.Where(dev => dev.IP == ip).ToList();
                     if (objs.Count == 0)
                     {
                         //! 界面上新增IP
@@ -112,7 +122,7 @@ namespace EMS.ViewModel
             if (view.ShowDialog() == true)
             {
                 //! 判断该IP是否存在
-                var objs = BatteryTotalList.Where(dev => dev.TotalID == view.IPText.AddressText).ToList();
+                var objs = BatteryTotalList.Where(dev => dev.IP == view.IPText.AddressText).ToList();
                 if (objs.Count == 0)
                 {
                     // add Modbus TCP Dev

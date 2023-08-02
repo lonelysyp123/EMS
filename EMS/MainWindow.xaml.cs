@@ -6,6 +6,7 @@ using EMS.View;
 using EMS.ViewModel;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -137,15 +138,9 @@ namespace EMS
                     {
                         devControlView = new DevControlView();
                     }
+                    devControlView.SyncContent(viewmodel.DisplayContent.OnlineBatteryTotalList.ToList(), viewmodel.DisplayContent.ClientList);
                     MainBody.Content = new Frame() { Content = devControlView };
                     break;
-                //case "AlarmBorder":
-                //    if (devAlarm_Error == null)
-                //    {
-                //        devAlarm_Error = new DevAlarm_ErrorView();
-                //    }
-                //    MainBody.Content = new Frame() { Content = devAlarm_Error };
-                //    break;
                 default:
                     break;
             }

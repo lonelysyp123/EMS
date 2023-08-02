@@ -1,4 +1,5 @@
-﻿using EMS.Model;
+﻿using EMS.Common.Modbus.ModbusTCP;
+using EMS.Model;
 using EMS.MyControl;
 using System;
 using System.Collections;
