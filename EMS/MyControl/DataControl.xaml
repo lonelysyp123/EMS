@@ -49,11 +49,11 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
-                        <TextBlock Text="{Binding MinVoltage, StringFormat=Min:{}{0:F3}V}" FontSize="8" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{Binding MinVoltage, StringFormat=Min:{0:F3}V}" FontSize="8" VerticalAlignment="Center"></TextBlock>
                         <TextBlock Text="{Binding MinVoltageIndex, StringFormat=({0})}" FontSize="8" VerticalAlignment="Center"></TextBlock>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <TextBlock Text="{Binding MaxVoltage, StringFormat=Max:{}{0:F3}V}" FontSize="8" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{Binding MaxVoltage, StringFormat=Max:{0:F3}V}" FontSize="8" VerticalAlignment="Center"></TextBlock>
                         <TextBlock Text="{Binding MaxVoltageIndex, StringFormat=({0})}" FontSize="8" VerticalAlignment="Center"></TextBlock>
                     </StackPanel>
                 </Grid>
@@ -74,7 +74,7 @@
                         </LinearGradientBrush>
                     </Separator.Background>
                 </Separator>
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding TotalSOC}" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"></TextBlock>
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding TotalSOC, StringFormat={}{0:F1}%}" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"></TextBlock>
                 <Separator Grid.Row="5" Grid.Column="0" BorderThickness="0" Margin="10 0 0 0">
                     <Separator.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
@@ -83,7 +83,7 @@
                         </LinearGradientBrush>
                     </Separator.Background>
                 </Separator>
-                <TextBlock Grid.Row="6" Grid.Column="0" Text="{Binding TotalSOH}" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"></TextBlock>
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="{Binding TotalSOH, StringFormat={}{0:F1}%}" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15"></TextBlock>
                 <Grid Grid.Row="7" Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -91,10 +91,10 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <RadioButton Grid.Column="0" Content="充电" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
-                    <RadioButton Grid.Column="1" Content="放电" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
-                    <RadioButton Grid.Column="2" Content="静置" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
-                    <RadioButton Grid.Column="3" Content="离网" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
+                    <RadioButton IsChecked="{Binding ChargeState}" Grid.Column="0" Content="充电" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
+                    <RadioButton IsChecked="{Binding DischargeState}" Grid.Column="1" Content="放电" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
+                    <RadioButton IsChecked="{Binding StewingState}" Grid.Column="2" Content="静置" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
+                    <RadioButton IsChecked="{Binding OffNetState}" Grid.Column="3" Content="离网" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
                 </Grid>
                 <!--<TextBlock Grid.Row="2" Grid.Column="1" Text="0.0W" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
                 <TextBlock Grid.Row="4" Grid.Column="1" Text="0.0Wh" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>-->
@@ -120,13 +120,13 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="{Binding AverageTemperature, StringFormat=T:{}{0:F1}℃}" FontSize="10" VerticalAlignment="Center" Margin="0 0 10 0"></TextBlock>
+                    <TextBlock Grid.Column="0" Text="{Binding AverageTemperature, StringFormat=T:{0:F1}℃}" FontSize="10" VerticalAlignment="Center" Margin="0 0 10 0"></TextBlock>
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <TextBlock Text="{Binding MinTemperature, StringFormat=Min:{}{0:F1}℃}" FontSize="8" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{Binding MinTemperature, StringFormat=Min:{0:F1}℃}" FontSize="8" VerticalAlignment="Center"></TextBlock>
                         <TextBlock Text="{Binding MinTemperatureIndex, StringFormat=({0})}" FontSize="8" VerticalAlignment="Center"></TextBlock>
                     </StackPanel>
                     <StackPanel Grid.Column="2" Orientation="Horizontal">
-                        <TextBlock Text="{Binding MaxTemperature, StringFormat=Max:{}{0:F1}℃}" FontSize="8" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{Binding MaxTemperature, StringFormat=Max:{0:F1}℃}" FontSize="8" VerticalAlignment="Center"></TextBlock>
                         <TextBlock Text="{Binding MaxTemperatureIndex, StringFormat=({0})}" FontSize="8" VerticalAlignment="Center"></TextBlock>
                     </StackPanel>
                 </Grid>

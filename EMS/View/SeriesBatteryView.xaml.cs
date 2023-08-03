@@ -35,17 +35,21 @@ namespace EMS.View
             for (int i = 0; i < item.Series.Count; i++)
             {
                 Grid grid;
+                Grid gridb;
                 if (i == 0)
                 {
                     grid = BMUA;
+                    gridb = BMUA_Battery;
                 }
                 else if (i == 1)
                 {
                     grid = BMUB;
+                    gridb = BMUB_Battery;
                 }
                 else
                 {
                     grid = BMUC;
+                    gridb = BMUC_Battery;
                 }
                 for (int l = 0;l < item.Series[i].Batteries.Count; l++)
                 {
@@ -56,7 +60,7 @@ namespace EMS.View
                     Binding binding = new Binding() { Path = new PropertyPath("SOC")};
                     battery.SetBinding(Battery.SOCProperty, binding);
                     battery.DataContext = item.Series[i].Batteries[l];
-                    grid.Children.Add(battery);
+                    gridb.Children.Add(battery);
                 }
                 grid.DataContext = item.Series[i];
             }

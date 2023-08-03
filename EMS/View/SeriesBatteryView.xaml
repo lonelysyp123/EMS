@@ -15,12 +15,6 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <StackPanel Margin="5" Orientation="Horizontal">
-            <TextBlock Text="BCMU(...)" Foreground="White" Margin="10 0"></TextBlock>
-            <TextBlock Text="Vol:0.001V" Foreground="White" Margin="10 0"></TextBlock>
-            <TextBlock Text="Template:0.1℃" Foreground="White" Margin="10 0"></TextBlock>
-        </StackPanel>
-
         <Grid x:Name="BMUA" Grid.Row="1" Margin="20 15">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
@@ -47,7 +41,7 @@
                     </Grid>
                 </Grid>
             </Border>
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" x:Name="BMUA_Battery">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -90,7 +84,7 @@
                     </Grid>
                 </Grid>
             </Border>
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" x:Name="BMUB_Battery">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -133,7 +127,7 @@
                     </Grid>
                 </Grid>
             </Border>
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" x:Name="BMUC_Battery">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>

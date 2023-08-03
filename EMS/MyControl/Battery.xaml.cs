@@ -38,27 +38,25 @@ namespace EMS.MyControl
             if (e.NewValue != null)
             {
                 double obj = double.Parse(e.NewValue.ToString());
-                if (obj >= 50) 
+                if (obj < 10)
                 {
-                    if (obj == 100)
-                    {
-                        control.BatteryIcon.Source = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/Battery100.png"));
-                    }
-                    else
-                    {
-                        control.BatteryIcon.Source = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/Battery70.png"));
-                    }
+                    control.BatteryIcon.Source = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/Battery0.png"));
+                }
+                else if (obj < 35)
+                {
+                    control.BatteryIcon.Source = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/Battery25.png"));
+                }
+                else if (obj < 60)
+                {
+                    control.BatteryIcon.Source = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/Battery50.png"));
+                }
+                else if (obj < 85)
+                {
+                    control.BatteryIcon.Source = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/Battery75.png"));
                 }
                 else
                 {
-                    if (obj == 0)
-                    {
-                        control.BatteryIcon.Source = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/Battery0.png"));
-                    }
-                    else
-                    {
-                        control.BatteryIcon.Source = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/Battery30.png"));
-                    }
+                    control.BatteryIcon.Source = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/Battery100.png"));
                 }
                 control.BatterySOC.Text = "SOC:" + obj + "%";
             }

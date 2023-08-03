@@ -15,6 +15,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace EMS.Model
@@ -387,106 +388,55 @@ namespace EMS.Model
         /// </summary>
         public void ImageTitle()
         {
-            BitmapImage bi;
-            DirectoryInfo directory = new DirectoryInfo("./Resource/Image");
-            FileInfo[] files = directory.GetFiles("BMS.png");
-            bi = new BitmapImage();
-            bi.BeginInit();
-            bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
-            bi.EndInit();
-            DevImage = bi;
+            DevImage = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/BMS.png"));
         }
 
         public void ConnectImageChange(bool isconnected)
         {
-            BitmapImage bi;
-            DirectoryInfo directory;
-            FileInfo[] files;
             if (isconnected)
             {
-                directory = new DirectoryInfo("./Resource/Image");
-                files = directory.GetFiles("OnConnect.png");
-                bi = new BitmapImage();
+                ConnectImage = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/OnConnect.png"));
             }
             else
             {
-                directory = new DirectoryInfo("./Resource/Image");
-                files = directory.GetFiles("OffConnect.png");
-                bi = new BitmapImage();
+                ConnectImage = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/OffConnect.png"));
             }
-            bi.BeginInit();
-            bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
-            bi.EndInit();
-            ConnectImage = bi;
         }
 
         public void InternetImageChange(bool isinternet)
         {
-            BitmapImage bi;
-            DirectoryInfo directory;
-            FileInfo[] files;
             if (isinternet)
             {
-                directory = new DirectoryInfo("./Resource/Image");
-                files = directory.GetFiles("InNet.png");
-                bi = new BitmapImage();
+                InternetImage = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/InNet.png"));
             }
             else
             {
-                directory = new DirectoryInfo("./Resource/Image");
-                files = directory.GetFiles("OutNet.png");
-                bi = new BitmapImage();
+                InternetImage = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/OutNet.png"));
             }
-            bi.BeginInit();
-            bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
-            bi.EndInit();
-            InternetImage = bi;
         }
 
         public void DaqImageChange(bool isdaq)
         {
-            BitmapImage bi;
-            DirectoryInfo directory;
-            FileInfo[] files;
             if (isdaq)
             {
-                directory = new DirectoryInfo("./Resource/Image");
-                files = directory.GetFiles("OnDaq.png");
-                bi = new BitmapImage();
+                DaqDataImage = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/OnDaq.png"));
             }
             else
             {
-                directory = new DirectoryInfo("./Resource/Image");
-                files = directory.GetFiles("OffDaq.png");
-                bi = new BitmapImage();
+                DaqDataImage = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/OffDaq.png"));
             }
-            bi.BeginInit();
-            bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
-            bi.EndInit();
-            DaqDataImage = bi;
         }
 
         public void RecordImageChange(bool isrecord)
         {
-            BitmapImage bi;
-            DirectoryInfo directory;
-            FileInfo[] files;
             if (isrecord)
             {
-                directory = new DirectoryInfo("./Resource/Image");
-                files = directory.GetFiles("OnRecord.png");
-                bi = new BitmapImage();
+                RecordDataImage = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/OnRecord.png"));
             }
             else
             {
-                directory = new DirectoryInfo("./Resource/Image");
-                files = directory.GetFiles("OffRecord.png");
-                bi = new BitmapImage();
+                RecordDataImage = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/OffRecord.png"));
             }
-            bi.BeginInit();
-            bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
-            bi.EndInit();
-            RecordDataImage = bi;
         }
 
         public bool RequestInterNet()

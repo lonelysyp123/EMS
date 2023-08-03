@@ -179,7 +179,6 @@
     <Compile Include="Storage\File\BatteryModelForFile.cs" />
     <Compile Include="Storage\File\FileHelper.cs" />
     <Compile Include="ViewModel\DataAnalysisViewModel.cs" />
-    <Compile Include="ViewModel\IntegratedDevViewModel.cs" />
     <Compile Include="Model\StateContentModel.cs" />
     <Compile Include="MyControl\IPInput.xaml.cs">
       <DependentUpon>IPInput.xaml</DependentUpon>
@@ -328,10 +327,13 @@
     <Content Include="Resource\Image\Battery100.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\Image\Battery30.png">
+    <Content Include="Resource\Image\Battery25.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\Image\Battery70.png">
+    <Content Include="Resource\Image\Battery50.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\Image\Battery75.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\Image\BMS.png">
