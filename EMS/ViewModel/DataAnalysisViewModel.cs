@@ -317,11 +317,20 @@ namespace EMS.ViewModel
                 lineSeries.MarkerType = MarkerType.Circle;
                 if (int.TryParse(SelectedDataTypeList[i], out int index))
                 {
-                    for (int j = 0; j < DisplayDataList[index-1][SelectedTypeIndex].Length; j++)
+                    if (DisplayDataList.Count > 0 && DisplayDataList.Count > index - 1)
                     {
-                        lineSeries.Points.Add(DateTimeAxis.CreateDataPoint(TimeList[index - 1][j], DisplayDataList[index-1][SelectedTypeIndex][j]));
+                        if (DisplayDataList[index - 1].Count > 0)
+                        {
+                            if (DisplayDataList[index - 1][SelectedTypeIndex].Length > 0)
+                            {
+                                for (int j = 0; j < DisplayDataList[index - 1][SelectedTypeIndex].Length; j++)
+                                {
+                                    lineSeries.Points.Add(DateTimeAxis.CreateDataPoint(TimeList[index - 1][j], DisplayDataList[index - 1][SelectedTypeIndex][j]));
+                                }
+                                DisplayDataModel.Series.Add(lineSeries);
+                            }
+                        }
                     }
-                    DisplayDataModel.Series.Add(lineSeries);
                 }
             }
             DisplayDataModel.InvalidatePlot(true);
