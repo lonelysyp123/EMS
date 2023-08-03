@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace EMS.Model
 {
@@ -26,6 +27,16 @@ namespace EMS.Model
             }
         }
 
+        private SolidColorBrush _voltageColor;
+        public SolidColorBrush VoltageColor 
+        { 
+            get => _voltageColor; 
+            set
+            {
+                SetProperty(ref _voltageColor, value);
+            }
+        }
+
         private double _temperature1;
         /// <summary>
         /// 温度
@@ -37,6 +48,16 @@ namespace EMS.Model
             set
             {
                 SetProperty(ref _temperature1, value);
+            }
+        }
+
+        private SolidColorBrush _temperatureColor;
+        public SolidColorBrush TemperatureColor
+        {
+            get => _temperatureColor;
+            set
+            {
+                SetProperty(ref _temperatureColor, value);
             }
         }
 

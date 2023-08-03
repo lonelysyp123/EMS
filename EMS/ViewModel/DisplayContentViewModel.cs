@@ -19,6 +19,7 @@ using System.Reflection;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.Net;
 using System.Windows.Threading;
+using System.Windows.Media;
 
 namespace EMS.ViewModel
 {
@@ -343,7 +344,29 @@ namespace EMS.ViewModel
                         battery.SOC = BitConverter.ToUInt16(BMUData, (148 + j + i * 16)*2) * 0.1;
                         battery.Resistance = BitConverter.ToUInt16(BMUData, (199 + j + i * 16) * 2);
                         battery.Capacity = BitConverter.ToUInt16(BMUData, (250 + j + i * 16) * 2) * 0.1;
+                        battery.VoltageColor = new SolidColorBrush(Colors.White);
+                        battery.TemperatureColor = new SolidColorBrush(Colors.White);
                         series.Batteries.Add(battery);
+
+                        if (j + 1 == series.MinVoltageIndex)
+                        {
+                            battery.VoltageColor = new SolidColorBrush(Colors.LightBlue);
+                        }
+
+                        if (j + 1 == series.MaxVoltageIndex)
+                        {
+                            battery.VoltageColor = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (j + 1 == series.MinTemperatureIndex)
+                        {
+                            battery.TemperatureColor = new SolidColorBrush(Colors.LightBlue);
+                        }
+
+                        if (j + 1 == series.MaxTemperatureIndex)
+                        {
+                            battery.TemperatureColor = new SolidColorBrush(Colors.Red);
+                        }
                     }
                     total.Series.Add(series);
                 }
@@ -440,6 +463,26 @@ namespace EMS.ViewModel
                                 battery.Resistance = BitConverter.ToUInt16(BMUData, (199 + j + i * 16) * 2);
                                 battery.Capacity = BitConverter.ToUInt16(BMUData, (250 + j + i * 16) * 2) * 0.1;
                                 series.Batteries.Add(battery);
+
+                                if (j + 1 == series.MinVoltageIndex)
+                                {
+                                    battery.VoltageColor = new SolidColorBrush(Colors.LightBlue);
+                                }
+
+                                if (j + 1 == series.MaxVoltageIndex)
+                                {
+                                    battery.VoltageColor = new SolidColorBrush(Colors.Red);
+                                }
+
+                                if (j + 1 == series.MinTemperatureIndex)
+                                {
+                                    battery.TemperatureColor = new SolidColorBrush(Colors.LightBlue);
+                                }
+
+                                if (j + 1 == series.MaxTemperatureIndex)
+                                {
+                                    battery.TemperatureColor = new SolidColorBrush(Colors.Red);
+                                }
                             }
                             total.Series.Add(series);
                         }
