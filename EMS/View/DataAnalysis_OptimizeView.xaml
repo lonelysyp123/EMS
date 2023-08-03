@@ -41,7 +41,7 @@
             <Grid Grid.Row="1" Grid.Column="0" Width="140" Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <ListBox Grid.Column="0" SelectionMode="Extended" SelectionChanged="BatteryList_SelectionChanged">
                     <ListBoxItem Content="1"></ListBoxItem>
@@ -61,11 +61,11 @@
                 </ListBox>
                 <ListBox Grid.Column="1" SelectionChanged="DataTypeList_SelectionChanged" SelectedItem="{Binding SelectedType}" SelectedIndex="{Binding SelectedTypeIndex}">
                     <ListBoxItem Content="Voltage"></ListBoxItem>
-                    <ListBoxItem Content="Current"></ListBoxItem>
                     <ListBoxItem Content="SOC"></ListBoxItem>
                     <ListBoxItem Content="Resistance"></ListBoxItem>
                     <ListBoxItem Content="Temperature1"></ListBoxItem>
                     <ListBoxItem Content="Temperature2"></ListBoxItem>
+                    <ListBoxItem Content="Capacity"></ListBoxItem>
                 </ListBox>
             </Grid>
             <oxy:PlotView Grid.Row="1" Grid.Column="1" Model="{Binding DisplayDataModel}">

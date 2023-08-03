@@ -137,7 +137,7 @@ namespace EMS.ViewModel
         public List<string> SelectedDataTypeList;
         public List<List<double[]>> DisplayDataList;
 
-        public List<DateTime> TimeList;
+        public List<DateTime[]> TimeList;
 
         public DataAnalysisViewModel()
         {
@@ -145,7 +145,7 @@ namespace EMS.ViewModel
 
             DisplayDataModel = new PlotModel();
             DisplayDataList = new List<List<double[]>>();
-            TimeList = new List<DateTime>();
+            TimeList = new List<DateTime[]>();
             StartTime2 = "00:00:00";
             EndTime2 = "00:00:00";
             SelectedDataTypeList = new List<string>();
@@ -188,12 +188,12 @@ namespace EMS.ViewModel
             {
                 // 查询Battery数据
                 List<double> vols = new List<double>();
-                List<double> curs = new List<double>();
+                List<double> caps = new List<double>();
                 List<double> socList = new List<double>();
                 List<double> resistances = new List<double>();
                 List<double> temperature1List = new List<double>();
                 List<double> temperature2List = new List<double>();
-
+                List<DateTime> times = new List<DateTime>();
                 for (int i = 1; i < SeriesList.Count; i++)
                 {
                     var item0 = typeof(SeriesBatteryInfoModel).GetProperty("Voltage" + (Sort - 1)).GetValue(SeriesList[i]);
@@ -202,10 +202,10 @@ namespace EMS.ViewModel
                         vols.Add(vol);
                     }
 
-                    var item1 = typeof(SeriesBatteryInfoModel).GetProperty("Current" + (Sort - 1)).GetValue(SeriesList[i]);
-                    if (double.TryParse(item1.ToString(), out double cur))
+                    var item1 = typeof(SeriesBatteryInfoModel).GetProperty("Capacity" + (Sort - 1)).GetValue(SeriesList[i]);
+                    if (double.TryParse(item1.ToString(), out double cap))
                     {
-                        curs.Add(cur);
+                        caps.Add(cap);
                     }
 
                     var item2 = typeof(SeriesBatteryInfoModel).GetProperty("SOC" + (Sort - 1)).GetValue(SeriesList[i]);
@@ -226,20 +226,21 @@ namespace EMS.ViewModel
                         temperature1List.Add(temperature1);
                     }
 
-                    var item5 = typeof(SeriesBatteryInfoModel).GetProperty("Temperature" + ((Sort - 1) * 2 - 1)).GetValue(SeriesList[i]);
+                    var item5 = typeof(SeriesBatteryInfoModel).GetProperty("Temperature" + ((Sort - 1) * 2 + 1)).GetValue(SeriesList[i]);
                     if (double.TryParse(item5.ToString(), out double temperature2))
                     {
                         temperature2List.Add(temperature2);
                     }
 
-                    TimeList.Add(SeriesList[i].HappenTime);
+                    times.Add(SeriesList[i].HappenTime);
                 }
                 obj.Add(vols.ToArray());
-                obj.Add(curs.ToArray());
                 obj.Add(socList.ToArray());
                 obj.Add(resistances.ToArray());
                 obj.Add(temperature1List.ToArray());
                 obj.Add(temperature2List.ToArray());
+                obj.Add(caps.ToArray());
+                TimeList.Add(times.ToArray());
             }
             return obj;
         }
@@ -316,9 +317,9 @@ namespace EMS.ViewModel
                 lineSeries.MarkerType = MarkerType.Circle;
                 if (int.TryParse(SelectedDataTypeList[i], out int index))
                 {
-                    for (int j = 0; j < DisplayDataList[index][SelectedTypeIndex].Length; j++)
+                    for (int j = 0; j < DisplayDataList[index-1][SelectedTypeIndex].Length; j++)
                     {
-                        lineSeries.Points.Add(DateTimeAxis.CreateDataPoint(TimeList[index], DisplayDataList[index][SelectedTypeIndex][j]));
+                        lineSeries.Points.Add(DateTimeAxis.CreateDataPoint(TimeList[index - 1][j], DisplayDataList[index-1][SelectedTypeIndex][j]));
                     }
                     DisplayDataModel.Series.Add(lineSeries);
                 }

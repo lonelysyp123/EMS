@@ -61,7 +61,7 @@ namespace EMS.ViewModel
 
         //public ConcurrentQueue<TotalBatteryInfoModel> TotalBatteryInfoQueue;
         public List<ModbusClient> ClientList;
-        public int DaqTimeSpan = 0;
+        public int DaqTimeSpan = 1;
         public bool IsStartSaveData = false;
         public DisplayContentViewModel()
         {

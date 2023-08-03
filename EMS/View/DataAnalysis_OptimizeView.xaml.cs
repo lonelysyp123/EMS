@@ -35,7 +35,7 @@ namespace EMS.View
             {
                 foreach (var item in e.AddedItems)
                 {
-                    viewmodel.SelectedDataTypeList.Add(item.ToString());
+                    viewmodel.SelectedDataTypeList.Add((item as ListBoxItem).Content.ToString());
                 }
             }
 
@@ -43,7 +43,7 @@ namespace EMS.View
             {
                 foreach (var item in e.RemovedItems)
                 {
-                    viewmodel.SelectedDataTypeList.Remove(item.ToString());
+                    viewmodel.SelectedDataTypeList.Remove((item as ListBoxItem).Content.ToString());
 
                 }
             }
