@@ -143,6 +143,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\Modbus\ModbusRequest.cs" />
     <Compile Include="Common\Mqtt\MqttClientService.cs" />
     <Compile Include="Common\Mqtt\MqttConnectOption.cs" />
     <Compile Include="Model\SystemConfigurationBase.cs" />

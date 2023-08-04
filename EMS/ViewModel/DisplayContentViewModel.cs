@@ -297,10 +297,6 @@ namespace EMS.ViewModel
                 Array.Copy(client.ReadFunc(10120, 120), 0, BMUData, 240, 240);
                 Array.Copy(client.ReadFunc(10240, 120), 0, BMUData, 480, 240);
 
-                // Test
-                var obj = client.ReadU16(11001);
-                var obj1 = client.ReadS16(11001);
-
                 // 信息补全
                 total.TotalVoltage = BitConverter.ToInt16(BCMUData, 0) * 0.001;
                 total.TotalCurrent = BitConverter.ToInt16(BCMUData, 2) * 0.001;

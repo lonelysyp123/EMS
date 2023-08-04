@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Modbus.Device;
 using System.IO.Ports;
 using System.Diagnostics.Contracts;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace EMS.Common.Modbus.ModbusTCP
 {
@@ -17,20 +19,10 @@ namespace EMS.Common.Modbus.ModbusTCP
         private int _port = 0;
         private TcpClient _client;
 
-        private string _serialport = "COM1";
-        private int _rate = 9600;
-        private int _parity = 0;
-        private int _databits = 8;
-        private int _stopbits = 0;
-        private SerialPort _serial;
-
-        /// <summary>
-        /// RTU : ture
-        /// TCP : false
-        /// </summary>
-        private bool _RtuOrTcp;
-
         private ModbusMaster _master;
+        private Thread ProcessRequestThread;
+        private ConcurrentQueue<ModbusRequest> RequestQueue;
+        private bool _isConnected = false;
 
         /// <summary>
         /// 以TCP格式生成ModbusClient实例
@@ -41,26 +33,50 @@ namespace EMS.Common.Modbus.ModbusTCP
         {
             _ip = IP;
             _port = Port;
-            _RtuOrTcp = false;
+
+            RequestQueue = new ConcurrentQueue<ModbusRequest>();
+            ProcessRequestThread = new Thread(ProcessRequest);
         }
 
-        /// <summary>
-        /// 以RTU格式生成ModbusClient实例
-        /// </summary>
-        /// <param name="Port">串口号</param>
-        /// <param name="Rate">波特率</param>
-        /// <param name="Parity">奇偶校验</param>
-        /// <param name="Databits">数据位</param>
-        /// <param name="Stopbits">停止位</param>
-        public ModbusClient(string Port, int Rate, int Parity, int Databits, int Stopbits)
+        private void ProcessRequest()
         {
-            _serialport = Port;
-            _rate = Rate;
-            _parity = Parity;
-            _databits = Databits;
-            _stopbits = Stopbits;
-            _RtuOrTcp = true;
+            while(_isConnected)
+            {
+                if(RequestQueue.TryDequeue(out ModbusRequest _request))
+                {
+                    if (_request.RequestType == RequestTypes.Read)
+                    {
+                        if(ReadFunc(_request.SlaveAddress, _request.StartAddress, _request.NmbOfPoints, ref _request.Result))
+                        {
+                            _request.IsSuccess = true;
+                        }
+                        else
+                        {
+                            _request.IsSuccess = false;
+                        }
+                        _request.IsReturn = true;
+                    }
+                    else if (_request.RequestType == RequestTypes.Write)
+                    {
+                        if (WriteFunc(_request.SlaveAddress, _request.RequestAddress, _request.Value))
+                        {
+                            _request.IsSuccess = true;
+                        }
+                        else
+                        {
+                            _request.IsSuccess = false;
+                        }
+                        _request.IsReturn = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("None");
+                    }
+                }
+            }
         }
+
+
 
         /// <summary>
         /// 连接服务器
@@ -69,19 +85,9 @@ namespace EMS.Common.Modbus.ModbusTCP
         {
             try
             {
-                if (_RtuOrTcp)
-                {
-                    _serial = new SerialPort(_serialport, _rate, (Parity)_parity, _databits, (StopBits)_stopbits);
-                    _serial.Open();
-                    _master = ModbusSerialMaster.CreateRtu(_serial);
-                }
-                else
-                {
-                    _client = new TcpClient();
-                    _client.Connect(IPAddress.Parse(_ip), _port);
-                    _master = ModbusIpMaster.CreateIp(_client);
-                }
-
+                _client = new TcpClient();
+                _client.Connect(IPAddress.Parse(_ip), _port);
+                _master = ModbusIpMaster.CreateIp(_client);
             }
             catch (Exception ex)
             {
@@ -96,18 +102,9 @@ namespace EMS.Common.Modbus.ModbusTCP
         {
             try
             {
-                if (_RtuOrTcp)
-                {
-                    _master.Transport.Dispose();
-                    _serial.Close();
-                    _serial.Dispose();
-                }
-                else
-                {
-                    _master.Transport.Dispose();
-                    _client.Close();
-                    _client.Dispose();
-                }
+                _master.Transport.Dispose();
+                _client.Close();
+                _client.Dispose();
             }
             catch (Exception ex)
             {
@@ -138,6 +135,50 @@ namespace EMS.Common.Modbus.ModbusTCP
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public bool ReadFunc(byte slave, ushort address, ushort num, ref byte[] value)
+        {
+            try
+            {
+                ushort[] holding_register = _master.ReadHoldingRegisters(slave, address, num);
+                value = new byte[holding_register.Length * 2];
+                for (int i = 0; i < holding_register.Length; i++)
+                {
+                    var objs = BitConverter.GetBytes(holding_register[i]);
+                    value[i * 2] = objs[0];
+                    value[i * 2 + 1] = objs[1];
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public byte[] AddReadRequest(ushort address, ushort num)
+        {
+            try
+            {
+                ModbusRequest request = new ModbusRequest();
+                request.RequestType = RequestTypes.Read;
+                request.SlaveAddress = 0;
+                request.StartAddress = address;
+                request.NmbOfPoints = num;
+                RequestQueue.Enqueue(request);
+
+                while(!request.IsReturn)
+                {
+                    Thread.Sleep(500);
+                }
+
+                return request.Result;
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
 
@@ -181,6 +222,43 @@ namespace EMS.Common.Modbus.ModbusTCP
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public bool WriteFunc(byte slave, ushort address, ushort value)
+        {
+            try
+            {
+                _master.WriteSingleRegister(slave, address, value);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool AddWriteRequest(ushort address, ushort value)
+        {
+            try
+            {
+                ModbusRequest request = new ModbusRequest();
+                request.RequestType = RequestTypes.Write;
+                request.SlaveAddress = 0;
+                request.RequestAddress = address;
+                request.Value = value;
+                RequestQueue.Enqueue(request);
+
+                while (!request.IsReturn)
+                {
+                    Thread.Sleep(500);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
 

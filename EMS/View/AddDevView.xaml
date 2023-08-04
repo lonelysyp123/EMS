@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
             <RadioButton Content="TCP" IsChecked="True" Margin="10 5" Click="ChooseTCP_Click"></RadioButton>
-            <RadioButton Content="RTU" Margin="10 5" Click="ChooseRTU_Click" IsEnabled="False"></RadioButton>
+            <RadioButton Content="RTU" Margin="10 5" Click="ChooseRTU_Click" IsEnabled="False" Visibility="Collapsed"></RadioButton>
         </StackPanel>
 
         <Grid Grid.Row="1" x:Name="TCPGrid">
