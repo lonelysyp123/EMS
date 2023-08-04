@@ -185,8 +185,6 @@
     </Compile>
     <Compile Include="ViewModel\DisplayContentViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\StateContentViewModel.cs" />
-    <Compile Include="ViewModel\SystemSetViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>

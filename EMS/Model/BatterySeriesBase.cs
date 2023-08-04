@@ -187,7 +187,7 @@ namespace EMS.Model
         public string SeriesId { get; set; }
 
         /// <summary>
-        /// 电池集合
+        /// 电池单体集合
         /// </summary>
         public ObservableCollection<BatteryBase> Batteries { get; set;}
 

@@ -28,6 +28,9 @@ namespace EMS.Model
         }
 
         private SolidColorBrush _voltageColor;
+        /// <summary>
+        /// 电压值颜色(红色=高温，蓝色=低温)
+        /// </summary>
         public SolidColorBrush VoltageColor 
         { 
             get => _voltageColor; 
@@ -52,6 +55,9 @@ namespace EMS.Model
         }
 
         private SolidColorBrush _temperatureColor;
+        /// <summary>
+        /// 温度值颜色(红色=高温，蓝色=低温)
+        /// </summary>
         public SolidColorBrush TemperatureColor
         {
             get => _temperatureColor;

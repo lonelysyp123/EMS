@@ -23,6 +23,9 @@ namespace EMS.ViewModel
     public class DataAnalysisViewModel : ViewModelBase
     {
         private PlotModel _displayData;
+        /// <summary>
+        /// 图表数据
+        /// </summary>
         public PlotModel DisplayDataModel
         {
             get => _displayData;
@@ -32,17 +35,10 @@ namespace EMS.ViewModel
             }
         }
 
-        private List<string> _totalList;
-        public List<string> TotalList
-        {
-            get => _totalList;
-            set
-            {
-                SetProperty(ref _totalList, value);
-            }
-        }
-
         private string _selectedTotal;
+        /// <summary>
+        /// BCMU序列号
+        /// </summary>
         public string SelectedTotal
         {
             get => _selectedTotal;
@@ -52,17 +48,10 @@ namespace EMS.ViewModel
             }
         }
 
-        private List<string> _seriesList;
-        public List<string> SeriesList
-        {
-            get => _seriesList;
-            set
-            {
-                SetProperty(ref _seriesList, value);
-            }
-        }
-
         private string _selectedSeries;
+        /// <summary>
+        /// BMU序列号
+        /// </summary>
         public string SelectedSeries
         {
             get => _selectedSeries;
@@ -73,6 +62,9 @@ namespace EMS.ViewModel
         }
 
         private string _startTime1;
+        /// <summary>
+        /// 开始时间-日期
+        /// </summary>
         public string StartTime1
         {
             get => _startTime1;
@@ -83,6 +75,9 @@ namespace EMS.ViewModel
         }
 
         private string _startTime2;
+        /// <summary>
+        /// 开始时间-时分秒
+        /// </summary>
         public string StartTime2
         {
             get => _startTime2;
@@ -93,6 +88,9 @@ namespace EMS.ViewModel
         }
 
         private string _endTime1;
+        /// <summary>
+        /// 结束时间-日期
+        /// </summary>
         public string EndTime1
         {
             get => _endTime1;
@@ -103,6 +101,9 @@ namespace EMS.ViewModel
         }
 
         private string _endTime2;
+        /// <summary>
+        /// 结束时间-时分秒
+        /// </summary>
         public string EndTime2
         {
             get => _endTime2;
@@ -113,6 +114,9 @@ namespace EMS.ViewModel
         }
 
         private ListBoxItem _selectedType;
+        /// <summary>
+        /// 选中的数据类型
+        /// </summary>
         public ListBoxItem SelectedType
         {
             get => _selectedType;
@@ -123,6 +127,9 @@ namespace EMS.ViewModel
         }
 
         private int _selectedTypeIndex;
+        /// <summary>
+        /// 选中的数据类型序号
+        /// </summary>
         public int SelectedTypeIndex
         {
             get => _selectedTypeIndex;
@@ -134,7 +141,14 @@ namespace EMS.ViewModel
 
         public RelayCommand QueryCommand { set; get; }
 
-        public List<string> SelectedDataTypeList;
+        /// <summary>
+        /// 选中的电池集合
+        /// </summary>
+        public List<string> SelectedBatteryList;
+
+        /// <summary>
+        /// 查询数据集合
+        /// </summary>
         public List<List<double[]>> DisplayDataList;
 
         public List<DateTime[]> TimeList;
@@ -148,7 +162,7 @@ namespace EMS.ViewModel
             TimeList = new List<DateTime[]>();
             StartTime2 = "00:00:00";
             EndTime2 = "00:00:00";
-            SelectedDataTypeList = new List<string>();
+            SelectedBatteryList = new List<string>();
             //ChartShowNow(storeModel.VolCollect.ToArray());
         }
 
@@ -309,13 +323,13 @@ namespace EMS.ViewModel
         {
             InitChart();
             DisplayDataModel.Series.Clear();
-            for (int i = 0; i < SelectedDataTypeList.Count; i++)
+            for (int i = 0; i < SelectedBatteryList.Count; i++)
             {
                 LineSeries lineSeries = new LineSeries();
-                lineSeries.Title = SelectedDataTypeList[i];
+                lineSeries.Title = SelectedBatteryList[i];
                 lineSeries.MarkerSize = 3;
                 lineSeries.MarkerType = MarkerType.Circle;
-                if (int.TryParse(SelectedDataTypeList[i], out int index))
+                if (int.TryParse(SelectedBatteryList[i], out int index))
                 {
                     if (DisplayDataList.Count > 0 && DisplayDataList.Count > index - 1)
                     {

@@ -278,6 +278,9 @@ namespace EMS.Model
         }
 
         private string _BCMUID;
+        /// <summary>
+        /// BCMU的序列号
+        /// </summary>
         public string BCMUID
         {
 
@@ -292,6 +295,9 @@ namespace EMS.Model
         }
 
         private string _totalID;
+        /// <summary>
+        /// 电池簇名称
+        /// </summary>
         public string TotalID
         {
 
@@ -305,12 +311,30 @@ namespace EMS.Model
         public string IP { set; get; }
         public string Port { set; get; }
 
+        /// <summary>
+        /// 电池数量
+        /// </summary>
         public ushort BatteryCount { get; set; }
+
+        /// <summary>
+        /// 电池串数量
+        /// </summary>
         public ushort SeriesCount { get; set; }
+
+        /// <summary>
+        /// 电池串中电池数量
+        /// </summary>
         public ushort BatteriesCountInSeries { get; set; }
+
+        /// <summary>
+        /// 电池串集合
+        /// </summary>
         public ObservableCollection<BatterySeriesBase> Series { get; set; }
 
         private bool _isConnected;
+        /// <summary>
+        /// 是否已连接
+        /// </summary>
         public bool IsConnected
         {
             get { return _isConnected; }
@@ -325,6 +349,9 @@ namespace EMS.Model
         }
 
         private bool _isInternet;
+        /// <summary>
+        /// 是否已入网
+        /// </summary>
         public bool IsInternet
         {
             get { return _isInternet; }
@@ -339,6 +366,9 @@ namespace EMS.Model
         }
 
         private bool _isDaqData;
+        /// <summary>
+        /// 是否已采集数据
+        /// </summary>
         public bool IsDaqData
         {
             get { return _isDaqData; }
@@ -353,6 +383,9 @@ namespace EMS.Model
         }
 
         private bool _isRecordData;
+        /// <summary>
+        /// 是否已记录数据
+        /// </summary>
         public bool IsRecordData
         {
             get { return _isRecordData; } 
@@ -402,7 +435,11 @@ namespace EMS.Model
                 ConnectImage = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/OffConnect.png"));
             }
         }
-
+        
+        /// <summary>
+        /// 入网图标改变
+        /// </summary>
+        /// <param name="isinternet">是否已入网</param>
         public void InternetImageChange(bool isinternet)
         {
             if (isinternet)
@@ -415,6 +452,10 @@ namespace EMS.Model
             }
         }
 
+        /// <summary>
+        /// 采集图标改变
+        /// </summary>
+        /// <param name="isdaq">是否已采集</param>
         public void DaqImageChange(bool isdaq)
         {
             if (isdaq)
@@ -427,6 +468,10 @@ namespace EMS.Model
             }
         }
 
+        /// <summary>
+        /// 记录图标改变
+        /// </summary>
+        /// <param name="isrecord">是否已记录</param>
         public void RecordImageChange(bool isrecord)
         {
             if (isrecord)
@@ -439,6 +484,10 @@ namespace EMS.Model
             }
         }
 
+        /// <summary>
+        /// 请求入网
+        /// </summary>
+        /// <returns>是否入网成功</returns>
         public bool RequestInterNet()
         {
             Console.WriteLine("设备请求入网");

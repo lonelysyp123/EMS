@@ -21,6 +21,9 @@ namespace EMS.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private ImageSource _startDaqImageSource;
+        /// <summary>
+        /// 采集按钮图标
+        /// </summary>
         public ImageSource StartDaqImageSource
         {
             get
@@ -34,6 +37,9 @@ namespace EMS.ViewModel
         }
 
         private SolidColorBrush _saveDataFillColor;
+        /// <summary>
+        /// 保存数据图标
+        /// </summary>
         public SolidColorBrush SaveDataFillColor
         {
             get

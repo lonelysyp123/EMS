@@ -9,6 +9,9 @@ namespace EMS.ViewModel
     public class SystemSetViewModel : ViewModelBase
     {
         private string _daqTimeSpan;
+        /// <summary>
+        /// 采集间隔
+        /// </summary>
         public string DaqTimeSpan 
         {
             get

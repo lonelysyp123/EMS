@@ -92,6 +92,9 @@ namespace EMS.Model
         }
 
         private string _address1;
+        /// <summary>
+        /// IP地址1：192.168
+        /// </summary>
         public string Address1
         {
             get
@@ -105,6 +108,9 @@ namespace EMS.Model
         }
 
         private string _address2;
+        /// <summary>
+        /// IP地址2：0.1
+        /// </summary>
         public string Address2
         {
             get
@@ -118,6 +124,9 @@ namespace EMS.Model
         }
 
         private string _mask1;
+        /// <summary>
+        /// 掩码1：255.255
+        /// </summary>
         public string Mask1
         {
             get
@@ -131,6 +140,9 @@ namespace EMS.Model
         }
 
         private string _mask2;
+        /// <summary>
+        /// 掩码2：255.0
+        /// </summary>
         public string Mask2
         {
             get
@@ -145,6 +157,9 @@ namespace EMS.Model
 
 
         private string _gateway1;
+        /// <summary>
+        /// 网关1：192.168
+        /// </summary>
         public string Gateway1
         {
             get
@@ -158,6 +173,9 @@ namespace EMS.Model
         }
 
         private string _gateway2;
+        /// <summary>
+        /// 网关2：0.1
+        /// </summary>
         public string Gateway2
         {
             get
@@ -171,6 +189,9 @@ namespace EMS.Model
         }
 
         private List<string> _channels;
+        /// <summary>
+        /// 充电通道集合
+        /// </summary>
         public List<string> Channels
         {
             get
@@ -184,6 +205,9 @@ namespace EMS.Model
         }
 
         private string _selectedOpenChannel;
+        /// <summary>
+        /// 打开充电的通道
+        /// </summary>
         public string SelectedOpenChannel
         {
             get
@@ -197,6 +221,9 @@ namespace EMS.Model
         }
 
         private string _selectedCloseChannel;
+        /// <summary>
+        /// 关闭充电的通道
+        /// </summary>
         public string SelectedCloseChannel
         {
             get
@@ -210,6 +237,9 @@ namespace EMS.Model
         }
 
         private string _balancedMode;
+        /// <summary>
+        /// 均衡模式
+        /// </summary>
         public string BalancedMode
         {
             get
