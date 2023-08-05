@@ -88,6 +88,8 @@ namespace EMS.Common.Modbus.ModbusTCP
                 _client = new TcpClient();
                 _client.Connect(IPAddress.Parse(_ip), _port);
                 _master = ModbusIpMaster.CreateIp(_client);
+                _isConnected = true;
+                ProcessRequestThread.Start();
             }
             catch (Exception ex)
             {
@@ -105,6 +107,7 @@ namespace EMS.Common.Modbus.ModbusTCP
                 _master.Transport.Dispose();
                 _client.Close();
                 _client.Dispose();
+                _isConnected = false;
             }
             catch (Exception ex)
             {
@@ -171,7 +174,7 @@ namespace EMS.Common.Modbus.ModbusTCP
 
                 while(!request.IsReturn)
                 {
-                    Thread.Sleep(500);
+                    Thread.Sleep(100);
                 }
 
                 return request.Result;
@@ -251,7 +254,7 @@ namespace EMS.Common.Modbus.ModbusTCP
 
                 while (!request.IsReturn)
                 {
-                    Thread.Sleep(500);
+                    Thread.Sleep(100);
                 }
 
                 return true;

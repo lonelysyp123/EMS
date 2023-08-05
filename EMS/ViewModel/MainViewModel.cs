@@ -94,22 +94,16 @@ namespace EMS.ViewModel
         {
             if (DisplayContent.IsStartSaveData)
             {
-                DisplayContent.IsStartSaveData = false;
-                for (int i = 0; i < DisplayContent.OnlineBatteryTotalList.Count; i++)
-                {
-                    DisplayContent.OnlineBatteryTotalList[i].IsRecordData = false;
-                }
+                DisplayContent.StopSaveData();
                 SaveImageButtonChange();
             }
             else
             {
-                DisplayContent.IsStartSaveData = true;
-                for (int i = 0; i < DisplayContent.OnlineBatteryTotalList.Count; i++)
-                {
-                    DisplayContent.OnlineBatteryTotalList[i].IsRecordData = true;
-                }
+                DisplayContent.StartSaveData();
                 SaveImageButtonChange();
             }
+
+            
         }
 
         private void StartOrStopDaq()

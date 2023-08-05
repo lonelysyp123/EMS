@@ -290,12 +290,17 @@ namespace EMS.ViewModel
             {
                 //** 注：应该尽可能的少次多量读取数据，多次读取数据会因为读取次数过于频繁导致丢包
                 byte[] BCMUData = new byte[300];
-                Array.Copy(client.ReadFunc(11000, 120), 0, BCMUData, 0, 240);
-                Array.Copy(client.ReadFunc(11120, 30), 0, BCMUData, 240, 60);
+                //Array.Copy(client.ReadFunc(11000, 120), 0, BCMUData, 0, 240);
+                //Array.Copy(client.ReadFunc(11120, 30), 0, BCMUData, 240, 60);
+                Array.Copy(client.AddReadRequest(11000, 120), 0, BCMUData, 0, 240);
+                Array.Copy(client.AddReadRequest(11120, 30), 0, BCMUData, 240, 60);
                 byte[] BMUData = new byte[720];
-                Array.Copy(client.ReadFunc(10000, 120), 0, BMUData, 0, 240);
-                Array.Copy(client.ReadFunc(10120, 120), 0, BMUData, 240, 240);
-                Array.Copy(client.ReadFunc(10240, 120), 0, BMUData, 480, 240);
+                //Array.Copy(client.ReadFunc(10000, 120), 0, BMUData, 0, 240);
+                //Array.Copy(client.ReadFunc(10120, 120), 0, BMUData, 240, 240);
+                //Array.Copy(client.ReadFunc(10240, 120), 0, BMUData, 480, 240);
+                Array.Copy(client.AddReadRequest(10000, 120), 0, BMUData, 0, 240);
+                Array.Copy(client.AddReadRequest(10120, 120), 0, BMUData, 240, 240);
+                Array.Copy(client.AddReadRequest(10240, 120), 0, BMUData, 480, 240);
 
                 // 信息补全
                 total.TotalVoltage = BitConverter.ToInt16(BCMUData, 0) * 0.001;
@@ -419,12 +424,17 @@ namespace EMS.ViewModel
                     {
                         //** 注：应该尽可能的少次多量读取数据，多次读取数据会因为读取次数过于频繁导致丢包
                         byte[] BCMUData = new byte[300];
-                        Array.Copy(client.ReadFunc(11000, 120), 0, BCMUData, 0, 240);
-                        Array.Copy(client.ReadFunc(11120, 30), 0, BCMUData, 240, 60);
+                        //Array.Copy(client.ReadFunc(11000, 120), 0, BCMUData, 0, 240);
+                        //Array.Copy(client.ReadFunc(11120, 30), 0, BCMUData, 240, 60);
+                        Array.Copy(client.AddReadRequest(11000, 120), 0, BCMUData, 0, 240);
+                        Array.Copy(client.AddReadRequest(11120, 30), 0, BCMUData, 240, 60);
                         byte[] BMUData = new byte[720];
-                        Array.Copy(client.ReadFunc(10000, 120), 0, BMUData, 0, 240);
-                        Array.Copy(client.ReadFunc(10120, 120), 0, BMUData, 240, 240);
-                        Array.Copy(client.ReadFunc(10240, 120), 0, BMUData, 480, 240);
+                        //Array.Copy(client.ReadFunc(10000, 120), 0, BMUData, 0, 240);
+                        //Array.Copy(client.ReadFunc(10120, 120), 0, BMUData, 240, 240);
+                        //Array.Copy(client.ReadFunc(10240, 120), 0, BMUData, 480, 240);
+                        Array.Copy(client.AddReadRequest(10000, 120), 0, BMUData, 0, 240);
+                        Array.Copy(client.AddReadRequest(10120, 120), 0, BMUData, 240, 240);
+                        Array.Copy(client.AddReadRequest(10240, 120), 0, BMUData, 480, 240);
 
                         total.TotalVoltage = BitConverter.ToInt16(BCMUData, 0) * 0.1;
                         total.TotalCurrent = BitConverter.ToInt16(BCMUData, 2) * 0.1;
@@ -464,9 +474,9 @@ namespace EMS.ViewModel
                             {
                                 BatteryBase battery = new BatteryBase();
                                 battery.Voltage = BitConverter.ToInt16(BMUData, (j + i * 16)*2) * 0.001;
-                                battery.Temperature1 = BitConverter.ToInt16(BMUData, (49 + j * 2 + i * 32) * 2) * 0.1;
-                                battery.Temperature2 = BitConverter.ToInt16(BMUData, (49 + j * 2 + 1 + i * 32) * 2) * 0.1;
-                                battery.SOC = BitConverter.ToUInt16(BMUData, (145 + j + i * 16) * 2) * 0.1;
+                                battery.Temperature1 = BitConverter.ToInt16(BMUData, (49 + j * 2 + i * 33) * 2) * 0.1;
+                                battery.Temperature2 = BitConverter.ToInt16(BMUData, (49 + j * 2 + 1 + i * 33) * 2) * 0.1;
+                                battery.SOC = BitConverter.ToUInt16(BMUData, (148 + j + i * 16) * 2) * 0.1;
                                 battery.Resistance = BitConverter.ToUInt16(BMUData, (199 + j + i * 16) * 2);
                                 battery.Capacity = BitConverter.ToUInt16(BMUData, (250 + j + i * 16) * 2) * 0.1;
                                 series.Batteries.Add(battery);
@@ -497,7 +507,6 @@ namespace EMS.ViewModel
                         if (total.IsRecordData)
                         {
                             DateTime date = DateTime.Now;
-                            TotalBatteryInfoManage TotalManage = new TotalBatteryInfoManage();
                             TotalBatteryInfoModel TotalModel = new TotalBatteryInfoModel();
                             TotalModel.BCMUID = total.BCMUID;
                             TotalModel.Voltage = total.TotalVoltage;
@@ -514,9 +523,8 @@ namespace EMS.ViewModel
                             TotalModel.MaxTemperature = total.MaxTemperature;
                             TotalModel.MaxTemperatureIndex = total.MaxTemperatureIndex;
                             TotalModel.HappenTime = date;
-                            TotalManage.Insert(TotalModel);
+                            BCMUDataList.Enqueue(TotalModel);
 
-                            SeriesBatteryInfoManage SeriesManage = new SeriesBatteryInfoManage();
                             for (int i = 0; i < total.Series.Count; i++)
                             {
                                 SeriesBatteryInfoModel model = new SeriesBatteryInfoModel();
@@ -544,7 +552,7 @@ namespace EMS.ViewModel
                                     typeof(SeriesBatteryInfoModel).GetProperty("Temperature" + (j * 2)).SetValue(model, total.Series[i].Batteries[j].Temperature1);
                                     typeof(SeriesBatteryInfoModel).GetProperty("Temperature" + (j * 2 + 1)).SetValue(model, total.Series[i].Batteries[j].Temperature2);
                                 }
-                                SeriesManage.Insert(model);
+                                BMUDataList.Enqueue(model);
                             }
                         }
                     }
@@ -592,6 +600,51 @@ namespace EMS.ViewModel
                 }
             }
             return false;
+        }
+
+        private ConcurrentQueue<TotalBatteryInfoModel> BCMUDataList;
+        private ConcurrentQueue<SeriesBatteryInfoModel> BMUDataList;
+        internal void StartSaveData()
+        {
+            BCMUDataList = new ConcurrentQueue<TotalBatteryInfoModel>();
+            BMUDataList = new ConcurrentQueue<SeriesBatteryInfoModel>();
+            for (int i = 0; i < OnlineBatteryTotalList.Count; i++)
+            {
+                OnlineBatteryTotalList[i].IsRecordData = true;
+            }
+
+            Thread thread = new Thread(SaveBatteryData);
+            thread.IsBackground = true;
+            thread.Start();
+
+            IsStartSaveData = true;
+        }
+
+        private void SaveBatteryData()
+        {
+            while(IsStartSaveData)
+            {
+                if (BCMUDataList.TryDequeue(out TotalBatteryInfoModel BCMUData))
+                {
+                    TotalBatteryInfoManage TotalManage = new TotalBatteryInfoManage();
+                    TotalManage.Insert(BCMUData);
+                }
+
+                if(BMUDataList.TryDequeue(out SeriesBatteryInfoModel BMUData))
+                {
+                    SeriesBatteryInfoManage TotalManage = new SeriesBatteryInfoManage();
+                    TotalManage.Insert(BMUData);
+                }
+            }
+        }
+
+        internal void StopSaveData()
+        {
+            for (int i = 0; i < OnlineBatteryTotalList.Count; i++)
+            {
+                OnlineBatteryTotalList[i].IsRecordData = false;
+            }
+            IsStartSaveData = false;
         }
     }
 }
