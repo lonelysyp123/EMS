@@ -3,6 +3,7 @@ using EMS.MyControl;
 using OxyPlot.Series;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,11 @@ namespace EMS.View
 
             InitView(viewmodel);
             //Series1.DataContext = viewmodel.Series[0];
+        }
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;  // cancels the window close    
+            this.Hide();      // Programmatically hides the window
         }
 
         private void InitView(BatteryTotalBase item)
@@ -56,10 +62,16 @@ namespace EMS.View
                     Battery battery = new Battery();
                     Grid.SetRow(battery, l/7);
                     Grid.SetColumn(battery, l%7);
+
+                    
+
+
+
                     battery.Margin = new Thickness(5);
                     Binding binding = new Binding() { Path = new PropertyPath("SOC")};
                     battery.SetBinding(Battery.SOCProperty, binding);
                     battery.DataContext = item.Series[i].Batteries[l];
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                     gridb.Children.Add(battery);
                 }
                 grid.DataContext = item.Series[i];

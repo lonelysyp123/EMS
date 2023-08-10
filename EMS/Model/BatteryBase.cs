@@ -123,6 +123,12 @@ namespace EMS.Model
             }
         }
 
+        private int _batteryNumber;
+        public int BatteryNumber
+        {
+            get { return _batteryNumber; }
+            set { SetProperty(ref _batteryNumber, value); }
+        }
         public BatteryBase() 
         {
 

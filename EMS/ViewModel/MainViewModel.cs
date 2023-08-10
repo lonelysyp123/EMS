@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -51,6 +52,31 @@ namespace EMS.ViewModel
                 SetProperty(ref _saveDataFillColor, value);
             }
         }
+        private string _toolTipText_Daq;
+        public string ToolTipText_Daq
+        {
+            get
+            {
+                return _toolTipText_Daq;
+            }
+            set
+            {
+                SetProperty(ref _toolTipText_Daq, value);
+            }
+        }
+        private string _toolTipText_Save;
+        public string ToolTipText_Save
+        {
+            get
+            {
+                return _toolTipText_Save;
+            }
+            set
+            {
+                SetProperty(ref _toolTipText_Save, value);
+            }
+        }
+
 
         public RelayCommand OpenSystemSetViewCommand { set; get; }
         public RelayCommand OpenDataAnalysisViewCommand { set; get; }
@@ -115,6 +141,7 @@ namespace EMS.ViewModel
                 DisplayContent.IsStartDaqData = false;
                 DaqImageButtonChange();
                 //ShowOperation("数据采集已停止", "操作");
+                
             }
             else
             {
@@ -128,6 +155,7 @@ namespace EMS.ViewModel
 
         public void DaqImageButtonChange()
         {
+           
             BitmapImage bi;
             if (DisplayContent.IsStartDaqData)
             {
@@ -137,6 +165,7 @@ namespace EMS.ViewModel
                 bi.BeginInit();
                 bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
                 bi.EndInit();
+                ToolTipText_Daq = "停止采集";
             }
             else
             {
@@ -146,6 +175,7 @@ namespace EMS.ViewModel
                 bi.BeginInit();
                 bi.UriSource = new Uri(files[0].FullName, UriKind.Absolute);
                 bi.EndInit();
+                ToolTipText_Daq = "开始采集";
             }
             StartDaqImageSource = bi;
         }
@@ -155,10 +185,12 @@ namespace EMS.ViewModel
             if (DisplayContent.IsStartSaveData)
             {
                 SaveDataFillColor = new SolidColorBrush(Colors.Red);
+                ToolTipText_Save = "停止保存";
             }
             else
             {
                 SaveDataFillColor = new SolidColorBrush(Colors.LightGreen);
+                ToolTipText_Save = "开始保存";
             }
         }
 

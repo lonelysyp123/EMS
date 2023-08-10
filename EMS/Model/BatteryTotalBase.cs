@@ -207,6 +207,164 @@ namespace EMS.Model
             }
         }
 
+
+        //zyf
+        /// <summary>
+        /// 高压箱温度
+        /// </summary>
+        private double _volContainerTemperature1;
+        public double VolContainerTemperature1
+        {
+            get => _volContainerTemperature1;
+            set
+            {
+                SetProperty( ref _volContainerTemperature1, value);
+            }
+        }
+
+        private double _volContainerTemperature2;
+        public double VolContainerTemperature2
+        {
+            get => _volContainerTemperature2;
+            set
+            {
+                SetProperty(ref _volContainerTemperature2 , value);
+            }
+        }
+
+        private double _volContainerTemperature3;
+        public double VolContainerTemperature3
+        {
+            get => _volContainerTemperature3;
+            set
+            {
+                SetProperty (ref _volContainerTemperature3 , value);
+            }
+        }
+        
+        private double _volContainerTemperature4;
+        public double VolContainerTemperature4
+        {
+            get => _volContainerTemperature4;
+            set
+            {
+                SetProperty(ref _volContainerTemperature4 , value);
+            }
+        }
+
+        /// <summary>
+        /// BCMU软件版本号
+        /// </summary>
+        private int _versionSWBCMU;
+        public int VersionSWBCMU
+        {
+            get => _versionSWBCMU;
+            set
+            {
+                SetProperty(ref _versionSWBCMU, value);
+            }
+        }
+
+        /// <summary>
+        /// 绝缘电阻
+        /// </summary>
+        private int _iResistanceRP;
+        public int IResistanceRP
+        {
+            get => _iResistanceRP;
+            set
+            {
+                SetProperty(ref _iResistanceRP, value);
+            }
+        }
+
+        private int _iResistanceRN;
+        public int IResistanceRN
+        {
+            get => _iResistanceRN;
+            set
+            {
+                SetProperty(ref _iResistanceRN, value);
+            }
+        }
+
+        /// <summary>
+        /// BCMU告警
+        /// </summary>
+        /// 
+        private int _alarmStateBCMUFlag;
+        public int AlarmStateBCMUFlag
+        {
+            get => _alarmStateBCMUFlag;
+            set
+            {
+
+                SetProperty(ref _alarmStateBCMUFlag, value);
+            }
+        }
+
+        private List<string> _alarmStateBCMU;
+        public List<string> AlarmStateBCMU
+        {
+            get => _alarmStateBCMU;
+            set
+            {
+                SetProperty(ref _alarmStateBCMU, value);
+            }
+        }
+
+        /// <summary>
+        /// BCMU保护
+        /// </summary>
+        /// 
+        private int _protectStateBCMUFlag;
+        public int ProtectStateBCMUFlag
+        {
+            get => _protectStateBCMUFlag;
+            set
+            {
+
+                SetProperty(ref _protectStateBCMUFlag, value);
+            }
+        }
+
+        private List<string> _protectStateBCMU;
+        public List<string> ProtectStateBCMU
+        {
+            get => _protectStateBCMU;
+            set
+            {
+                SetProperty(ref _protectStateBCMU, value);
+            }
+        }
+       
+
+
+        /// <summary>
+        /// BCMU故障
+        /// </summary>
+        /// 
+        private int _faultytStateBCMUFlag;
+        public int FaultyStateBCMUFlag
+        {
+            get => _faultytStateBCMUFlag;
+            set
+            {
+
+                SetProperty(ref _faultytStateBCMUFlag, value);
+            }
+        }
+
+        private List<string> _faultyStateBCMU;
+        public List<string> FaultyStateBCMU
+        {
+            get => _faultyStateBCMU;
+            set
+            {
+                SetProperty(ref _faultyStateBCMU, value);
+            }
+        }
+
         private BitmapSource _devImage;
         /// <summary>
         /// 标签图标
@@ -289,7 +447,7 @@ namespace EMS.Model
             {
                 if(SetProperty(ref _BCMUID, value))
                 {
-                    _totalID = "BMS(" + value + ")";
+                    _totalID = "BCMU(" + value + ")";
                 }
             }
         }
@@ -483,6 +641,10 @@ namespace EMS.Model
                 RecordDataImage = new BitmapImage(new Uri("pack://application:,,,/Resource/Image/OffRecord.png"));
             }
         }
+
+       
+
+
 
         /// <summary>
         /// 请求入网

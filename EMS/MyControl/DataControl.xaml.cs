@@ -1,5 +1,6 @@
 ﻿using EMS.Common.Modbus.ModbusTCP;
 using EMS.Model;
+using EMS.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,8 @@ namespace EMS.MyControl
     /// </summary>
     public partial class DataControl : UserControl
     {
+        
+       
         public DataControl()
         {
             InitializeComponent();
@@ -32,6 +35,11 @@ namespace EMS.MyControl
         {
             InitializeComponent();
             this.DataContext = model;
+            DisplayContentViewModel viewModel = new DisplayContentViewModel();
+            
+            viewModel.GetActiveProtect(model);
+            viewModel.GetActiveFaulty(model);
+            viewModel.GetActiveAlarm(model);
         }
     }
 }

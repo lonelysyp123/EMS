@@ -18,13 +18,16 @@
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" x:Name="BatteryVol" Foreground="{Binding VoltageColor}" Text="{Binding Voltage, StringFormat=Vol:{0:F3}V}"></TextBlock>
-                        <TextBlock Grid.Row="1" x:Name="BatteryTmp1" Foreground="{Binding TemperatureColor}" Text="{Binding Temperature1, StringFormat=Tmp1:{0:F1}℃}"></TextBlock>
-                        <TextBlock Grid.Row="2" x:Name="BatteryTmp2" Foreground="White" Text="{Binding Temperature2, StringFormat=Tmp2:{0:F1}℃}"></TextBlock>
-                        <TextBlock Grid.Row="3" x:Name="BatterySOC" Foreground="White"></TextBlock>
-                        <TextBlock Grid.Row="4" x:Name="BatteryRes" Foreground="White" Text="{Binding Resistance, StringFormat=Res:{0}mΩ}"></TextBlock>
-                        <TextBlock Grid.Row="5" x:Name="BatteryCap" Foreground="White" Text="{Binding Capacity, StringFormat=Cap:{0:F1}AH}"></TextBlock>
+                        <TextBlock Grid.Row="0" x:Name="BatteryNum" Foreground="White" Text="{Binding BatteryNumber}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight ="Bold"/>
+                        <TextBlock Grid.Row="1" x:Name="BatteryVol" Foreground="{Binding VoltageColor}" Text="{Binding Voltage, StringFormat=Vol:{0:F3}V}"></TextBlock>
+                        <TextBlock Grid.Row="2" x:Name="BatteryTmp1" Foreground="{Binding TemperatureColor}" Text="{Binding Temperature1, StringFormat=Tmp1:{0:F1}℃}"></TextBlock>
+                        <TextBlock Grid.Row="3" x:Name="BatteryTmp2" Foreground="White" Text="{Binding Temperature2, StringFormat=Tmp2:{0:F1}℃}"></TextBlock>
+                        <TextBlock Grid.Row="4" x:Name="BatterySOC" Foreground="White"></TextBlock>
+                        <TextBlock Grid.Row="5" x:Name="BatteryRes" Foreground="White" Text="{Binding Resistance, StringFormat=Res:{0}mΩ}"></TextBlock>
+                        <TextBlock Grid.Row="6" x:Name="BatteryCap" Foreground="White" Text="{Binding Capacity, StringFormat=Cap:{0:F1}AH}"></TextBlock>
+                        
                     </Grid>
                 </ToolTip>
             </Image.ToolTip>
