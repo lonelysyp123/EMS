@@ -256,30 +256,7 @@ namespace EMS.ViewModel
         /// <summary>
         /// 初始化电池总簇信息
         /// </summary>
-        public void InitBatteryTotal(BatteryTotalBase obj, ModbusClient client)
-        {
-            if (obj.IsConnected)
-            {
-                // 信息补全
-                obj.BCMUID = client.ReadU16(10000).ToString();
-                obj.TotalVoltage = client.ReadU16(10001) * 0.001;
-                obj.TotalCurrent = client.ReadU16(10002) * 0.1;
-                obj.SeriesCount = client.ReadU16(10100);
-                obj.Series.Clear();
-                for (int i = 0; i < obj.SeriesCount; i++)
-                {
-                    BatterySeriesBase series = new BatterySeriesBase();
-                    series.SeriesId = client.ReadU16((ushort)(11000 + i * 10)).ToString();
-                    for (int j = 0; j < obj.BatteriesCountInSeries; j++)
-                    {
-                        BatteryBase battery = new BatteryBase();
-                        battery.Voltage = client.ReadU16((ushort)(12001 + j * 10)) * 0.001;
-                        series.Batteries.Add(battery);
-                    }
-                    obj.Series.Add(series);
-                }
-            }
-        }
+        
 
         /// <summary>
         /// 新版初始化电池总簇信息
@@ -337,6 +314,16 @@ namespace EMS.ViewModel
                
                
                 total.Series.Clear();
+
+                /// <summary>
+                /// 状态颜色显示
+                /// </summary>
+                
+
+                /// <summary>
+                /// BMU信息
+                /// </summary>
+
                 for (int i = 0; i < total.SeriesCount; i++)
                 {
                     BatterySeriesBase series = new BatterySeriesBase();
@@ -405,15 +392,16 @@ namespace EMS.ViewModel
             int Value;
             List<string> INFO = new List<string>();
             Value = total.AlarmStateBCMUFlag;
-
+            
 
             if ((Value & 0x0001) != 0) { INFO.Add("高压箱高温"); }       //bit0
-            if ((Value & 0x0002) != 0) { INFO.Add("充电过流"); }  //bit1`
+            if ((Value & 0x0002) != 0) { INFO.Add("充电过流"); }  //bit1
             if ((Value & 0x0004) != 0) { INFO.Add("放电过流"); }  //bit2
             if ((Value & 0x0008) != 0) { INFO.Add("绝缘Rp异常"); }  //bit3
             if ((Value & 0x0010) != 0) { INFO.Add("绝缘Rn异常"); }  //bit4
-           
             total. AlarmStateBCMU = INFO;
+
+           
         }
 
 
@@ -444,9 +432,14 @@ namespace EMS.ViewModel
         {
             int Value;
             List<string> INFO = new List<string>();
-            Value = total.ProtectStateBCMUFlag;
-            if ((Value & 0x0001) != 0) { INFO.Add("主接触开关异常"); }       //bit0
-            if ((Value & 0x0002) != 0) { INFO.Add("预放继电器异常"); }  //bit1`
+            Value = total.FaultyStateBCMUFlag;
+            total.FaultyStateBCMUColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+            if ((Value & 0x0001) != 0) 
+            { 
+                INFO.Add("主接触开关异常"); 
+                total.FaultyStateBCMUColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000")); 
+            }       //bit0
+            if ((Value & 0x0002) != 0) { INFO.Add("预放继电器异常"); }  //bit1
             if ((Value & 0x0004) != 0) { INFO.Add("断路器继电器开关异常"); }  //bit2
             if ((Value & 0x0008) != 0) { INFO.Add("CAN通讯异常"); }  //bit3
             if ((Value & 0x0010) != 0) { INFO.Add("485硬件异常"); }  //bit4
@@ -541,8 +534,8 @@ namespace EMS.ViewModel
                         Array.Copy(client.AddReadRequest(10120, 120), 0, BMUData, 240, 240);
                         Array.Copy(client.AddReadRequest(10240, 120), 0, BMUData, 480, 240);
 
-                        total.TotalVoltage = BitConverter.ToInt16(BCMUData, 0) * 0.1;
-                        total.TotalCurrent = BitConverter.ToInt16(BCMUData, 2) * 0.1;
+                        total.TotalVoltage = BitConverter.ToInt16(BCMUData, 0) * 0.001;
+                        total.TotalCurrent = BitConverter.ToInt16(BCMUData, 2) * 0.001;
                         total.TotalSOC = BitConverter.ToUInt16(BCMUData, 4) * 0.1;
                         total.TotalSOH = BitConverter.ToUInt16(BCMUData, 6) * 0.1;
                         total.AverageTemperature = BitConverter.ToInt16(BCMUData, 8) * 0.1;
@@ -558,6 +551,19 @@ namespace EMS.ViewModel
                         total.SeriesCount = BitConverter.ToUInt16(BCMUData, 64);
                         total.BatteriesCountInSeries = BitConverter.ToUInt16(BCMUData, 66);
                         total.Series.Clear();
+
+
+                        ///zyf:
+                        total.IResistanceRP = BitConverter.ToInt16(BCMUData, 272);
+                        total.IResistanceRN = BitConverter.ToInt16(BCMUData, 274);
+                        total.VersionSWBCMU = BitConverter.ToInt16(BCMUData, 58);
+                        total.VolContainerTemperature1 = BitConverter.ToUInt16(BCMUData, 278) * 0.1;
+                        total.VolContainerTemperature2 = BitConverter.ToUInt16(BCMUData, 280) * 0.1;
+                        total.VolContainerTemperature3 = BitConverter.ToUInt16(BCMUData, 282) * 0.1;
+                        total.VolContainerTemperature4 = BitConverter.ToUInt16(BCMUData, 284) * 0.1;
+                        total.AlarmStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 286);
+                        total.ProtectStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 288);
+                        total.FaultyStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 290);
                         for (int i = 0; i < total.SeriesCount; i++)
                         {
                             BatterySeriesBase series = new BatterySeriesBase();

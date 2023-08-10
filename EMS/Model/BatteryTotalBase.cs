@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace EMS.Model
@@ -362,6 +363,22 @@ namespace EMS.Model
             set
             {
                 SetProperty(ref _faultyStateBCMU, value);
+            }
+        }
+
+
+
+
+        /// <summary>
+        /// 故障状态颜色（平时灰色，有故障为红色）
+        /// </summary>
+        private SolidColorBrush _faultyStateBCMUColor;
+        public SolidColorBrush FaultyStateBCMUColor
+        {
+            get=> _faultyStateBCMUColor;
+            set
+            {
+                SetProperty(ref _faultyStateBCMUColor, value);
             }
         }
 

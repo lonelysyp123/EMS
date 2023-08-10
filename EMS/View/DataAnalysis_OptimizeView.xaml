@@ -31,12 +31,12 @@
                 <Label Content="BMU" VerticalAlignment="Center"></Label>
                 <TextBox Width="50" Text="{Binding SelectedSeries}"></TextBox>
                 <Label Content="开始时间" VerticalAlignment="Center"></Label>
-                <DatePicker Name="Test1" VerticalContentAlignment="Center" Margin="10 2 2 2" Text="{Binding StartTime1, Mode=TwoWay}" Width="90"></DatePicker>
-                <trl:DateInput Width="90" Margin="2" DateText="{Binding StartTime2, Mode=TwoWay}"></trl:DateInput>
+                <DatePicker x:Name="Test1" VerticalContentAlignment="Center" Margin="10 2 2 2" Text="{Binding StartTime1, Mode=TwoWay}" Width="90" ></DatePicker>
+                <trl:DateInput Width="90" Margin="2" DateText="{Binding StartTime2, Mode=TwoWay}" x:Name ="Input1"></trl:DateInput>
                 <Label Content="终止时间" VerticalAlignment="Center"></Label>
                 <DatePicker Name="Test3" VerticalContentAlignment="Center" Margin="10 2 2 2" Text="{Binding EndTime1, Mode=TwoWay}" Width="90"></DatePicker>
                 <trl:DateInput Width="90" Margin="2" DateText="{Binding EndTime2, Mode=TwoWay}"></trl:DateInput>
-                <Button Content="查询" Command="{Binding QueryCommand}" Width="80" Margin="3"></Button>
+                <Button Content="查询" Command="{Binding QueryCommand}" Width="80" Margin="3"  x:Name="QueryButton"  ></Button>
             </StackPanel>
             <Grid Grid.Row="1" Grid.Column="0" Width="140" Margin="10">
                 <Grid.ColumnDefinitions>

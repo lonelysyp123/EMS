@@ -43,9 +43,9 @@
                         <Border Background="#882BC766" Width="4" CornerRadius="0,5,5,0" Height="6"
                                         VerticalAlignment="Center" Grid.Column="3" HorizontalAlignment="Left"></Border>
                         <Border Background="white"   CornerRadius="2,2,2,2" Grid.Column="2"
-                                       Width="23" Height="14" BorderThickness="1" 
+                                       Width="23" Height="14" BorderThickness="2" 
                                 BorderBrush="#882BC766" Margin="1,5,0.5,5" >
-                            <TextBlock Text="{Binding TotalSOC, StringFormat={}{0:F1}%}" FontSize="8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding TotalSOC, StringFormat={}{0:F1}%}" FontSize="6" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Border>
                         <Grid Grid.Column="4">
                             <Grid.ColumnDefinitions>
@@ -70,11 +70,11 @@
                                     <ToolTip Height="auto" Width="auto">
                                         <StackPanel>
                                             <TextBlock>
-                                    <Run Text="{Binding MinTemperature, StringFormat=Min:{0:F3}V}"/>
+                                    <Run Text="{Binding MinTemperature, StringFormat=Min:{0:F3}℃}"/>
                                     <Run Text="{Binding MinTemperatureIndex, StringFormat=({0})}"/>
                                             </TextBlock>
                                             <TextBlock>
-                                    <Run Text="{Binding MaxTemperature, StringFormat=Min:{0:F3}V}"/>
+                                    <Run Text="{Binding MaxTemperature, StringFormat=Min:{0:F3}℃}"/>
                                     <Run Text="{Binding MaxTemperatureIndex, StringFormat=({0})}"/>
                                             </TextBlock>
                                         </StackPanel>
@@ -223,7 +223,7 @@
 
                 <Grid Grid.Column="1" Grid.Row="4">
 
-                    <TextBlock  Text="故障状态" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Background="#D1D1D1">
+                    <TextBlock  Text="故障状态" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Background="{Binding FaultyStateBCMUColor}" Name="FalutyState">
                         <TextBlock.ToolTip>
                             <ToolTip Height="auto" Width="auto" Background="White">
                                 <StackPanel>

@@ -17,6 +17,7 @@ using System.Windows.Markup;
 using OxyPlot.Legends;
 using System.Windows.Media.Animation;
 using System.Windows.Controls;
+using System.Windows;
 
 namespace EMS.ViewModel
 {
@@ -144,6 +145,23 @@ namespace EMS.ViewModel
         /// <summary>
         /// 选中的电池集合
         /// </summary>
+        
+        ///<summary>
+        ///禁用Query按钮
+        ///</summary>
+        ///
+
+
+        //private bool _isQueryEnabled;
+        //public bool IsQueryEnabled
+        //{
+        //    get => _isQueryEnabled;
+        //    set
+        //    {
+        //        SetProperty(ref _isQueryEnabled, value);
+        //    }
+        //}
+
         public List<string> SelectedBatteryList;
 
         /// <summary>
@@ -155,16 +173,25 @@ namespace EMS.ViewModel
 
         public DataAnalysisViewModel()
         {
+            
             QueryCommand = new RelayCommand(Query);
 
             DisplayDataModel = new PlotModel();
             DisplayDataList = new List<List<double[]>>();
             TimeList = new List<DateTime[]>();
+            StartTime1 = DateTime.Today.ToString();
+            EndTime1 = DateTime.Today.ToString();
             StartTime2 = "00:00:00";
             EndTime2 = "00:00:00";
             SelectedBatteryList = new List<string>();
+            
+
             //ChartShowNow(storeModel.VolCollect.ToArray());
         }
+
+
+
+
 
         /// <summary>
         /// 查询
@@ -173,26 +200,36 @@ namespace EMS.ViewModel
         {
             DisplayDataList.Clear();
             TimeList.Clear();
+
             if (SelectedTotal != null && SelectedSeries != null)
             {
                 if (TryCombinTime(StartTime1, StartTime2, out DateTime StartTime) && TryCombinTime(EndTime1, EndTime2, out DateTime EndTime))
                 {
                     for (int i = 0; i < 14; i++)
-                    {
-                        DisplayDataList.Add(QueryBatteryInfo(SelectedTotal, SelectedSeries, (i+1).ToString(), StartTime, EndTime));
+                    { 
+                        DisplayDataList.Add(QueryBatteryInfo(SelectedTotal, SelectedSeries, (i + 1).ToString(), StartTime, EndTime));
                     }
                 }
+                else
+                {
+                    MessageBox.Show("请选择正确时间");
+                }
+            }
+            else
+            {
+                MessageBox.Show("请选择正确信息");
+
             }
         }
 
-        /// <summary>
-        /// 查询单体电池数据
-        /// </summary>
-        /// <param name="BCMUID">BCMUID</param>
-        /// <param name="BMUID">BMUID</param>
-        /// <param name="sort">电池序号</param>
-        /// <param name="startTime">开始时间</param>
-        /// <param name="endTime">停止时间</param>
+            /// <summary>
+            /// 查询单体电池数据
+            /// </summary>
+            /// <param name="BCMUID">BCMUID</param>
+            /// <param name="BMUID">BMUID</param>
+            /// <param name="sort">电池序号</param>
+            /// <param name="startTime">开始时间</param>
+            /// <param name="endTime">停止时间</param>
         private List<double[]> QueryBatteryInfo(string BCMUID, string BMUID, string sort, DateTime startTime, DateTime endTime)
         {
             SeriesBatteryInfoManage SeriesManage = new SeriesBatteryInfoManage();
@@ -359,7 +396,7 @@ namespace EMS.ViewModel
         /// <returns>是否合成成功</returns>
         private bool TryCombinTime(string obj1, string obj2, out DateTime CombinTime)
         {
-            if (obj1 != null)
+            if (obj1 != null && obj1 !="")
             {
                 DateTime time1 = DateTime.Parse(obj1);
                 if (TimeSpan.TryParse(obj2, out TimeSpan time2))
@@ -379,6 +416,9 @@ namespace EMS.ViewModel
             }
             return true;
         }
+
+          
+
 
         /// <summary>
         /// 初始化图表控件（定义X，Y轴）

@@ -36,7 +36,7 @@ namespace EMS.MyControl
             InitializeComponent();
             this.DataContext = model;
             DisplayContentViewModel viewModel = new DisplayContentViewModel();
-            
+         
             viewModel.GetActiveProtect(model);
             viewModel.GetActiveFaulty(model);
             viewModel.GetActiveAlarm(model);

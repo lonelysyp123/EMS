@@ -25,9 +25,25 @@ namespace EMS.View
         public DataAnalysis_OptimizeView()
         {
             InitializeComponent();
+           
             viewmodel = new DataAnalysisViewModel();
             this.DataContext = viewmodel;
+
+           
+
+
         }
+
+       
+          
+        
+        
+        
+           
+        
+            
+            
+
 
         private void BatteryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
