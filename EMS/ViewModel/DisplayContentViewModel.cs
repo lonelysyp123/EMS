@@ -280,7 +280,7 @@ namespace EMS.ViewModel
                 Array.Copy(client.AddReadRequest(10240, 120), 0, BMUData, 480, 240);
 
                 // 信息补全
-                total.TotalVoltage = BitConverter.ToInt16(BCMUData, 0) * 0.001;
+                //total.TotalVoltage = BitConverter.ToInt16(BCMUData, 0) * 0.001;
                 total.TotalCurrent = BitConverter.ToInt16(BCMUData, 2) * 0.001;
                 total.TotalSOC = BitConverter.ToUInt16(BCMUData, 4) * 0.1;
                 total.TotalSOH = BitConverter.ToUInt16(BCMUData, 6) * 0.1;
@@ -300,8 +300,8 @@ namespace EMS.ViewModel
                 ///zyf
                 ///
                
-                total.IResistanceRP = BitConverter.ToInt16(BCMUData, 272);
-                total.IResistanceRN = BitConverter.ToInt16(BCMUData, 274);
+                //total.IResistanceRP = BitConverter.ToInt16(BCMUData, 272);
+                //total.IResistanceRN = BitConverter.ToInt16(BCMUData, 274);
                 total.VersionSWBCMU = BitConverter.ToInt16(BCMUData, 58);
                 total.VolContainerTemperature1 = BitConverter.ToUInt16(BCMUData, 278) * 0.1;
                 total.VolContainerTemperature2 = BitConverter.ToUInt16(BCMUData, 280) * 0.1;
@@ -309,16 +309,12 @@ namespace EMS.ViewModel
                 total.VolContainerTemperature4 = BitConverter.ToUInt16(BCMUData, 284) * 0.1;
                 total.AlarmStateBCMUFlag = BitConverter.ToUInt16(BCMUData,286);
                 total.ProtectStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 288);
-                total.FaultyStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 290);
-
-               
-               
+                //total.FaultyStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 290);
                 total.Series.Clear();
 
-                /// <summary>
-                /// 状态颜色显示
-                /// </summary>
-                
+               
+               
+
 
                 /// <summary>
                 /// BMU信息
@@ -460,19 +456,6 @@ namespace EMS.ViewModel
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         /// <summary>
         /// 展示实时数据
         /// </summary>
@@ -550,8 +533,6 @@ namespace EMS.ViewModel
                         total.BatteryCount = BitConverter.ToUInt16(BCMUData, 62);
                         total.SeriesCount = BitConverter.ToUInt16(BCMUData, 64);
                         total.BatteriesCountInSeries = BitConverter.ToUInt16(BCMUData, 66);
-                        total.Series.Clear();
-
 
                         ///zyf:
                         total.IResistanceRP = BitConverter.ToInt16(BCMUData, 272);
@@ -564,6 +545,10 @@ namespace EMS.ViewModel
                         total.AlarmStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 286);
                         total.ProtectStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 288);
                         total.FaultyStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 290);
+                        total.Series.Clear();
+
+                    GetActiveFaulty(total);
+
                         for (int i = 0; i < total.SeriesCount; i++)
                         {
                             BatterySeriesBase series = new BatterySeriesBase();
