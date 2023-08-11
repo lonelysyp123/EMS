@@ -31,7 +31,6 @@ namespace EMS.View
         public DevTest_CollectView()
         {
             InitializeComponent();
-            seriesBatteryViews = new List<SeriesBatteryView>();
         }
 
         public void Test_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -61,8 +60,6 @@ namespace EMS.View
             Grid.SetColumn(control, index/3);
             Grid.SetRow(control, index%3);
             MainBody.Children.Add(control);
-            SeriesBatteryView view = new SeriesBatteryView((BatteryTotalBase)control.DataContext);
-            seriesBatteryViews.Add(view);
         }
 
         public void RemoveDevIntoView(int index)
@@ -73,15 +70,14 @@ namespace EMS.View
             }
         }
 
-        private List<SeriesBatteryView> seriesBatteryViews;
         private void MainBody_MouseUp(object sender, MouseButtonEventArgs e)
         {
             DataControl control = e.Source as DataControl;
             if (control != null)
             {
                 // 打开单个电池展示界面
-                int index = MainBody.Children.IndexOf(control);
-                seriesBatteryViews[index].ShowDialog();
+                SeriesBatteryView view = new SeriesBatteryView((BatteryTotalBase)control.DataContext);
+                view.Show();
             }
         }
 

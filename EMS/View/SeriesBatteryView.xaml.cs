@@ -51,18 +51,11 @@ namespace EMS.View
                     grid = BMUC;
                     gridb = BMUC_Battery;
                 }
-                for (int l = 0;l < item.Series[i].Batteries.Count; l++)
-                {
-                    Battery battery = new Battery();
-                    Grid.SetRow(battery, l/7);
-                    Grid.SetColumn(battery, l%7);
-                    battery.Margin = new Thickness(5);
-                    Binding binding = new Binding() { Path = new PropertyPath("SOC")};
-                    battery.SetBinding(Battery.SOCProperty, binding);
-                    battery.DataContext = item.Series[i].Batteries[l];
-                    gridb.Children.Add(battery);
-                }
                 grid.DataContext = item.Series[i];
+                for (int l = 0; l < BMUA_Battery.Children.Count; l++)
+                {
+                    (gridb.Children[l] as Battery).DataContext = item.Series[i].Batteries[l];
+                }
             }
         }
     }

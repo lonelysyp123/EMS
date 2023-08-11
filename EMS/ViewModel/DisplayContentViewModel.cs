@@ -449,13 +449,12 @@ namespace EMS.ViewModel
                         total.MaxTemperature = BitConverter.ToInt16(BCMUData, 20) * 0.1;
                         total.MinTemperatureIndex = BitConverter.ToUInt16(BCMUData, 22);
                         total.MaxTemperatureIndex = BitConverter.ToUInt16(BCMUData, 24);
-                        total.BatteryCount = BitConverter.ToUInt16(BCMUData, 62);
-                        total.SeriesCount = BitConverter.ToUInt16(BCMUData, 64);
-                        total.BatteriesCountInSeries = BitConverter.ToUInt16(BCMUData, 66);
-                        total.Series.Clear();
-                        for (int i = 0; i < total.SeriesCount; i++)
+                        //total.BatteryCount = BitConverter.ToUInt16(BCMUData, 62);
+                        //total.SeriesCount = BitConverter.ToUInt16(BCMUData, 64);
+                        //total.BatteriesCountInSeries = BitConverter.ToUInt16(BCMUData, 66);
+                        for (int i = 0; i < total.Series.Count; i++)
                         {
-                            BatterySeriesBase series = new BatterySeriesBase();
+                            BatterySeriesBase series = total.Series[i];
                             series.SeriesId = i.ToString();
                             series.AlarmState = BitConverter.ToUInt16(BMUData, (193 + i)*2).ToString();
                             series.FaultState = BitConverter.ToUInt16(BMUData, (196 + i)*2).ToString();
@@ -469,39 +468,39 @@ namespace EMS.ViewModel
                             series.MaxTemperature = BitConverter.ToInt16(BMUData, (312 + i * 8) * 2) * 0.1;
                             series.MinTemperatureIndex = BitConverter.ToUInt16(BMUData, (313 + i * 8) * 2);
                             series.MaxTemperatureIndex = BitConverter.ToUInt16(BMUData, (314 + i * 8) * 2);
-                            series.Batteries.Clear();
-                            for (int j = 0; j < total.BatteriesCountInSeries; j++)
+                            for (int j = 0; j < series.Batteries.Count; j++)
                             {
-                                BatteryBase battery = new BatteryBase();
+                                BatteryBase battery = series.Batteries[j];
                                 battery.Voltage = BitConverter.ToInt16(BMUData, (j + i * 16)*2) * 0.001;
                                 battery.Temperature1 = BitConverter.ToInt16(BMUData, (49 + j * 2 + i * 33) * 2) * 0.1;
                                 battery.Temperature2 = BitConverter.ToInt16(BMUData, (49 + j * 2 + 1 + i * 33) * 2) * 0.1;
                                 battery.SOC = BitConverter.ToUInt16(BMUData, (148 + j + i * 16) * 2) * 0.1;
                                 battery.Resistance = BitConverter.ToUInt16(BMUData, (199 + j + i * 16) * 2);
                                 battery.Capacity = BitConverter.ToUInt16(BMUData, (250 + j + i * 16) * 2) * 0.1;
-                                series.Batteries.Add(battery);
 
-                                if (j + 1 == series.MinVoltageIndex)
+                                App.Current.Dispatcher.Invoke(() =>
                                 {
-                                    battery.VoltageColor = new SolidColorBrush(Colors.LightBlue);
-                                }
+                                    if (j + 1 == series.MinVoltageIndex)
+                                    {
+                                        battery.VoltageColor = new SolidColorBrush(Colors.LightBlue);
+                                    }
 
-                                if (j + 1 == series.MaxVoltageIndex)
-                                {
-                                    battery.VoltageColor = new SolidColorBrush(Colors.Red);
-                                }
+                                    if (j + 1 == series.MaxVoltageIndex)
+                                    {
+                                        battery.VoltageColor = new SolidColorBrush(Colors.Red);
+                                    }
 
-                                if (j + 1 == series.MinTemperatureIndex)
-                                {
-                                    battery.TemperatureColor = new SolidColorBrush(Colors.LightBlue);
-                                }
+                                    if (j + 1 == series.MinTemperatureIndex)
+                                    {
+                                        battery.TemperatureColor = new SolidColorBrush(Colors.LightBlue);
+                                    }
 
-                                if (j + 1 == series.MaxTemperatureIndex)
-                                {
-                                    battery.TemperatureColor = new SolidColorBrush(Colors.Red);
-                                }
+                                    if (j + 1 == series.MaxTemperatureIndex)
+                                    {
+                                        battery.TemperatureColor = new SolidColorBrush(Colors.Red);
+                                    }
+                                });
                             }
-                            total.Series.Add(series);
                         }
 
                         if (total.IsRecordData)

@@ -71,8 +71,8 @@ namespace EMS.ViewModel
             StartOrStopSaveDataCommand = new RelayCommand(StartOrStopSaveData);
             //StateContent = new StateContentViewModel();
             DisplayContent = new DisplayContentViewModel();
-            SystemConfiguration = InitSystemConfiguration();
-            DisplayContent.DaqTimeSpan = SystemConfiguration.daqConfiguration.DaqTimeSpan;
+            //SystemConfiguration = InitSystemConfiguration();
+            //DisplayContent.DaqTimeSpan = SystemConfiguration.daqConfiguration.DaqTimeSpan;
             DaqImageButtonChange();
             SaveImageButtonChange();
         }
