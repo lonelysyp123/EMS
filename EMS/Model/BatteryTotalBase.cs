@@ -8,6 +8,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Eventing.Reader;
+using System.Dynamic;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
@@ -304,8 +305,8 @@ namespace EMS.Model
             }
         }
 
-        private List<string> _alarmStateBCMU;
-        public List<string> AlarmStateBCMU
+        private ObservableCollection<string> _alarmStateBCMU;
+        public ObservableCollection<string> AlarmStateBCMU
         {
             get => _alarmStateBCMU;
             set
@@ -329,8 +330,8 @@ namespace EMS.Model
             }
         }
 
-        private List<string> _protectStateBCMU;
-        public List<string> ProtectStateBCMU
+        private ObservableCollection<string> _protectStateBCMU;
+        public ObservableCollection<string> ProtectStateBCMU
         {
             get => _protectStateBCMU;
             set
@@ -356,8 +357,8 @@ namespace EMS.Model
             }
         }
 
-        private List<string> _faultyStateBCMU;
-        public List<string> FaultyStateBCMU
+        private ObservableCollection<string> _faultyStateBCMU;
+        public ObservableCollection<string> FaultyStateBCMU
         {
             get => _faultyStateBCMU;
             set
@@ -366,21 +367,16 @@ namespace EMS.Model
             }
         }
 
-
+       
+        
+        
+        
 
 
         /// <summary>
         /// 故障状态颜色（平时灰色，有故障为红色）
         /// </summary>
-        private SolidColorBrush _faultyStateBCMUColor;
-        public SolidColorBrush FaultyStateBCMUColor
-        {
-            get=> _faultyStateBCMUColor;
-            set
-            {
-                SetProperty(ref _faultyStateBCMUColor, value);
-            }
-        }
+        
 
         private BitmapSource _devImage;
         /// <summary>
@@ -659,7 +655,7 @@ namespace EMS.Model
             }
         }
 
-       
+        
 
 
 

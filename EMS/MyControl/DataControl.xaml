@@ -223,18 +223,40 @@
 
                 <Grid Grid.Column="1" Grid.Row="4">
 
-                    <TextBlock  Text="故障状态" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Background="{Binding FaultyStateBCMUColor}" Name="FalutyState">
+                    <TextBlock  Text="故障状态" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="20" Background="{Binding FaultyStateBCMUColor}" Name="FalutyState">
+                        <!--<TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding FaultyColorINFO}" Value="false">
+                                        <Setter Property="Foreground" Value="Blue" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ExternalInfo}" Value="true">
+                                        <Setter Property="Foreground" Value="red" />
+                                    </DataTrigger>
+                                    
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>-->
+
+
+
+
+
+
+
+
+
                         <TextBlock.ToolTip>
                             <ToolTip Height="auto" Width="auto" Background="White">
-                                <StackPanel>
-                                    <ListBox ItemsSource="{Binding FaultyStateBCMU}">
+                                
+                                    <ListBox  Name="ListBox1"  ItemsSource="{Binding FaultyStateBCMU}">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding}" FontSize="10"></TextBlock>
+                                            <TextBlock Text="{Binding}" FontSize="10"></TextBlock> 
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
                                     </ListBox>
-                                </StackPanel>
+                                
                             </ToolTip>
                         </TextBlock.ToolTip>
                     </TextBlock>

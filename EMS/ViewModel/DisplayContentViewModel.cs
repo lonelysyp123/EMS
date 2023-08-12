@@ -309,11 +309,47 @@ namespace EMS.ViewModel
                 total.VolContainerTemperature4 = BitConverter.ToUInt16(BCMUData, 284) * 0.1;
                 total.AlarmStateBCMUFlag = BitConverter.ToUInt16(BCMUData,286);
                 total.ProtectStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 288);
-                //total.FaultyStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 290);
+                total.FaultyStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 290);
                 total.Series.Clear();
 
+
+                ObservableCollection<string> INFO1 = new ObservableCollection<string>();
+                ObservableCollection<string> INFO2 = new ObservableCollection<string>();
+                ObservableCollection<string> INFO3 = new ObservableCollection<string>();
+                SolidColorBrush Faultycolor = new SolidColorBrush();
+                // total.FaultyStateBCMUColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                if ((total.FaultyStateBCMUFlag & 0x0001) != 0) { INFO1.Add("电池单体低压保护"); }       //bit0
+                if ((total.FaultyStateBCMUFlag & 0x0002) != 0) { INFO1.Add("电池单体高压保护"); }  //bit1`
+                if ((total.FaultyStateBCMUFlag & 0x0004) != 0) { INFO1.Add("电池组充电高压保护"); }  //bit2
+                if ((total.FaultyStateBCMUFlag & 0x0008) != 0) { INFO1.Add("充电低温保护"); }  //bit3
+                if ((total.FaultyStateBCMUFlag & 0x0010) != 0) { INFO1.Add("充电高温保护"); }  //bit4
+                if ((total.FaultyStateBCMUFlag & 0x0020) != 0) { INFO1.Add("放电低温保护"); } //bit5
+                if ((total.FaultyStateBCMUFlag & 0x0040) != 0) { INFO1.Add("放电高温保护"); } //bit6
+                if ((total.FaultyStateBCMUFlag & 0x0080) != 0) { INFO1.Add("电池组充电过流保护"); } //bit7
+                if ((total.FaultyStateBCMUFlag & 0x0100) != 0) { INFO1.Add("电池组放电过流保护"); } //bit8
+                if ((total.FaultyStateBCMUFlag & 0x0200) != 0) { INFO1.Add("电池模块欠压保护"); } //bit9
+                if ((total.FaultyStateBCMUFlag & 0x0400) != 0) { INFO1.Add("电池模块过压保护"); } //bit10
+                total.FaultyStateBCMU = INFO1;
+                
+                if ((total.ProtectStateBCMUFlag & 0x0001) != 0) { INFO2.Add("电池单体低压保护"); }       //bit0
+                if ((total.ProtectStateBCMUFlag & 0x0002) != 0) { INFO2.Add("电池单体高压保护"); }  //bit1`
+                if ((total.ProtectStateBCMUFlag & 0x0004) != 0) { INFO2.Add("电池组充电高压保护"); }  //bit2
+                if ((total.ProtectStateBCMUFlag & 0x0008) != 0) { INFO2.Add("充电低温保护"); }  //bit3
+                if ((total.ProtectStateBCMUFlag & 0x0010) != 0) { INFO2.Add("充电高温保护"); }  //bit4
+                if ((total.ProtectStateBCMUFlag & 0x0020) != 0) { INFO2.Add("放电低温保护"); } //bit5
+                if ((total.ProtectStateBCMUFlag & 0x0040) != 0) { INFO2.Add("放电高温保护"); } //bit6
+                if ((total.ProtectStateBCMUFlag & 0x0080) != 0) { INFO2.Add("电池组充电过流保护"); } //bit7
+                if ((total.ProtectStateBCMUFlag & 0x0100) != 0) { INFO2.Add("电池组放电过流保护"); } //bit8
+                if ((total.ProtectStateBCMUFlag & 0x0200) != 0) { INFO2.Add("电池模块欠压保护"); } //bit9
+                if ((total.ProtectStateBCMUFlag & 0x0400) != 0) { INFO2.Add("电池模块过压保护"); } //bit10
+                total.ProtectStateBCMU = INFO2;
                
-               
+                if ((total.AlarmStateBCMUFlag & 0x0001) != 0) { INFO3.Add("高压箱高温"); }       //bit0
+                if ((total.AlarmStateBCMUFlag & 0x0002) != 0) { INFO3.Add("充电过流"); }  //bit1
+                if ((total.AlarmStateBCMUFlag & 0x0004) != 0) { INFO3.Add("放电过流"); }  //bit2
+                if ((total.AlarmStateBCMUFlag & 0x0008) != 0) { INFO3.Add("绝缘Rp异常"); }  //bit3
+                if ((total.AlarmStateBCMUFlag & 0x0010) != 0) { INFO3.Add("绝缘Rn异常"); }  //bit4
+                total.AlarmStateBCMU = INFO3;
 
 
                 /// <summary>
@@ -383,76 +419,82 @@ namespace EMS.ViewModel
         /// 转化保护状态
         /// </summary>
         /// <param name="total"></param>
-        public void GetActiveAlarm(BatteryTotalBase total)
-        {
-            int Value;
-            List<string> INFO = new List<string>();
-            Value = total.AlarmStateBCMUFlag;
+        //public void GetActiveAlarm(BatteryTotalBase total)
+        //{
+        //    int Value;
+        //    List<string> INFO = new List<string>();
+        //    Value = total.AlarmStateBCMUFlag;
             
 
-            if ((Value & 0x0001) != 0) { INFO.Add("高压箱高温"); }       //bit0
-            if ((Value & 0x0002) != 0) { INFO.Add("充电过流"); }  //bit1
-            if ((Value & 0x0004) != 0) { INFO.Add("放电过流"); }  //bit2
-            if ((Value & 0x0008) != 0) { INFO.Add("绝缘Rp异常"); }  //bit3
-            if ((Value & 0x0010) != 0) { INFO.Add("绝缘Rn异常"); }  //bit4
-            total. AlarmStateBCMU = INFO;
+        //    if ((Value & 0x0001) != 0) { INFO.Add("高压箱高温"); }       //bit0
+        //    if ((Value & 0x0002) != 0) { INFO.Add("充电过流"); }  //bit1
+        //    if ((Value & 0x0004) != 0) { INFO.Add("放电过流"); }  //bit2
+        //    if ((Value & 0x0008) != 0) { INFO.Add("绝缘Rp异常"); }  //bit3
+        //    if ((Value & 0x0010) != 0) { INFO.Add("绝缘Rn异常"); }  //bit4
+        //    total. AlarmStateBCMU = INFO;
 
            
-        }
+        //}
 
 
-        public void GetActiveProtect(BatteryTotalBase total)
-        {
-            int Value;
-            List<string> INFO = new List<string>();
-            Value = total.ProtectStateBCMUFlag;
-            if ((Value & 0x0001) != 0) { INFO.Add("电池单体低压保护"); }       //bit0
-            if ((Value & 0x0002) != 0) { INFO.Add("电池单体高压保护"); }  //bit1`
-            if ((Value & 0x0004) != 0) { INFO.Add("电池组充电高压保护"); }  //bit2
-            if ((Value & 0x0008) != 0) { INFO.Add("充电低温保护"); }  //bit3
-            if ((Value & 0x0010) != 0) { INFO.Add("充电高温保护"); }  //bit4
-            if ((Value & 0x0020) != 0) { INFO.Add("放电低温保护"); } //bit5
-            if ((Value & 0x0040) != 0) { INFO.Add("放电高温保护"); } //bit6
-            if ((Value & 0x0080) != 0) { INFO.Add("电池组充电过流保护"); } //bit7
-            if ((Value & 0x0100) != 0) { INFO.Add("电池组放电过流保护"); } //bit8
-            if ((Value & 0x0200) != 0) { INFO.Add("电池模块欠压保护"); } //bit9
-            if ((Value & 0x0400) != 0) { INFO.Add("电池模块过压保护"); } //bit10
-            total.ProtectStateBCMU = INFO;
+        //public void GetActiveProtect(BatteryTotalBase total)
+        //{
+        //    int Value;
+        //    List<string> INFO = new List<string>();
+        //    Value = total.ProtectStateBCMUFlag;
+        //    if ((Value & 0x0001) != 0) { INFO.Add("电池单体低压保护"); }       //bit0
+        //    if ((Value & 0x0002) != 0) { INFO.Add("电池单体高压保护"); }  //bit1`
+        //    if ((Value & 0x0004) != 0) { INFO.Add("电池组充电高压保护"); }  //bit2
+        //    if ((Value & 0x0008) != 0) { INFO.Add("充电低温保护"); }  //bit3
+        //    if ((Value & 0x0010) != 0) { INFO.Add("充电高温保护"); }  //bit4
+        //    if ((Value & 0x0020) != 0) { INFO.Add("放电低温保护"); } //bit5
+        //    if ((Value & 0x0040) != 0) { INFO.Add("放电高温保护"); } //bit6
+        //    if ((Value & 0x0080) != 0) { INFO.Add("电池组充电过流保护"); } //bit7
+        //    if ((Value & 0x0100) != 0) { INFO.Add("电池组放电过流保护"); } //bit8
+        //    if ((Value & 0x0200) != 0) { INFO.Add("电池模块欠压保护"); } //bit9
+        //    if ((Value & 0x0400) != 0) { INFO.Add("电池模块过压保护"); } //bit10
+        //    total.ProtectStateBCMU = INFO;
 
-        }
+        //}
 
 
        
 
-        public void GetActiveFaulty(BatteryTotalBase total)
-        {
-            int Value;
-            List<string> INFO = new List<string>();
-            Value = total.FaultyStateBCMUFlag;
-            total.FaultyStateBCMUColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
-            if ((Value & 0x0001) != 0) 
-            { 
-                INFO.Add("主接触开关异常"); 
-                total.FaultyStateBCMUColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000")); 
-            }       //bit0
-            if ((Value & 0x0002) != 0) { INFO.Add("预放继电器异常"); }  //bit1
-            if ((Value & 0x0004) != 0) { INFO.Add("断路器继电器开关异常"); }  //bit2
-            if ((Value & 0x0008) != 0) { INFO.Add("CAN通讯异常"); }  //bit3
-            if ((Value & 0x0010) != 0) { INFO.Add("485硬件异常"); }  //bit4
-            if ((Value & 0x0020) != 0) { INFO.Add("以太网phy异常"); } //bit5
-            if ((Value & 0x0040) != 0) { INFO.Add("以太网通讯测试异常"); } //bit6
-            if ((Value & 0x0080) != 0) { INFO.Add("霍尔ADC I2C通讯异常"); } //bit7
-            if ((Value & 0x0100) != 0) { INFO.Add("霍尔电流检测异常"); } //bit8
-            if ((Value & 0x0200) != 0) { INFO.Add("分流器电流检测异常"); } //bit9
-            if ((Value & 0x0400) != 0) { INFO.Add("主接触开关异常"); } //bit10
-            if ((Value & 0x0800) != 0) { INFO.Add("环流预充开关异常"); }//bit11
-            if ((Value & 0x1000) != 0) { INFO.Add("断路器开关异常"); } //bit12
-            if ((Value & 0x2000) != 0) { INFO.Add("绝缘检测ADC I2C通讯异常"); } //bit13
-            if ((Value & 0x4000) != 0) { INFO.Add("高压DC电压检测ADC I2C通讯异常"); } //bit 14
+        //public void GetActiveFaulty(BatteryTotalBase total)
+        //{
+        //    int Value;
 
-            total.FaultyStateBCMU = INFO;
+        //    ObservableCollection<string> INFO = new ObservableCollection<string>();
+        //    Value = total.FaultyStateBCMUFlag;
+        //    //total.FaultyStateBCMUColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+        //    total.FaultyColorINFO = false;
+                
+            
+           
+        //    if ((Value & 0x0001) != 0) 
+        //    { 
+        //        INFO.Add("主接触开关异常");
+        //        total.FaultyColorINFO = true;
+        //        //total.FaultyStateBCMUColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000"));
+        //    }       //bit0
+        //    if ((Value & 0x0002) != 0) { INFO.Add("预放继电器异常"); }  //bit1
+        //    if ((Value & 0x0004) != 0) { INFO.Add("断路器继电器开关异常"); }  //bit2
+        //    if ((Value & 0x0008) != 0) { INFO.Add("CAN通讯异常"); }  //bit3
+        //    if ((Value & 0x0010) != 0) { INFO.Add("485硬件异常"); }  //bit4
+        //    if ((Value & 0x0020) != 0) { INFO.Add("以太网phy异常"); } //bit5
+        //    if ((Value & 0x0040) != 0) { INFO.Add("以太网通讯测试异常"); } //bit6
+        //    if ((Value & 0x0080) != 0) { INFO.Add("霍尔ADC I2C通讯异常"); } //bit7
+        //    if ((Value & 0x0100) != 0) { INFO.Add("霍尔电流检测异常"); } //bit8
+        //    if ((Value & 0x0200) != 0) { INFO.Add("分流器电流检测异常"); } //bit9
+        //    if ((Value & 0x0400) != 0) { INFO.Add("主接触开关异常"); } //bit10
+        //    if ((Value & 0x0800) != 0) { INFO.Add("环流预充开关异常"); }//bit11
+        //    if ((Value & 0x1000) != 0) { INFO.Add("断路器开关异常"); } //bit12
+        //    if ((Value & 0x2000) != 0) { INFO.Add("绝缘检测ADC I2C通讯异常"); } //bit13
+        //    if ((Value & 0x4000) != 0) { INFO.Add("高压DC电压检测ADC I2C通讯异常"); } //bit 14
 
-        }
+        //    total.FaultyStateBCMU = INFO;
+
+        //}
 
 
 
@@ -542,12 +584,51 @@ namespace EMS.ViewModel
                         total.VolContainerTemperature2 = BitConverter.ToUInt16(BCMUData, 280) * 0.1;
                         total.VolContainerTemperature3 = BitConverter.ToUInt16(BCMUData, 282) * 0.1;
                         total.VolContainerTemperature4 = BitConverter.ToUInt16(BCMUData, 284) * 0.1;
-                        total.AlarmStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 286);
-                        total.ProtectStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 288);
-                        total.FaultyStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 290);
+                        total.AlarmStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 286)-0xABCD;
+                        total.ProtectStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 288)-0xABCD;
+                        total.FaultyStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 290)-0xABCD;
                         total.Series.Clear();
+                        ObservableCollection<string> INFO1 = new ObservableCollection<string>();
+                        ObservableCollection<string> INFO2 = new ObservableCollection<string>();
+                        ObservableCollection<string> INFO3 = new ObservableCollection<string>();
+                        SolidColorBrush Faultycolor = new SolidColorBrush();
+                        // total.FaultyStateBCMUColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                        if ((total.FaultyStateBCMUFlag & 0x0001) != 0) { INFO1.Add("电池单体低压保护"); }       //bit0
+                        if ((total.FaultyStateBCMUFlag & 0x0002) != 0) { INFO1.Add("电池单体高压保护"); }  //bit1`
+                        if ((total.FaultyStateBCMUFlag & 0x0004) != 0) { INFO1.Add("电池组充电高压保护"); }  //bit2
+                        if ((total.FaultyStateBCMUFlag & 0x0008) != 0) { INFO1.Add("充电低温保护"); }  //bit3
+                        if ((total.FaultyStateBCMUFlag & 0x0010) != 0) { INFO1.Add("充电高温保护"); }  //bit4
+                        if ((total.FaultyStateBCMUFlag & 0x0020) != 0) { INFO1.Add("放电低温保护"); } //bit5
+                        if ((total.FaultyStateBCMUFlag & 0x0040) != 0) { INFO1.Add("放电高温保护"); } //bit6
+                        if ((total.FaultyStateBCMUFlag & 0x0080) != 0) { INFO1.Add("电池组充电过流保护"); } //bit7
+                        if ((total.FaultyStateBCMUFlag & 0x0100) != 0) { INFO1.Add("电池组放电过流保护"); } //bit8
+                        if ((total.FaultyStateBCMUFlag & 0x0200) != 0) { INFO1.Add("电池模块欠压保护"); } //bit9
+                        if ((total.FaultyStateBCMUFlag & 0x0400) != 0) { INFO1.Add("电池模块过压保护"); } //bit10
+                        total.FaultyStateBCMU = INFO1;
 
-                    GetActiveFaulty(total);
+                        if ((total.ProtectStateBCMUFlag & 0x0001) != 0) { INFO2.Add("电池单体低压保护"); }       //bit0
+                        if ((total.ProtectStateBCMUFlag & 0x0002) != 0) { INFO2.Add("电池单体高压保护"); }  //bit1`
+                        if ((total.ProtectStateBCMUFlag & 0x0004) != 0) { INFO2.Add("电池组充电高压保护"); }  //bit2
+                        if ((total.ProtectStateBCMUFlag & 0x0008) != 0) { INFO2.Add("充电低温保护"); }  //bit3
+                        if ((total.ProtectStateBCMUFlag & 0x0010) != 0) { INFO2.Add("充电高温保护"); }  //bit4
+                        if ((total.ProtectStateBCMUFlag & 0x0020) != 0) { INFO2.Add("放电低温保护"); } //bit5
+                        if ((total.ProtectStateBCMUFlag & 0x0040) != 0) { INFO2.Add("放电高温保护"); } //bit6
+                        if ((total.ProtectStateBCMUFlag & 0x0080) != 0) { INFO2.Add("电池组充电过流保护"); } //bit7
+                        if ((total.ProtectStateBCMUFlag & 0x0100) != 0) { INFO2.Add("电池组放电过流保护"); } //bit8
+                        if ((total.ProtectStateBCMUFlag & 0x0200) != 0) { INFO2.Add("电池模块欠压保护"); } //bit9
+                        if ((total.ProtectStateBCMUFlag & 0x0400) != 0) { INFO2.Add("电池模块过压保护"); } //bit10
+                        total.ProtectStateBCMU = INFO2;
+
+                        if ((total.AlarmStateBCMUFlag & 0x0001) != 0) { INFO3.Add("高压箱高温"); }       //bit0
+                        if ((total.AlarmStateBCMUFlag & 0x0002) != 0) { INFO3.Add("充电过流"); }  //bit1
+                        if ((total.AlarmStateBCMUFlag & 0x0004) != 0) { INFO3.Add("放电过流"); }  //bit2
+                        if ((total.AlarmStateBCMUFlag & 0x0008) != 0) { INFO3.Add("绝缘Rp异常"); }  //bit3
+                        if ((total.AlarmStateBCMUFlag & 0x0010) != 0) { INFO3.Add("绝缘Rn异常"); }  //bit4
+                        total.AlarmStateBCMU = INFO3;
+
+
+
+
 
                         for (int i = 0; i < total.SeriesCount; i++)
                         {

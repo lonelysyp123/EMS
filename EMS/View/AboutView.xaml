@@ -5,8 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EMS.View"
         mc:Ignorable="d"
-        Title="AboutView" Height="450" Width="800">
+        Title="AboutView" Height="300" Width="400">
     <Grid>
-        <WebBrowser x:Name="theBrowser"/>
+        <Grid>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="TN-EMS" FontSize="20" FontWeight="Bold" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Text="Version 1.0" Margin="0 0 0 10"/>
+                <TextBlock Text="© 2023 TN-Group" Margin="0 0 0 10"/>
+                <TextBlock Text="Author: Yinpei Song,Yanfeng Zhu" Margin="0 0 0 5"/>
+                <TextBlock Text="Contact: zhuyf@tn-ess.com" Margin="0 0 0 10"/>
+                <Button Content="OK" Width="60" HorizontalAlignment="Center" Click="OKButton_Click" Margin="0,5,0,0"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

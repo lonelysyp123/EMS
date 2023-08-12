@@ -145,5 +145,25 @@ namespace EMS
                     break;
             }
         }
+
+        
+
+        private void OperationManual_Click(object sender, RoutedEventArgs e)
+        {
+            string folderPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resource", "About");
+            string filePath = System.IO.Path.Combine(folderPath, "OperationManual.pdf");
+
+            System.Diagnostics.Process.Start(filePath);
+        }
+
+        private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            AboutView view = new AboutView();
+            
+            view.ShowDialog();
+            
+        }
     }
+
+
 }

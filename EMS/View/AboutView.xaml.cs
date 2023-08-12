@@ -23,11 +23,17 @@ namespace EMS.View
         public AboutView()
         {
             InitializeComponent();
-            string EXE_Path = Environment.CurrentDirectory;
-            string About_Path = "Resource/About/test.pdf";
-            string Combine_path = System.IO.Path.Combine(EXE_Path, About_Path);
-            theBrowser.Navigate(Combine_path);
+          
 
+        }
+
+        private void OKButton_Click(object sender, RoutedEventArgs e)
+        {
+           this.DialogResult = true;
+            if (this.DialogResult == true)
+            {
+                this.Close();
+            }
         }
     }
 }
