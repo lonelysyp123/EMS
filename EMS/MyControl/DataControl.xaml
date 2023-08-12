@@ -164,7 +164,7 @@
                 </Separator>
                 <Grid Grid.Column="1" Grid.Row="0">
 
-                    <TextBlock  Text="告警状态"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Background="#D1D1D1">
+                    <TextBlock  Text="告警状态"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Background="{Binding AlarmColor}">
                         <TextBlock.ToolTip>
                             <ToolTip Height="auto" Width="auto" Background="White">
                                 <StackPanel>
@@ -198,7 +198,7 @@
 
                 <Grid Grid.Column="1" Grid.Row="2">
 
-                    <TextBlock Text="保护状态"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Background="#D1D1D1">
+                    <TextBlock Text="保护状态"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Background="{Binding ProtectColor}">
                         <TextBlock.ToolTip>
                             <ToolTip Height="auto" Width="auto" Background="White">
                                 <StackPanel>
@@ -223,29 +223,7 @@
 
                 <Grid Grid.Column="1" Grid.Row="4">
 
-                    <TextBlock  Text="故障状态" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="20" Background="{Binding FaultyStateBCMUColor}" Name="FalutyState">
-                        <!--<TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding FaultyColorINFO}" Value="false">
-                                        <Setter Property="Foreground" Value="Blue" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding ExternalInfo}" Value="true">
-                                        <Setter Property="Foreground" Value="red" />
-                                    </DataTrigger>
-                                    
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>-->
-
-
-
-
-
-
-
-
-
+                    <TextBlock  Text="故障状态" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="20" Background="{Binding FaultyColor}" Name="FalutyState">
                         <TextBlock.ToolTip>
                             <ToolTip Height="auto" Width="auto" Background="White">
                                 

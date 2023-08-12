@@ -26,7 +26,7 @@
                 <MenuItem Header="系统设置" Command="{Binding OpenSystemSetViewCommand}"></MenuItem>
             </MenuItem>
             <MenuItem Header="帮助"  FontSize="12" VerticalAlignment="Center">
-                <MenuItem Header="功能介绍" Click="OperationManual_Click"></MenuItem>
+                <MenuItem Header="用户手册" Click="OperationManual_Click"></MenuItem>
                 <MenuItem Header="关于" Click="AboutMenuItem_Click"></MenuItem>
             </MenuItem>
         </Menu>

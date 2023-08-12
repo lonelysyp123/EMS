@@ -315,6 +315,30 @@ namespace EMS.Model
             }
         }
 
+        private string _alarmColorFlag;
+        public string AlarmColorFlag
+        {
+            get => _alarmColorFlag;
+            set
+            {
+                SetProperty(ref _alarmColorFlag, value);
+            }
+        }
+
+        private SolidColorBrush _alarmColor;
+        public SolidColorBrush AlarmColor
+        {
+            get => _alarmColor;
+            set
+            {
+                SetProperty(ref _alarmColor, value);
+            }
+        }
+
+
+
+
+
         /// <summary>
         /// BCMU保护
         /// </summary>
@@ -339,8 +363,29 @@ namespace EMS.Model
                 SetProperty(ref _protectStateBCMU, value);
             }
         }
-       
 
+        /// <summary>
+        /// 保护颜色变化
+        /// </summary>
+        private string _protectColorFlag;
+        public string ProtectColorFlag
+        {
+            get => _protectColorFlag;
+            set
+            {
+                SetProperty(ref _protectColorFlag, value);
+            }
+        }
+
+        private SolidColorBrush _protectColor;
+        public SolidColorBrush ProtectColor
+        {
+            get => _protectColor;
+            set
+            {
+                SetProperty(ref _protectColor, value);
+            }
+        }
 
         /// <summary>
         /// BCMU故障
@@ -366,7 +411,29 @@ namespace EMS.Model
                 SetProperty(ref _faultyStateBCMU, value);
             }
         }
+        
+        /// <summary>
+        /// 故障颜色变化
+        /// </summary>
+        private string _faultyColorFlag;
+        public string FaultyColorFlag
+        {
+            get => _faultyColorFlag;
+            set
+            {
+                SetProperty(ref  _faultyColorFlag, value);
+            }
+        }
 
+        private SolidColorBrush _faultyColor;
+        public SolidColorBrush FaultyColor
+        {
+            get => _faultyColor;
+            set
+            {
+                SetProperty(ref _faultyColor, value);
+            }
+        }
        
         
         

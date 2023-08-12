@@ -13,6 +13,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
+
 namespace EMS
 {
     /// <summary>
@@ -25,6 +26,7 @@ namespace EMS
         public MainWindow()
         {
             InitializeComponent();
+            
 
             viewmodel = new MainViewModel();
             this.DataContext = viewmodel;
@@ -163,7 +165,15 @@ namespace EMS
             view.ShowDialog();
             
         }
+
+      
+
+        
+
+
+
     }
-
-
+   
+    
+    
 }

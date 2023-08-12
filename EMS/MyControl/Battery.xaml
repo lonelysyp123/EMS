@@ -7,7 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="50">
     <Grid>
-        <Image x:Name="BatteryIcon" Source="../Resource/Image/Battery0.png">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" x:Name="BatteryNum2" Foreground="White" Text="{Binding BatteryNumber}" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontWeight ="Bold" FontSize="9"/>
+        <Image x:Name="BatteryIcon" Source="../Resource/Image/Battery0.png" Grid.Row="1">
             <Image.ToolTip>
                 <ToolTip Background="#7F5D5D5D">
                     <Grid>
@@ -20,6 +25,7 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
+                        
                         <TextBlock Grid.Row="0" x:Name="BatteryNum" Foreground="White" Text="{Binding BatteryNumber}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight ="Bold"/>
                         <TextBlock Grid.Row="1" x:Name="BatteryVol" Foreground="{Binding VoltageColor}" Text="{Binding Voltage, StringFormat=Vol:{0:F3}V}"></TextBlock>
                         <TextBlock Grid.Row="2" x:Name="BatteryTmp1" Foreground="{Binding TemperatureColor}" Text="{Binding Temperature1, StringFormat=Tmp1:{0:F1}℃}"></TextBlock>
