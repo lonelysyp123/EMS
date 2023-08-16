@@ -36,7 +36,7 @@ namespace EMS.MyControl
         {
             InitializeComponent();
             this.DataContext = model;
-            DisplayContentViewModel viewModel = new DisplayContentViewModel();
+            //DisplayContentViewModel viewModel = new DisplayContentViewModel();
             //model.FaultyStateBCMUColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
            // viewModel.GetActiveProtect(model);
             //viewModel.GetActiveFaulty(model);

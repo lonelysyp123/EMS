@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace EMS.Model
 {
@@ -13,11 +14,22 @@ namespace EMS.Model
     /// </summary>
     public class BatterySeriesBase : ObservableObject
     {
-        private string _alarmState;
+
         /// <summary>
-        /// 告警状态
+        /// BMU告警
         /// </summary>
-        public string AlarmState
+        private int _alarmStateFlagBMU;
+        public int AlarmStateFlagBMU
+        {
+            get => _alarmStateFlagBMU;
+            set
+            {
+                SetProperty(ref _alarmStateFlagBMU, value);
+            }
+        }
+
+        private ObservableCollection<string> _alarmState;
+        public ObservableCollection<string> AlarmStateBMU
         {
 
             get => _alarmState;
@@ -26,26 +38,68 @@ namespace EMS.Model
                 SetProperty(ref _alarmState, value);
             }
         }
-
-        private string _faultState;
-        /// <summary>
-        /// 故障状态
-        /// </summary>
-        public string FaultState
+        private SolidColorBrush _alarmColorBMU;
+        public SolidColorBrush AlarmColorBMU
         {
-
-            get => _faultState;
+            get => _alarmColorBMU;
             set
             {
-                SetProperty(ref _faultState, value);
+                SetProperty(ref _alarmColorBMU, value);
             }
         }
 
-        private string _chargeChannelState;
+
+        /// <summary>
+        /// BMU故障状态
+        /// </summary>
+        private int  _faultyStateFlagBMU;
+        
+        public int FaultyStateFlagBMU
+        {
+
+            get => _faultyStateFlagBMU;
+            set
+            {
+                SetProperty(ref _faultyStateFlagBMU, value);
+            }
+        }
+
+        private ObservableCollection<string> _faultyStateBMU;
+        public ObservableCollection<string> FaultyStateBMU
+        {
+            get => _faultyStateBMU;
+            set
+            {
+                SetProperty(ref _faultyStateBMU, value);
+            }
+        }
+        private SolidColorBrush _faultyColorBMU;
+        public SolidColorBrush FaultyColorBMU
+        {
+            get => _faultyColorBMU;
+            set
+            {
+                SetProperty(ref _faultyColorBMU, value);
+            }
+        }
+
+
+        private string _chargeChannelStateNumber;
+        public string ChargeChannelStateNumber
+        {
+            get => _chargeChannelStateNumber;
+            set
+            {
+                SetProperty(ref _chargeChannelStateNumber, value);
+            }
+        }
+
+
+        private ushort _chargeChannelState;
         /// <summary>
         /// 充电通道状态
         /// </summary>
-        public string ChargeChannelState
+        public ushort ChargeChannelState
         {
 
             get => _chargeChannelState;

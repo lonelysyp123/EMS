@@ -81,7 +81,7 @@ namespace EMS.View
             {
                 // 打开单个电池展示界面
                 int index = MainBody.Children.IndexOf(control);
-                seriesBatteryViews[index].ShowDialog();
+                seriesBatteryViews[index].Show();
             }
         }
 

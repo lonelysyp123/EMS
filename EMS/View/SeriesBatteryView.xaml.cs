@@ -28,6 +28,7 @@ namespace EMS.View
             InitializeComponent();
 
             InitView(viewmodel);
+            this.DataContext = viewmodel;
             //Series1.DataContext = viewmodel.Series[0];
         }
         protected override void OnClosing(CancelEventArgs e)

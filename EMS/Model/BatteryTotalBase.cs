@@ -315,23 +315,23 @@ namespace EMS.Model
             }
         }
 
-        private string _alarmColorFlag;
-        public string AlarmColorFlag
-        {
-            get => _alarmColorFlag;
-            set
-            {
-                SetProperty(ref _alarmColorFlag, value);
-            }
-        }
+        //private string _alarmColorFlag;
+        //public string AlarmColorFlag
+        //{
+        //    get => _alarmColorFlag;
+        //    set
+        //    {
+        //        SetProperty(ref _alarmColorFlag, value);
+        //    }
+        //}
 
-        private SolidColorBrush _alarmColor;
-        public SolidColorBrush AlarmColor
+        private SolidColorBrush _alarmColorBCMU;
+        public SolidColorBrush AlarmColorBCMU
         {
-            get => _alarmColor;
+            get => _alarmColorBCMU;
             set
             {
-                SetProperty(ref _alarmColor, value);
+                SetProperty(ref _alarmColorBCMU, value);
             }
         }
 
@@ -367,23 +367,23 @@ namespace EMS.Model
         /// <summary>
         /// 保护颜色变化
         /// </summary>
-        private string _protectColorFlag;
-        public string ProtectColorFlag
-        {
-            get => _protectColorFlag;
-            set
-            {
-                SetProperty(ref _protectColorFlag, value);
-            }
-        }
+        //private string _protectColorFlag;
+        //public string ProtectColorFlag
+        //{
+        //    get => _protectColorFlag;
+        //    set
+        //    {
+        //        SetProperty(ref _protectColorFlag, value);
+        //    }
+        //}
 
-        private SolidColorBrush _protectColor;
-        public SolidColorBrush ProtectColor
+        private SolidColorBrush _protectColorBCMU;
+        public SolidColorBrush ProtectColorBCMU
         {
-            get => _protectColor;
+            get => _protectColorBCMU;
             set
             {
-                SetProperty(ref _protectColor, value);
+                SetProperty(ref _protectColorBCMU, value);
             }
         }
 
@@ -415,23 +415,23 @@ namespace EMS.Model
         /// <summary>
         /// 故障颜色变化
         /// </summary>
-        private string _faultyColorFlag;
-        public string FaultyColorFlag
-        {
-            get => _faultyColorFlag;
-            set
-            {
-                SetProperty(ref  _faultyColorFlag, value);
-            }
-        }
+        //private string _faultyColorFlag;
+        //public string FaultyColorFlag
+        //{
+        //    get => _faultyColorFlag;
+        //    set
+        //    {
+        //        SetProperty(ref  _faultyColorFlag, value);
+        //    }
+        //}
 
-        private SolidColorBrush _faultyColor;
-        public SolidColorBrush FaultyColor
+        private SolidColorBrush _faultyColorBCMU;
+        public SolidColorBrush FaultyColorBCMU
         {
-            get => _faultyColor;
+            get => _faultyColorBCMU;
             set
             {
-                SetProperty(ref _faultyColor, value);
+                SetProperty(ref _faultyColorBCMU, value);
             }
         }
        
@@ -440,9 +440,7 @@ namespace EMS.Model
         
 
 
-        /// <summary>
-        /// 故障状态颜色（平时灰色，有故障为红色）
-        /// </summary>
+      
         
 
         private BitmapSource _devImage;
@@ -552,7 +550,15 @@ namespace EMS.Model
         /// <summary>
         /// 电池数量
         /// </summary>
-        public ushort BatteryCount { get; set; }
+        private ushort _batteryCount;
+        public ushort BatteryCount
+        {
+            get => _batteryCount;
+            set
+            {
+                SetProperty(ref _batteryCount, value);
+            }
+        }
 
         /// <summary>
         /// 电池串数量

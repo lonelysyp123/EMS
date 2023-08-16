@@ -83,10 +83,10 @@ namespace EMS
                 viewmodel.DisplayContent.BatteryTotalList.Remove(item);
                 DevConnectInfoManage manage = new DevConnectInfoManage();
                 manage.Delete(new DevConnectInfoModel() { IP = item.IP, Port = item.Port, BCMUID = item.BCMUID });
-            }
+            }  
             else
             {
-                MessageBox.Show("请先断开设备连接");
+                MessageBox.Show("请先断开设备连接");    
             }
         }
 

@@ -7,6 +7,20 @@
              xmlns:local="clr-namespace:EMS.MyControl"
              mc:Ignorable="d" 
              d:DesignHeight="182" d:DesignWidth="202">
+
+    <UserControl.Resources>
+        <Style x:Key="EmptyTooltipStyle" TargetType="ToolTip">
+            <Style.Triggers>
+                <Trigger Property="Content" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Trigger>
+                <Trigger Property="Content" Value="">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    
     <Border CornerRadius="5" BorderThickness="2" Name="DataView">
         <Grid>
             <Grid.RowDefinitions>
@@ -164,9 +178,9 @@
                 </Separator>
                 <Grid Grid.Column="1" Grid.Row="0">
 
-                    <TextBlock  Text="告警状态"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Background="{Binding AlarmColor}">
+                    <TextBlock  Text="告警状态"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Background="{Binding AlarmColorBCMU}" >
                         <TextBlock.ToolTip>
-                            <ToolTip Height="auto" Width="auto" Background="White">
+                            <ToolTip Height="auto" Width="auto" Background="White" Style="{StaticResource EmptyTooltipStyle}">
                                 <StackPanel>
                                     <ListBox ItemsSource="{Binding AlarmStateBCMU}">
                                         <ListBox.ItemTemplate>
@@ -198,9 +212,9 @@
 
                 <Grid Grid.Column="1" Grid.Row="2">
 
-                    <TextBlock Text="保护状态"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Background="{Binding ProtectColor}">
+                    <TextBlock Text="保护状态"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Background="{Binding ProtectColorBCMU}">
                         <TextBlock.ToolTip>
-                            <ToolTip Height="auto" Width="auto" Background="White">
+                            <ToolTip Height="auto" Width="auto" Background="White" Style="{StaticResource EmptyTooltipStyle}">
                                 <StackPanel>
                                     <ListBox ItemsSource="{Binding ProtectStateBCMU}">
                                         <ListBox.ItemTemplate>
@@ -223,18 +237,21 @@
 
                 <Grid Grid.Column="1" Grid.Row="4">
 
-                    <TextBlock  Text="故障状态" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="20" Background="{Binding FaultyColor}" Name="FalutyState">
+                    <TextBlock  Text="故障状态" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="20" Background="{Binding FaultyColorBCMU}" Name="FalutyState">
                         <TextBlock.ToolTip>
-                            <ToolTip Height="auto" Width="auto" Background="White">
+                            <ToolTip Height="auto" Width="auto" Background="White" Style="{StaticResource EmptyTooltipStyle}">
                                 
+                                <ToolTip.Content>
                                     <ListBox  Name="ListBox1"  ItemsSource="{Binding FaultyStateBCMU}">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                            <TextBlock Text="{Binding}" FontSize="10"></TextBlock> 
+                                                <TextBlock Text="{Binding}" FontSize="10"></TextBlock>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
                                     </ListBox>
+                                </ToolTip.Content>
                                 
+
                             </ToolTip>
                         </TextBlock.ToolTip>
                     </TextBlock>
@@ -317,7 +334,7 @@
                         <Run Text="BCMU软件版本号:"/>
                         <Run Text="{Binding VersionSWBCMU}"/>
                     </TextBlock>
-                    <TextBlock FontSize="10" Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock FontSize="10" Grid.Column="1" VerticalAlignment="Center" >
                         <Run Text="电池总数:"/>
                         <Run Text="{Binding BatteryCount}"/>
                     </TextBlock>
