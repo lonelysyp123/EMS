@@ -54,12 +54,30 @@ namespace EMS.View
         public void AddDevIntoView(BatteryTotalBase model)
         {
             DataControl control = new DataControl(model);
-            //control.DataContext = model;
             control.Margin = new Thickness(30,10,30,10);
-            int index = MainBody.Children.Count;
-            Grid.SetColumn(control, index/3);
-            Grid.SetRow(control, index%3);
-            MainBody.Children.Add(control);
+            
+            for (int i = 0; i < 9; i++)
+            {
+                bool mIsEmpty = true;
+                for (int l = 0; l < MainBody.Children.Count; l++)
+                {
+                    int col = Grid.GetColumn(MainBody.Children[l]);
+                    int row = Grid.GetRow(MainBody.Children[l]);
+
+                    if (col*3+row == i)
+                    {
+                        mIsEmpty = false;
+                    }
+                }
+
+                if (mIsEmpty)
+                {
+                    Grid.SetColumn(control, i / 3);
+                    Grid.SetRow(control, i % 3);
+                    MainBody.Children.Add(control);
+                    break;
+                }
+            }
         }
 
         public void RemoveDevIntoView(int index)
