@@ -98,6 +98,7 @@ namespace EMS
         DevTest_CollectView devTest_Daq;
         DataAnalysis_OptimizeView dataAnalysis_Optimize;
         DevControlView devControlView;
+        ParameterSettingView parameterSettingView;
         //DevAlarm_ErrorView devAlarm_Error;
         private void SwitchBorder_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -109,6 +110,8 @@ namespace EMS
             AnalysisDataBorder.Width = 150;
             ControlBorder.Background = unselectedbrush;
             ControlBorder.Width = 150;
+            ValueSettingBorder.Background = unselectedbrush;
+            ValueSettingBorder.Width = 150;
             //AlarmBorder.Background = unselectedbrush;
             (sender as Border).Background = selectedbrush;
             (sender as Border).Width = 200;
@@ -142,6 +145,15 @@ namespace EMS
                     }
                     devControlView.SyncContent(viewmodel.DisplayContent.OnlineBatteryTotalList.ToList(), viewmodel.DisplayContent.ClientList);
                     MainBody.Content = new Frame() { Content = devControlView };
+                    break;
+
+                case "ValueSettingBorder":
+                    if (parameterSettingView == null)
+                    {
+                        parameterSettingView = new ParameterSettingView();
+                    }
+                    parameterSettingView.SyncContent(viewmodel.DisplayContent.OnlineBatteryTotalList.ToList(), viewmodel.DisplayContent.ClientList);
+                    MainBody.Content = new Frame() { Content = parameterSettingView };
                     break;
                 default:
                     break;

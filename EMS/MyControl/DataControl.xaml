@@ -301,10 +301,22 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <RadioButton IsChecked="{Binding ChargeState}" Grid.Column="0" Content="充电" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
+                    <!--<RadioButton IsChecked="{Binding ChargeState}" Grid.Column="0" Content="充电" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
                     <RadioButton IsChecked="{Binding DischargeState}" Grid.Column="1" Content="放电" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
                     <RadioButton IsChecked="{Binding StewingState}" Grid.Column="2" Content="静置" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
-                    <RadioButton IsChecked="{Binding OffNetState}" Grid.Column="3" Content="离网" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>
+                    <RadioButton IsChecked="{Binding OffNetState}" Grid.Column="3" Content="离网" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipRadioButton}"></RadioButton>-->
+                    <Border Background="{Binding ChargeStateBCMU}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" CornerRadius="2" Margin="5" >
+                        <TextBlock Text="充电"   VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13"/>
+                    </Border>
+                    <Border Background="{Binding DisChargeStateBCMU}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" CornerRadius="2" Margin="5" Grid.Column="1">
+                        <TextBlock Text="放电"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13"/>
+                    </Border>
+                    <Border Background="{Binding StandStateBCMU}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" CornerRadius="2" Margin="5" Grid.Column="2">
+                        <TextBlock Text="静置" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13"/>
+                    </Border>
+                    <Border Background="{Binding OffNetStateBCMU}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" CornerRadius="2" Margin="5" Grid.Column="3">
+                        <TextBlock Text="离网"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13"/>
+                    </Border>
                 </Grid>
                 <!--<TextBlock Grid.Row="2" Grid.Column="1" Text="0.0W" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>
                 <TextBlock Grid.Row="4" Grid.Column="1" Text="0.0Wh" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"></TextBlock>-->

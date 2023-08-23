@@ -109,6 +109,17 @@ namespace EMS.Model
             }
         }
 
+        private int _soh;
+        public int SOH
+        {
+            get => _soh;
+            set
+            {
+                SetProperty(ref _soh, value);
+            }
+        }
+
+
         private double _capacity;
         /// <summary>
         /// 单体放满容量

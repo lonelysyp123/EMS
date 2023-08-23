@@ -315,6 +315,9 @@ namespace EMS.Model
             }
         }
 
+
+
+
         //private string _alarmColorFlag;
         //public string AlarmColorFlag
         //{
@@ -434,11 +437,99 @@ namespace EMS.Model
                 SetProperty(ref _faultyColorBCMU, value);
             }
         }
-       
-        
-        
-        
 
+        /// <summary>
+        /// BCMU状态颜色 充电、静置、放电、离网
+        /// </summary>
+        /// 
+        private int _stateBCMU;
+        public int StateBCMU
+        {
+            get => _stateBCMU;
+            set
+            {
+                SetProperty(ref _stateBCMU, value);
+            }
+        }
+        private SolidColorBrush _chargeStateBCMU;
+        public SolidColorBrush ChargeStateBCMU
+        {
+            get => _chargeStateBCMU;
+            set
+            {
+                SetProperty(ref _chargeStateBCMU, value);
+            }
+        }
+
+        private SolidColorBrush _disChargeStateBCMU;
+        public SolidColorBrush DisChargeStateBCMU
+        {
+            get => _disChargeStateBCMU;
+            set
+            {
+                SetProperty(ref _disChargeStateBCMU, value);
+            }
+        }
+
+        private SolidColorBrush _standStateBCMU;
+        public SolidColorBrush StandStateBCMU
+        {
+            get => _standStateBCMU;
+            set
+            {
+                SetProperty(ref _standStateBCMU, value);
+            }
+        }
+
+        private SolidColorBrush _offNetSateBCMU;
+        public SolidColorBrush OffNetStateBCMU
+        {
+            get => _offNetSateBCMU;
+            set
+            {
+                SetProperty(ref _offNetSateBCMU, value);
+            }
+        }
+
+
+
+
+        /// <summary>
+        /// 循环次数
+        /// </summary>
+        private int _batteryCycles;
+        public int BatteryCycles
+        {
+            get => _batteryCycles;
+            set
+            {
+                SetProperty( ref _batteryCycles, value);
+            }
+        }
+
+        /// <summary>
+        /// BCMU硬件版本
+        /// </summary>
+        private int _hwVersionBCMU;
+        public int HWVersionBCMU
+        {
+            get => _hwVersionBCMU;
+            set
+            {
+                SetProperty(ref _hwVersionBCMU, value);
+            }
+        }
+
+
+        private int _dcVoltage;
+        public int DCVoltage
+        {
+            get => _dcVoltage;
+            set
+            {
+                SetProperty(ref  _dcVoltage, value);
+            }
+        }
 
       
         

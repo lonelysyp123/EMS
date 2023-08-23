@@ -241,6 +241,7 @@
     </Compile>
     <Compile Include="ViewModel\DisplayContentViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\ParameterSettingViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
@@ -266,14 +267,14 @@
     <Compile Include="View\DevTest_CollectView.xaml.cs">
       <DependentUpon>DevTest_CollectView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ParameterSettingView.xaml.cs">
+      <DependentUpon>ParameterSettingView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SeriesBatteryView.xaml.cs">
       <DependentUpon>SeriesBatteryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SystemSetView.xaml.cs">
       <DependentUpon>SystemSetView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\TestView.xaml.cs">
-      <DependentUpon>TestView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -345,15 +346,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\ParameterSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\SeriesBatteryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SystemSetView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\TestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

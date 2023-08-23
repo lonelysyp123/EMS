@@ -267,24 +267,26 @@ namespace EMS.ViewModel
             if (total.IsConnected)
             {
                 //** 注：应该尽可能的少次多量读取数据，多次读取数据会因为读取次数过于频繁导致丢包
-                byte[] BCMUData = new byte[300];
+                byte[] BCMUData = new byte[70];
                 //Array.Copy(client.ReadFunc(11000, 120), 0, BCMUData, 0, 240);
-                //Array.Copy(client.ReadFunc(11120, 30), 0, BCMUData, 240, 60);
-                Array.Copy(client.AddReadRequest(11000, 120), 0, BCMUData, 0, 240);
-                Array.Copy(client.AddReadRequest(11120, 30), 0, BCMUData, 240, 60);
-                byte[] BMUData = new byte[720];
+                //Array.Copy(client.ReadFunc(11120, 20), 0, BCMUData, 240, 40);
+                Array.Copy(client.AddReadRequest(11000, 35), 0, BCMUData, 0, 70);
+                //Array.Copy(client.AddReadRequest(11120, 20), 0, BCMUData, 240, 40);
+                byte[] BMUData = new byte[744];
                 //Array.Copy(client.ReadFunc(10000, 120), 0, BMUData, 0, 240);
                 //Array.Copy(client.ReadFunc(10120, 120), 0, BMUData, 240, 240);
                 //Array.Copy(client.ReadFunc(10240, 120), 0, BMUData, 480, 240);
                 Array.Copy(client.AddReadRequest(10000, 120), 0, BMUData, 0, 240);
                 Array.Copy(client.AddReadRequest(10120, 120), 0, BMUData, 240, 240);
                 Array.Copy(client.AddReadRequest(10240, 120), 0, BMUData, 480, 240);
+                Array.Copy(client.AddReadRequest(10360, 12), 0, BMUData, 720, 24);
+                
 
                 // 信息补全
-                //total.TotalVoltage = BitConverter.ToInt16(BCMUData, 0) * 0.001;
-                total.TotalCurrent = BitConverter.ToInt16(BCMUData, 2) * 0.001;
+                total.TotalVoltage = BitConverter.ToUInt16(BCMUData, 0) * 0.1;
+                total.TotalCurrent = BitConverter.ToInt16(BCMUData, 2) * 0.1;
                 total.TotalSOC = BitConverter.ToUInt16(BCMUData, 4) * 0.1;
-                //total.TotalSOH = BitConverter.ToUInt16(BCMUData, 6) * 0.1;
+                total.TotalSOH = BitConverter.ToUInt16(BCMUData, 6) * 0.1;
                 total.AverageTemperature = BitConverter.ToInt16(BCMUData, 8) * 0.1;
                 total.MinVoltage = BitConverter.ToInt16(BCMUData, 10) * 0.001;
                 total.MaxVoltage = BitConverter.ToInt16(BCMUData, 12) * 0.001;
@@ -294,59 +296,94 @@ namespace EMS.ViewModel
                 total.MaxTemperature = BitConverter.ToInt16(BCMUData, 20) * 0.1;
                 total.MinTemperatureIndex = BitConverter.ToUInt16(BCMUData, 22);
                 total.MaxTemperatureIndex = BitConverter.ToUInt16(BCMUData, 24);
-                total.BatteryCount = BitConverter.ToUInt16(BCMUData, 62);
-                total.SeriesCount = BitConverter.ToUInt16(BCMUData, 64);
-                total.BatteriesCountInSeries = BitConverter.ToUInt16(BCMUData, 66);
+                //8.21通讯修改
+                total.BatteryCycles = BitConverter.ToInt16(BCMUData, 26);
+                total.HWVersionBCMU = BitConverter.ToInt16(BCMUData, 28);
+                total.VersionSWBCMU = BitConverter.ToInt16(BCMUData, 34);
+                total.BatteryCount = BitConverter.ToUInt16(BCMUData, 38);
+                total.SeriesCount = BitConverter.ToUInt16(BCMUData, 40);
+                total.BatteriesCountInSeries = BitConverter.ToUInt16(BCMUData, 42);
 
                 ///zyf
                 ///
-
-                total.IResistanceRP = BitConverter.ToInt16(BCMUData, 272);
-                total.IResistanceRN = BitConverter.ToInt16(BCMUData, 274);
-                total.VersionSWBCMU = BitConverter.ToInt16(BCMUData, 58);
-                total.VolContainerTemperature1 = BitConverter.ToUInt16(BCMUData, 278) * 0.1;
-                total.VolContainerTemperature2 = BitConverter.ToUInt16(BCMUData, 280) * 0.1;
-                total.VolContainerTemperature3 = BitConverter.ToUInt16(BCMUData, 282) * 0.1;
-                total.VolContainerTemperature4 = BitConverter.ToUInt16(BCMUData, 284) * 0.1;
-                total.AlarmStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 286);
-                total.ProtectStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 288);
-                total.FaultyStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 290);
+                total.StateBCMU = BitConverter.ToInt16(BCMUData, 48);
+                total.IResistanceRP = BitConverter.ToInt16(BCMUData, 50);
+                total.IResistanceRN = BitConverter.ToInt16(BCMUData, 52);
+                total.DCVoltage = BitConverter.ToInt16(BCMUData, 54);
+                total.VolContainerTemperature1 = BitConverter.ToUInt16(BCMUData, 56) * 0.1;
+                total.VolContainerTemperature2 = BitConverter.ToUInt16(BCMUData, 58) * 0.1;
+                total.VolContainerTemperature3 = BitConverter.ToUInt16(BCMUData, 60) * 0.1;
+                total.VolContainerTemperature4 = BitConverter.ToUInt16(BCMUData, 62) * 0.1;
+                total.AlarmStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 64);
+                total.ProtectStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 66);
+                total.FaultyStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 68);
                 total.Series.Clear();
 
 
                 //转化BCMU状态及Color标志
-                //SolidColorBrush Faultycolor = new SolidColorBrush();
+                
                 bool AlarmColorFlagBCMU = GetActiveAlarmBCMU(total);
                 bool FaultyColorFlagBCMU = GetActiveFaultyBCMU(total);
                 bool ProtectColorFlagBCMU = GetActiveProtectBCMU(total);
-                if (FaultyColorFlagBCMU == true)
-                {
-                    total.FaultyColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000"));
-                }
-                else
-                {
-                    total.FaultyColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
-                }
+                //if (FaultyColorFlagBCMU == true)
+                //{
+                //    total.FaultyColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000"));
+                //}
+                //else
+                //{
+                //    total.FaultyColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                //}
 
-                if (ProtectColorFlagBCMU == true)
-                {
-                    total.ProtectColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000"));
-                }
-                else
-                {
-                    total.ProtectColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
-                }
+                //if (ProtectColorFlagBCMU == true)
+                //{
+                //    total.ProtectColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000"));
+                //}
+                //else
+                //{
+                //    total.ProtectColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                //}
 
-                if (AlarmColorFlagBCMU == true)
-                {
-                    total.AlarmColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000"));
-                }
-                else
-                {
-                    total.AlarmColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
-                }
+                //if (AlarmColorFlagBCMU == true)
+                //{
+                //    total.AlarmColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000"));
+                //}
+                //else
+                //{
+                //    total.AlarmColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                //}
 
+                /////BCMU状态变化
+                //switch (total.StateBCMU)
+                //{
+                //    case 1:
+                //        {
+                //            total.ChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#33FF33"));
+                //        }break;
+                //    case 2:
+                //        {
+                //            total.DisChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#33FF33"));
+                //        }break;
+                //    case 3:
+                //        {
+                //            total.StandStateBCMU =  new SolidColorBrush((Color)ColorConverter.ConvertFromString("#33FF33"));
 
+                //        }
+                //        break;
+                //     case 4:
+                //        {
+                //            total.OffNetStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#33FF33"));
+                //        }
+                //        break;
+                //    default:
+                //        {
+                //            total.ChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                //            total.DisChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                //            total.StandStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                //            total.OffNetStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                //        }
+                //        break;
+
+                //}
 
 
                 /// <summary>
@@ -357,62 +394,186 @@ namespace EMS.ViewModel
                 {
                     BatterySeriesBase series = new BatterySeriesBase();
                     series.SeriesId = i.ToString();
-                    series.AlarmStateFlagBMU = BitConverter.ToUInt16(BMUData, (193 + i)*2);
-                    series.FaultyStateFlagBMU = BitConverter.ToUInt16(BMUData, (196 + i) * 2);
-                    series.ChargeChannelState = BitConverter.ToUInt16(BMUData, (301 + i) * 2);
-                    series.ChargeCapacitySum = BitConverter.ToUInt16(BMUData, (304 + i) * 2)*0.01;
-                    series.MinVoltage = BitConverter.ToInt16(BMUData, (307 + i * 8) * 2) * 0.001;
-                    series.MaxVoltage = BitConverter.ToInt16(BMUData, (308 + i * 8) * 2) * 0.001;
-                    series.MinVoltageIndex = BitConverter.ToUInt16(BMUData, (309 + i * 8) * 2);
-                    series.MaxVoltageIndex = BitConverter.ToUInt16(BMUData, (310 + i * 8) * 2);
-                    series.MinTemperature = BitConverter.ToInt16(BMUData, (311 + i * 8) * 2) * 0.1;
-                    series.MaxTemperature = BitConverter.ToInt16(BMUData, (312 + i * 8) * 2) * 0.1;
-                    series.MinTemperatureIndex = BitConverter.ToUInt16(BMUData, (313 + i * 8) * 2);
-                    series.MaxTemperatureIndex = BitConverter.ToUInt16(BMUData, (314 + i * 8) * 2);
+                    series.AlarmStateFlagBMU = BitConverter.ToUInt16(BMUData, (336 + i)*2);
+                    series.FaultyStateFlagBMU = BitConverter.ToUInt16(BMUData, (339 + i) * 2);
+                    series.ChargeChannelState = BitConverter.ToUInt16(BMUData, (342 + i) * 2);
+                    series.ChargeCapacitySum = BitConverter.ToUInt16(BMUData, (345 + i) * 2)*0.01;
+                    series.MinVoltage = BitConverter.ToInt16(BMUData, (348 + i * 8) * 2) * 0.001;
+                    series.MaxVoltage = BitConverter.ToInt16(BMUData, (349 + i * 8) * 2) * 0.001;
+                    series.MinVoltageIndex = BitConverter.ToUInt16(BMUData, (350 + i * 8) * 2);
+                    series.MaxVoltageIndex = BitConverter.ToUInt16(BMUData, (351 + i * 8) * 2);
+                    series.MinTemperature = BitConverter.ToInt16(BMUData, (352 + i * 8) * 2) * 0.1;
+                    series.MaxTemperature = BitConverter.ToInt16(BMUData, (353 + i * 8) * 2) * 0.1;
+                    series.MinTemperatureIndex = BitConverter.ToUInt16(BMUData, (354 + i * 8) * 2);
+                    series.MaxTemperatureIndex = BitConverter.ToUInt16(BMUData, (355 + i * 8) * 2);
                     series.ChargeChannelStateNumber = GetSetBitPositions(series.ChargeChannelState).ToString();
                     bool FaultColorBMU = GetActiveFaultyBMU(series);
                     bool AlarmColorBMU = GetActiveAlarmBMU(series);
-                    
-                    if (FaultColorBMU) { series.FaultyColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000")); }
-                    else {series.FaultyColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1")); }
 
-                    if(AlarmColorBMU) { series.AlarmColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000")); }
-                    else { series.AlarmColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1")); }
+                    //if (FaultColorBMU) { series.FaultyColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000")); }
+                    //else { series.FaultyColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1")); }
+
+                    //if (AlarmColorBMU) { series.AlarmColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000")); }
+                    //else { series.AlarmColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1")); }
 
                     series.Batteries.Clear();
                     for (int j = 0; j < total.BatteriesCountInSeries; j++)
                     {
                         BatteryBase battery = new BatteryBase();
-                        //battery.Voltage = BitConverter.ToInt16(BMUData, (j + i * 16)*2) * 0.001;
-                        battery.Temperature1 = BitConverter.ToInt16(BMUData, (49 + j * 2 + i * 33)*2) * 0.1;
-                        battery.Temperature2 = BitConverter.ToInt16(BMUData, (49 + j * 2 + 1 + i * 33) * 2) * 0.1;
-                        battery.SOC = BitConverter.ToUInt16(BMUData, (148 + j + i * 16)*2) * 0.1;
-                        battery.Resistance = BitConverter.ToUInt16(BMUData, (199 + j + i * 16) * 2);
-                        battery.Capacity = BitConverter.ToUInt16(BMUData, (250 + j + i * 16) * 2) * 0.1;
+                        battery.Voltage = BitConverter.ToInt16(BMUData, (j + i * 16)*2) * 0.001;
+                        battery.Temperature1 = BitConverter.ToInt16(BMUData, (48 + j * 2 + i * 32)*2) * 0.1;
+                        battery.Temperature2 = BitConverter.ToInt16(BMUData, (48 + j * 2 + 1 + i * 32) * 2) * 0.1;
+                        battery.SOC = BitConverter.ToUInt16(BMUData, (144 + j + i * 16)*2) * 0.1;
+                        battery.SOH = BitConverter.ToUInt16(BMUData,(192 + j + i * 16) * 2);
+                        battery.Resistance = BitConverter.ToUInt16(BMUData, (240 + j + i * 16) * 2);
+                        battery.Capacity = BitConverter.ToUInt16(BMUData, (288 + j + i * 16) * 2) * 0.1;
                         battery.VoltageColor = new SolidColorBrush(Colors.White);
                         battery.TemperatureColor = new SolidColorBrush(Colors.White);
                         battery.BatteryNumber = j;
                         series.Batteries.Add(battery);
-                        
-                        if (j + 1 == series.MinVoltageIndex)
+                        App.Current.Dispatcher.Invoke(() =>
                         {
-                            battery.VoltageColor = new SolidColorBrush(Colors.LightBlue);
-                        }
+                            if (j + 1 == series.MinVoltageIndex)
+                            {
+                                battery.VoltageColor = new SolidColorBrush(Colors.LightBlue);
+                            }
 
-                        if (j + 1 == series.MaxVoltageIndex)
-                        {
-                            battery.VoltageColor = new SolidColorBrush(Colors.Red);
-                        }
+                            if (j + 1 == series.MaxVoltageIndex)
+                            {
+                                battery.VoltageColor = new SolidColorBrush(Colors.Red);
+                            }
 
-                        if (j + 1 == series.MinTemperatureIndex)
-                        {
-                            battery.TemperatureColor = new SolidColorBrush(Colors.LightBlue);
-                        }
+                            if (j + 1 == series.MinTemperatureIndex)
+                            {
+                                battery.TemperatureColor = new SolidColorBrush(Colors.LightBlue);
+                            }
 
-                        if (j + 1 == series.MaxTemperatureIndex)
-                        {
-                            battery.TemperatureColor = new SolidColorBrush(Colors.Red);
-                        }
+                            if (j + 1 == series.MaxTemperatureIndex)
+                            {
+                                battery.TemperatureColor = new SolidColorBrush(Colors.Red);
+                            }
+                            if (FaultColorBMU) { series.FaultyColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000")); }
+                            else { series.FaultyColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1")); }
+
+                            if (AlarmColorBMU) { series.AlarmColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000")); }
+                            else { series.AlarmColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1")); }
+
+
+                            if (FaultyColorFlagBCMU == true)
+                            {
+                                total.FaultyColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000"));
+                            }
+                            else
+                            {
+                                total.FaultyColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                            }
+
+                            if (ProtectColorFlagBCMU == true)
+                            {
+                                total.ProtectColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000"));
+                            }
+                            else
+                            {
+                                total.ProtectColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                            }
+
+                            if (AlarmColorFlagBCMU == true)
+                            {
+                                total.AlarmColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000"));
+                            }
+                            else
+                            {
+                                total.AlarmColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                            }
+
+                            if(total.StateBCMU == 1)
+                            {
+                                total.ChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#33FF33"));
+                                total.DisChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                total.StandStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                total.OffNetStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                            }
+                            else if (total.StateBCMU == 2)
+                            {
+                                total.ChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                total.DisChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#33FF33"));
+                                total.StandStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                total.OffNetStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                            }
+                            else if(total.StateBCMU == 3)
+                            {
+                                total.ChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                total.DisChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                total.StandStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#33FF33"));
+                                total.OffNetStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                            }
+                            else if(total.StateBCMU == 4)
+                            {
+                                total.ChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                total.DisChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                total.StandStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                total.OffNetStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#33FF33"));
+                            }
+                            
+                            ///BCMU状态变化
+                            
+
+                            
+                            //转化BCMU状态
+                            //if (FaultyColorFlagBCMU == true)
+
+                            //{
+                            //    total.FaultyColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000"));
+                            //}
+                            //else
+                            //{
+                            //    total.FaultyColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                            //}
+
+                            //if (ProtectColorFlagBCMU == true)
+                            //{
+                            //    total.ProtectColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000"));
+                            //}
+                            //else
+                            //{
+                            //    total.ProtectColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                            //}
+
+                            //if (AlarmColorFlagBCMU == true)
+                            //{
+                            //    total.AlarmColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000"));
+                            //}
+                            //else
+                            //{
+                            //    total.AlarmColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                            //}
+
+                            //if (FaultColorBMU) { series.FaultyColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000")); }
+                            //else { series.FaultyColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1")); }
+
+                            //if (AlarmColorBMU) { series.AlarmColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000")); }
+                            //else { series.AlarmColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1")); }
+
+                        });
+                        //if (j + 1 == series.MinVoltageIndex)
+                        //{
+                        //    battery.VoltageColor = new SolidColorBrush(Colors.LightBlue);
+                        //}
+
+                        //if (j + 1 == series.MaxVoltageIndex)
+                        //{
+                        //    battery.VoltageColor = new SolidColorBrush(Colors.Red);
+                        //}
+
+                        //if (j + 1 == series.MinTemperatureIndex)
+                        //{
+                        //    battery.TemperatureColor = new SolidColorBrush(Colors.LightBlue);
+                        //}
+
+                        //if (j + 1 == series.MaxTemperatureIndex)
+                        //{
+                        //    battery.TemperatureColor = new SolidColorBrush(Colors.Red);
+                        //}
                     }
                     total.Series.Add(series);
                 }
@@ -636,19 +797,21 @@ namespace EMS.ViewModel
                     if (total.IsConnected)
                     {
                         //** 注：应该尽可能的少次多量读取数据，多次读取数据会因为读取次数过于频繁导致丢包
-                        byte[] BCMUData = new byte[300];
+                        byte[] BCMUData = new byte[70];
                         //Array.Copy(client.ReadFunc(11000, 120), 0, BCMUData, 0, 240);
-                        //Array.Copy(client.ReadFunc(11120, 30), 0, BCMUData, 240, 60);
-                        Array.Copy(client.AddReadRequest(11000, 120), 0, BCMUData, 0, 240);
-                        Array.Copy(client.AddReadRequest(11120, 30), 0, BCMUData, 240, 60);
-                        byte[] BMUData = new byte[720];
+                        //Array.Copy(client.ReadFunc(11120, 20), 0, BCMUData, 240, 40);
+                        Array.Copy(client.AddReadRequest(11000, 35), 0, BCMUData, 0, 70);
+                        //Array.Copy(client.AddReadRequest(11120, 20), 0, BCMUData, 240, 40);
+                        byte[] BMUData = new byte[744];
                         //Array.Copy(client.ReadFunc(10000, 120), 0, BMUData, 0, 240);
                         //Array.Copy(client.ReadFunc(10120, 120), 0, BMUData, 240, 240);
                         //Array.Copy(client.ReadFunc(10240, 120), 0, BMUData, 480, 240);
                         Array.Copy(client.AddReadRequest(10000, 120), 0, BMUData, 0, 240);
                         Array.Copy(client.AddReadRequest(10120, 120), 0, BMUData, 240, 240);
                         Array.Copy(client.AddReadRequest(10240, 120), 0, BMUData, 480, 240);
+                        Array.Copy(client.AddReadRequest(10360, 12), 0, BMUData, 720, 24);
 
+                        // 信息补全
                         total.TotalVoltage = BitConverter.ToInt16(BCMUData, 0) * 0.001;
                         total.TotalCurrent = BitConverter.ToInt16(BCMUData, 2) * 0.001;
                         total.TotalSOC = BitConverter.ToUInt16(BCMUData, 4) * 0.1;
@@ -662,57 +825,80 @@ namespace EMS.ViewModel
                         total.MaxTemperature = BitConverter.ToInt16(BCMUData, 20) * 0.1;
                         total.MinTemperatureIndex = BitConverter.ToUInt16(BCMUData, 22);
                         total.MaxTemperatureIndex = BitConverter.ToUInt16(BCMUData, 24);
-                        total.BatteryCount = BitConverter.ToUInt16(BCMUData, 62);
-                        total.SeriesCount = BitConverter.ToUInt16(BCMUData, 64);
-                        total.BatteriesCountInSeries = BitConverter.ToUInt16(BCMUData, 66);
+                        //8.21通讯修改
+                        total.BatteryCycles = BitConverter.ToInt16(BCMUData, 26);
+                        total.HWVersionBCMU = BitConverter.ToInt16(BCMUData, 28);
+                        total.VersionSWBCMU = BitConverter.ToInt16(BCMUData, 34);
+                        total.BatteryCount = BitConverter.ToUInt16(BCMUData, 38);
+                        total.SeriesCount = BitConverter.ToUInt16(BCMUData, 40);
+                        total.BatteriesCountInSeries = BitConverter.ToUInt16(BCMUData, 42);
 
-                        ///zyf:
-                        total.IResistanceRP = BitConverter.ToInt16(BCMUData, 272);
-                        total.IResistanceRN = BitConverter.ToInt16(BCMUData, 274);
-                        total.VersionSWBCMU = BitConverter.ToInt16(BCMUData, 58);
-                        total.VolContainerTemperature1 = BitConverter.ToUInt16(BCMUData, 278) * 0.1;
-                        total.VolContainerTemperature2 = BitConverter.ToUInt16(BCMUData, 280) * 0.1;
-                        total.VolContainerTemperature3 = BitConverter.ToUInt16(BCMUData, 282) * 0.1;
-                        total.VolContainerTemperature4 = BitConverter.ToUInt16(BCMUData, 284) * 0.1;
-                        total.AlarmStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 286) - 0xABCD;
-                        total.ProtectStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 288) - 0xABCD;
-                        total.FaultyStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 290) - 0xFFFF;
+                        ///zyf
+                        ///
+                        total.StateBCMU = BitConverter.ToInt16(BCMUData, 48)-0x0001;
+                        total.IResistanceRP = BitConverter.ToInt16(BCMUData, 50);
+                        total.IResistanceRN = BitConverter.ToInt16(BCMUData, 52);
+                        total.DCVoltage = BitConverter.ToInt16(BCMUData, 54);
+                        total.VolContainerTemperature1 = BitConverter.ToUInt16(BCMUData, 56) * 0.1;
+                        total.VolContainerTemperature2 = BitConverter.ToUInt16(BCMUData, 58) * 0.1;
+                        total.VolContainerTemperature3 = BitConverter.ToUInt16(BCMUData, 60) * 0.1;
+                        total.VolContainerTemperature4 = BitConverter.ToUInt16(BCMUData, 62) * 0.1;
+                        total.AlarmStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 64);
+                        total.ProtectStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 66);
+                        total.FaultyStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 68) - 0xABCD;
+                        //total.VolContainerTemperature2 = BitConverter.ToUInt16(BCMUData, 280) * 0.1;
+                        //total.VolContainerTemperature3 = BitConverter.ToUInt16(BCMUData, 282) * 0.1;
+                        //total.VolContainerTemperature4 = BitConverter.ToUInt16(BCMUData, 284) * 0.1;
+                        //total.AlarmStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 286) - 0xABCD;
+                        //total.ProtectStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 288) - 0xABCD;
+                        //total.FaultyStateBCMUFlag = BitConverter.ToUInt16(BCMUData, 290) - 0xFFFF;
                         //total.Series.Clear();
                         //转化BCMU状态值为文字并转化colorflag
+                        //bool AlarmColorFlagBCMU = GetActiveAlarmBCMU(total);
+                        //bool FaultyColorFlagBCMU = GetActiveFaultyBCMU(total);
+                        //bool ProtectColorFlagBCMU = GetActiveProtectBCMU(total);
                         bool AlarmColorFlagBCMU = GetActiveAlarmBCMU(total);
                         bool FaultyColorFlagBCMU = GetActiveFaultyBCMU(total);
                         bool ProtectColorFlagBCMU = GetActiveProtectBCMU(total);
+                        
+
+
+
 
                         for (int i = 0; i < total.Series.Count; i++)
                         {
                             BatterySeriesBase series = total.Series[i];
                             series.SeriesId = i.ToString();
-                            series.AlarmStateFlagBMU = BitConverter.ToUInt16(BMUData, (193 + i)*2);
-                            series.FaultyStateFlagBMU = BitConverter.ToUInt16(BMUData, (196 + i)*2)-0xffff;
-                            series.ChargeChannelState = BitConverter.ToUInt16(BMUData, (301 + i) * 2);
-                            series.ChargeCapacitySum = BitConverter.ToUInt16(BMUData, (304 + i) * 2)*0.01;
-                            series.MinVoltage = BitConverter.ToInt16(BMUData, (307 + i * 8)*2) * 0.001;
-                            series.MaxVoltage = BitConverter.ToInt16(BMUData, (308 + i * 8) * 2) * 0.001;
-                            series.MinVoltageIndex = BitConverter.ToUInt16(BMUData, (309 + i * 8) * 2);
-                            series.MaxVoltageIndex = BitConverter.ToUInt16(BMUData, (310 + i * 8) * 2);
-                            series.MinTemperature = BitConverter.ToInt16(BMUData, (311 + i * 8) * 2) * 0.1;
-                            series.MaxTemperature = BitConverter.ToInt16(BMUData, (312 + i * 8) * 2) * 0.1;
-                            series.MinTemperatureIndex = BitConverter.ToUInt16(BMUData, (313 + i * 8) * 2);
-                            series.MaxTemperatureIndex = BitConverter.ToUInt16(BMUData, (314 + i * 8) * 2);
-                            series.ChargeChannelStateNumber=GetSetBitPositions(series.ChargeChannelState).ToString();
+                            series.AlarmStateFlagBMU = BitConverter.ToUInt16(BMUData, (336 + i) * 2)-0xABCD;
+                            series.FaultyStateFlagBMU = BitConverter.ToUInt16(BMUData, (339 + i) * 2);
+                            series.ChargeChannelState = BitConverter.ToUInt16(BMUData, (342 + i) * 2);
+                            series.ChargeCapacitySum = BitConverter.ToUInt16(BMUData, (345 + i) * 2) * 0.01;
+                            series.MinVoltage = BitConverter.ToInt16(BMUData, (348 + i * 8) * 2) * 0.001;
+                            series.MaxVoltage = BitConverter.ToInt16(BMUData, (349 + i * 8) * 2) * 0.001;
+                            series.MinVoltageIndex = BitConverter.ToUInt16(BMUData, (350 + i * 8) * 2);
+                            series.MaxVoltageIndex = BitConverter.ToUInt16(BMUData, (351 + i * 8) * 2);
+                            series.MinTemperature = BitConverter.ToInt16(BMUData, (352 + i * 8) * 2) * 0.1;
+                            series.MaxTemperature = BitConverter.ToInt16(BMUData, (353 + i * 8) * 2) * 0.1;
+                            series.MinTemperatureIndex = BitConverter.ToUInt16(BMUData, (354 + i * 8) * 2);
+                            series.MaxTemperatureIndex = BitConverter.ToUInt16(BMUData, (355 + i * 8) * 2);
+                            series.ChargeChannelStateNumber = GetSetBitPositions(series.ChargeChannelState).ToString();
                             bool FaultColorBMU = GetActiveFaultyBMU(series);
                             bool AlarmColorBMU = GetActiveAlarmBMU(series);
-                            //series.Batteries.Clear();
 
-                            for (int j = 0; j < series.Batteries.Count; j++)
+                          
+                                for (int j = 0; j < series.Batteries.Count; j++)
                             {
                                 BatteryBase battery = series.Batteries[j];
-                                battery.Voltage = BitConverter.ToInt16(BMUData, (j + i * 16)*2) * 0.001;
-                                battery.Temperature1 = BitConverter.ToInt16(BMUData, (49 + j * 2 + i * 33) * 2) * 0.1;
-                                battery.Temperature2 = BitConverter.ToInt16(BMUData, (49 + j * 2 + 1 + i * 33) * 2) * 0.1;
-                                battery.SOC = BitConverter.ToUInt16(BMUData, (148 + j + i * 16) * 2) * 0.1;
-                                battery.Resistance = BitConverter.ToUInt16(BMUData, (199 + j + i * 16) * 2);
-                                battery.Capacity = BitConverter.ToUInt16(BMUData, (250 + j + i * 16) * 2) * 0.1;
+                                battery.Voltage = BitConverter.ToInt16(BMUData, (j + i * 16) * 2) * 0.001;
+                                battery.Temperature1 = BitConverter.ToInt16(BMUData, (48 + j * 2 + i * 32) * 2) * 0.1;
+                                battery.Temperature2 = BitConverter.ToInt16(BMUData, (48 + j * 2 + 1 + i * 32) * 2) * 0.1;
+                                battery.SOC = BitConverter.ToUInt16(BMUData, (144 + j + i * 16) * 2) * 0.1;
+                                battery.SOH = BitConverter.ToUInt16(BMUData, (192 + j + i * 16) * 2);
+                                battery.Resistance = BitConverter.ToUInt16(BMUData, (240 + j + i * 16) * 2);
+                                battery.Capacity = BitConverter.ToUInt16(BMUData, (288 + j + i * 16) * 2) * 0.1;
+                                //battery.VoltageColor = new SolidColorBrush(Colors.White);
+                                //battery.TemperatureColor = new SolidColorBrush(Colors.White);
+                                battery.BatteryNumber = j;
                                 // series.Batteries.Add(battery);
 
                                 //if (j + 1 == series.MinVoltageIndex)
@@ -757,9 +943,14 @@ namespace EMS.ViewModel
                                     {
                                         battery.TemperatureColor = new SolidColorBrush(Colors.Red);
                                     }
-                                    //转化BCMU状态
-                                    if (FaultyColorFlagBCMU == true)
+                                    if (FaultColorBMU) { series.FaultyColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000")); }
+                                    else { series.FaultyColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1")); }
 
+                                    if (AlarmColorBMU) { series.AlarmColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000")); }
+                                    else { series.AlarmColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1")); }
+
+
+                                    if (FaultyColorFlagBCMU == true)
                                     {
                                         total.FaultyColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000"));
                                     }
@@ -786,11 +977,69 @@ namespace EMS.ViewModel
                                         total.AlarmColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
                                     }
 
-                                    if (FaultColorBMU) { series.FaultyColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000")); }
-                                    else { series.FaultyColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1")); }
+                                    ///BCMU状态变化
+                                    if (total.StateBCMU == 1)
+                                    {
+                                        total.ChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#33FF33"));
+                                        total.DisChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                        total.StandStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                        total.OffNetStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                    }
+                                    else if (total.StateBCMU == 2)
+                                    {
+                                        total.ChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                        total.DisChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#33FF33"));
+                                        total.StandStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                        total.OffNetStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                    }
+                                    else if (total.StateBCMU == 3)
+                                    {
+                                        total.ChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                        total.DisChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                        total.StandStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#33FF33"));
+                                        total.OffNetStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                    }
+                                    else if (total.StateBCMU == 4)
+                                    {
+                                        total.ChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                        total.DisChargeStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                        total.StandStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                        total.OffNetStateBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#33FF33"));
+                                    }
+                                    //转化BCMU状态
+                                    //if (FaultyColorFlagBCMU == true)
 
-                                    if (AlarmColorBMU) { series.AlarmColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000")); }
-                                    else { series.AlarmColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1")); }
+                                    //{
+                                    //    total.FaultyColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000"));
+                                    //}
+                                    //else
+                                    //{
+                                    //    total.FaultyColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                    //}
+
+                                    //if (ProtectColorFlagBCMU == true)
+                                    //{
+                                    //    total.ProtectColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000"));
+                                    //}
+                                    //else
+                                    //{
+                                    //    total.ProtectColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                    //}
+
+                                    //if (AlarmColorFlagBCMU == true)
+                                    //{
+                                    //    total.AlarmColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000"));
+                                    //}
+                                    //else
+                                    //{
+                                    //    total.AlarmColorBCMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1"));
+                                    //}
+
+                                    //if (FaultColorBMU) { series.FaultyColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000")); }
+                                    //else { series.FaultyColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1")); }
+
+                                    //if (AlarmColorBMU) { series.AlarmColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EE0000")); }
+                                    //else { series.AlarmColorBMU = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D1D1D1")); }
 
                                 });
 
