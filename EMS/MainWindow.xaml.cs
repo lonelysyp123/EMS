@@ -1,4 +1,5 @@
-﻿using EMS.Model;
+﻿using EMS.Common.Modbus.ModbusTCP;
+using EMS.Model;
 using EMS.MyControl;
 using EMS.Storage.DB.DBManage;
 using EMS.Storage.DB.Models;
@@ -30,6 +31,16 @@ namespace EMS
             this.DataContext = viewmodel;
             DevListView.DataContext = viewmodel.DisplayContent;
             SelectedPage("DaqDataBorder");
+
+            //TestModbus();
+        }
+
+        private void TestModbus()
+        {
+            byte[] obj = new byte[8];
+            ModbusClient client = new ModbusClient("127.0.0.1", 502);
+            client.Connect();
+            client.WriteFunc(1,10000,1);
         }
 
         private void ReConnect_Click(object sender, RoutedEventArgs e)
